@@ -17,6 +17,8 @@ import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import  {FormHelperText}  from '@mui/material';
+
 
 
 const Register = (props) => {
@@ -40,6 +42,10 @@ const Register = (props) => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfPass, setShowConfPass] = useState(false);
 
+    const [error, setError] = useState("");
+    const [emailError, setEmailError] = useState('');
+
+
     const onChangeMoney = (e) => {
         setMoney(e.target.value);
     };
@@ -62,6 +68,15 @@ const Register = (props) => {
 
 	const onChangeEmail = (event) => {
 		setEmail(event.target.value);
+        if(!String(event.target.value).toLowerCase()
+            .match(
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            ))
+            {
+                // swal('Error', 'Please enter valid email', 'error');
+                console.log("Checking email ")
+                setEmailError('Invalid Email Id');
+            }
 	};
 
     const onChangeDate = (event) => {
@@ -77,7 +92,18 @@ const Register = (props) => {
     };
 
     const onChangeContactNo = (event) => {
-        setContactNo(event.target.value);
+        
+        const value = event.target.value;
+        setContactNo(value);
+
+        // setContactNo(event.target.value);
+        if (value.length === 1) {
+            setError('');
+          } else if (!/^\d+$/.test(value)){ //|| value.length > 10) {
+            setError('Invalid contact number');
+          } else {
+            setError('');
+          }
     };
 
     const onChangeStatus = (event) => {
@@ -121,13 +147,14 @@ const Register = (props) => {
         if (Password === confirmPass) {
             const bad = Boolean(ContactNo === null || ContactNo === 0 || Number(ContactNo) === NaN);
             if (Name === '' || Email === '' || Password === '' || bad || Status === '') {
-                swal("Oops!", "Please fill all the fields!", "error");
+                // swal("Oops!", "Please fill all the fields!", "error");
+                setError("Oops! Please fill all the fields.")
                 return;
             }
-                
             if (Status === 'Vendor') {
                 if (ShopName === '' || OpeningTime === null || ClosingTime === null) {
-                    swal("Oops!", "Please fill all the fields!", "error");
+                    // swal("Oops!", "Please fill all the fields!", "error");
+                    setError("Oops! vendor details are missing")
                     return;
                 }
 
@@ -156,6 +183,7 @@ const Register = (props) => {
 
                 if (Age === null || BatchName === '' || Money === null) {
                     swal("Oops!", "Please fill all the fields!", "error");
+                    setError("Oops Please fill all the fields")
                     return;
                 }
                 const newUser = {
@@ -183,6 +211,7 @@ const Register = (props) => {
             resetInputs();
         } else {
             swal('Invalid', 'Please confirm your password correctly.', 'warning');
+            setError("Invalid details, Please check confirm password")
         } 
 	};
 
@@ -195,6 +224,7 @@ const Register = (props) => {
                         variant='outlined'
                         value={Name}
                         onChange={onChangeUsername}
+                        helperText={<span style={{color: Name.trim().length === 0 ? 'red' : 'inherit'}}>{Name.trim().length === 0 ? error : ' '}</span>}
                     />
                 </Grid>
                 <Grid item xs={12}>
@@ -203,6 +233,14 @@ const Register = (props) => {
                         variant='outlined'
                         value={Email}
                         onChange={onChangeEmail}
+                        helperText={[
+                            <span key={1} style={{ color: Email.trim().length === 0 ? 'red' : error ? 'red' : 'inherit' }}>
+                              {Email.trim().length === 0 ? error : ' '}
+                            </span>,
+                            <span key={2} style={{ color: !Email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/) && emailError ? 'red' : 'inherit' }}>
+                              {!Email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/) && emailError ? emailError : ' '}
+                            </span>
+                          ]}
                     />
                 </Grid>
                 <Grid item xs={12}>
@@ -227,6 +265,11 @@ const Register = (props) => {
                         }
                         label="Password"
                     />
+                    {!Password && error && (
+                    <FormHelperText style={{color : "red"}}>
+                        {error}
+                    </FormHelperText>
+                    )}
                     </FormControl>
                 </Grid>
                 <Grid item xs={12}>
@@ -251,6 +294,11 @@ const Register = (props) => {
                         }
                         label="Password"
                     />
+                    {!confirmPass && error && (
+                    <FormHelperText style={{color : "red"}}>
+                        {error}
+                    </FormHelperText>
+                    )}
                     </FormControl>
                 </Grid>
                 <Grid item xs={12}>
@@ -259,6 +307,12 @@ const Register = (props) => {
                         variant='outlined'
                         value={ContactNo}
                         onChange={onChangeContactNo}
+                        helperText={error ? (
+                            <span style={{ color: 'red' }}>
+                              {error}
+                            </span>
+                          ) : (' '
+                          )}
                     />
                 </Grid>
                 <Grid item xs={12}>
@@ -291,6 +345,8 @@ const Register = (props) => {
                             variant='outlined'
                             value={ShopName}
                             onChange={onChangeShopName}
+                            helperText={<span style={{color: ShopName.trim().length === 0 ? 'red' : 'inherit'}}>{ShopName.trim().length === 0 ? error : ' '}</span>}
+
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -328,6 +384,7 @@ const Register = (props) => {
                             variant='outlined'
                             value={Money}
                             onChange={onChangeMoney}
+                            helperText={error}
                         />
                     </Grid>
                     <Grid item xs={12}>
@@ -336,6 +393,7 @@ const Register = (props) => {
                             variant='outlined'
                             value={Age}
                             onChange={onChangeAge}
+                            helperText={error}
                         />
                     </Grid>
                     <Grid item xs={12}>
