@@ -14,6 +14,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import  {FormHelperText}  from '@mui/material';
 
+const cookiep = require("cookie-parser")
 
 const Login = (props) => {
     const [Email, setEmail] = useState('');
@@ -46,8 +47,19 @@ const Login = (props) => {
 
     const navigate = useNavigate();
 
+    const setCookie = (name, value, days) => {
+        const date = new Date();
+        date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+        const expires = '; expires=' + date.toGMTString();
+        console.log(document.cookie)
+        document.cookie = name + '=' + value + expires ;
+      };
+
     const onSubmit = (event) => {
         event.preventDefault();
+
+       
+
         if (Email === '' && Password === '') {
             setPassError('Password is required');
             setEmailError('Email is required');
@@ -85,10 +97,14 @@ const Login = (props) => {
             Password: Password
         };
         console.log(thisUser);
+
         axios                               
             .post('http://localhost:4000/user/login', thisUser)
             .then((response) => {
+                const {token,refreshToken} = response.data
+                // console.log(token)
                 const res = response.data;
+                // console.log(res)
                 if (res.code === -1) {
                     console.log('Router error');
                     console.log(res);
@@ -103,13 +119,19 @@ const Login = (props) => {
                     console.log(res.user);
                     localStorage.setItem('isLoggedIn', true);
                     localStorage.setItem('user', JSON.stringify(res.user));
-                    console.log(localStorage);
+                    console.log(res);
                     resetInputs();
                     if (res.type === 'Vendor') {
                         localStorage.setItem('page', '/vendor');
+                        setCookie('jwt', token, 7);
+                        setCookie('refresh', token, 7);
+
                         window.location='/vendor';
                     } else {
                         localStorage.setItem('page', '/buyer');
+                        setCookie('jwt', token, 7);
+                        setCookie('refresh', token, 7);
+
                         window.location='/buyer';
                     }
                 }

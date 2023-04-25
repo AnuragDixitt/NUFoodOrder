@@ -2,7 +2,11 @@ const express = require("express");
 const Router = express.Router();
 // Load User model
 const User = require("../models/Users");
+const jwt = require("jsonwebtoken")
 const bcrypt = require("bcrypt");
+const auth = require("../controller/auth.js")
+require("dotenv").config();
+
 // GET request 
 // Getting all the users
 Router.get("/", async function(req, res) {
@@ -107,11 +111,13 @@ Router.post("/login", async (req, res) => {
         user: null,
         type: ''
     };  
+
 	// Find user by email
     User.findOne({ Email })
     .then(async (users) => {
         if (!users) {
-            res.json(respo);
+
+            res.json({msg:respo + "Something went wrong!"});
         } else {
             const passwordMatch = await bcrypt.compare(Password, users.Password);
             if (passwordMatch) {
@@ -119,7 +125,18 @@ Router.post("/login", async (req, res) => {
                 delete users.Password;
                 respo.user = users;
                 respo.type = users.userStatus;
-                res.json(respo);
+
+                //JWT
+                const token =  jwt.sign({email : users.Email},process.env.JWT_SECRET, {expiresIn:process.env.LIFE} )
+                const refreshToken = jwt.sign({email : users.Email}, process.env.JWT_REFRESH_SECRET, {expiresIn: process.env.LIFE})
+                const {Password, ...restofParams} = users._doc
+
+                // console.log(token)
+                // res.cookie("user","token")
+                // res.cookie("refresh",refreshToken)
+                // console.log(respo.user)
+                res.json({user: restofParams, token,refreshToken});
+
             } else {
                 respo.code = 2;
                 res.json(respo);
@@ -129,7 +146,23 @@ Router.post("/login", async (req, res) => {
     .catch (err => res.status(500).json({errMsg: err.message}));
 });
 
+Router.get('/refresh', auth,(req,res) => {
+    try {
+        const {user} = req
+        const token =  jwt.sign({email : user.Email},process.env.JWT_SECRET, {expiresIn:process.env.LIFE} )
+        return res.status(201).send(token)
+    } catch (error) {
+        return res.send({err})
+    }
+})
 
+Router.get('/protected', auth, (req,res) => {
+    try {
+        return res.send("Protected Route")
+    } catch (error) {
+        return res.send({err})
+    }
+})
 // EDIT profile
 Router.post('/edit', async (req, res) => {
     if (req.body.changePassword) {

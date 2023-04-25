@@ -11,7 +11,9 @@ var testAPIRouter = require("./routes/testAPI");
 var UserRouter = require("./routes/Users");
 var foodItemRouter = require("./routes/food");
 var orderRouter = require("./routes/order");
+const cookieParser = require('cookie-parser');
 
+app.use(cookieParser());
 
 app.use(cors());
 app.use(bodyParser.json());
