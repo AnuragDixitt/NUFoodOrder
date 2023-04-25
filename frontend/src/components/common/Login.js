@@ -100,7 +100,7 @@ const Login = (props) => {
             <Grid item xs={12} md={6}>
                 <Card variant='outlined'>
                     <CardContent>
-                        <a href="/auth/google">
+                        <a href="http://localhost:4000/auth/google">
                             <Button variant='contained' startIcon={<GoogleIcon />}>
                                 Login with Google
                             </Button>
