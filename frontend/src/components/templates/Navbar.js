@@ -46,11 +46,16 @@ const Navbar = () => {
                 {curr === undefined || curr === null ?
                     <>
                         <Button color="inherit" href='/login'>
-                        Login
+                            Login
                         </Button>
                         <Button color="inherit" href='/register'>
                             Register
                         </Button>
+                        <ul className="list">
+                            <li className="listItem">
+                                <img src="" alt="" className="avatar"></img>
+                            </li>
+                        </ul>
                     </>
                 : 
 

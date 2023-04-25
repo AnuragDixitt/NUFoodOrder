@@ -191,6 +191,7 @@ const Register = (props) => {
             <Grid container align={'center'} spacing={2}>
                 <Grid item xs={12}>
                     <TextField
+                        helperText="Please Enter your name here"
                         label='Name'
                         variant='outlined'
                         value={Name}

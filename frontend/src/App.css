@@ -1,3 +1,22 @@
 .container {
   margin: 20px;
 }
+
+.list {
+  display: flex;
+  align-items: center;
+  list-style: none;
+}
+
+.listitem {
+  margin-right: 20px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
