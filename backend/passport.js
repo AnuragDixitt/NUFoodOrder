@@ -11,15 +11,16 @@ passport.use(new GoogleStrategy({
     callbackURL: "/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, done) {
-    User.findOne({ googleId: profile.id} , function (err, user) {
-        if (err) { return done(err); }
+    Users.findOne({ googleId: profile._id} , function (err, user) {
+        if (err) {
+            return done(err); }
         if (user) {
             return done(null, user);
         } else {
-            const newUser = new User({
-                googleId: profile.id,
-                email: profile.emails[0].value,
-                name: profile.displayName
+            const newUser = new Users({
+                // googleId: profile.id,
+                Email: profile.emails[0].value,
+                Name: profile.displayName
             });
             newUser.save(function(err) {
                 if (err) { return done(err);}
@@ -33,8 +34,9 @@ passport.use(new GoogleStrategy({
 passport.serializeUser((user, done) => {
     done(null, user.id);
 })
+
 passport.deserializeUser((id, done) => {
-    User.findById(id, function(err, user){
+    Users.findById(id, function(err, user){
         done(err, user);    
     });
 });
