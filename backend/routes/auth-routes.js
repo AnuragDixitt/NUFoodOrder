@@ -41,9 +41,9 @@ router.get("/google/callback", passport.authenticate("google", {
 router.get("/google/success", (req, res) => {
     if (req.user) {
         if (req.user.userStatus === "Vendor") {
-            res.redirect(CLIENT_URL+"vendor");
+            res.redirect(CLIENT_URL+"vendor"+res.user._id);
         } else {
-            res.redirect(CLIENT_URL+"buyer");
+            res.redirect(CLIENT_URL+"buyer"+res.user._id);
         }
     } else {
         res.redirect("/");
