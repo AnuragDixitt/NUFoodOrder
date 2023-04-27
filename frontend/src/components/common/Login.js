@@ -13,6 +13,7 @@ import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import  {FormHelperText}  from '@mui/material';
+import setCookie from '../extra/setCookie';
 
 const cookiep = require("cookie-parser")
 
@@ -46,14 +47,6 @@ const Login = (props) => {
     };
 
     const navigate = useNavigate();
-
-    const setCookie = (name, value, days) => {
-        const date = new Date();
-        date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-        const expires = '; expires=' + date.toGMTString();
-        console.log(document.cookie)
-        document.cookie = name + '=' + value + expires ;
-      };
 
     const onSubmit = (event) => {
         event.preventDefault();
@@ -119,18 +112,18 @@ const Login = (props) => {
                     console.log(res.user);
                     localStorage.setItem('isLoggedIn', true);
                     localStorage.setItem('user', JSON.stringify(res.user));
-                    console.log(res);
+                    // console.log(res.type);
                     resetInputs();
-                    if (res.type === 'Vendor') {
+                    if (res.user.userStatus === 'Vendor') {
                         localStorage.setItem('page', '/vendor');
-                        setCookie('jwt', token, 7);
-                        setCookie('refresh', token, 7);
+                        setCookie('jwt', token, 1);
+                        setCookie('refresh', token, 1);
 
                         window.location='/vendor';
                     } else {
                         localStorage.setItem('page', '/buyer');
-                        setCookie('jwt', token, 7);
-                        setCookie('refresh', token, 7);
+                        setCookie('jwt', token, 1);
+                        setCookie('refresh', token, 1);
 
                         window.location='/buyer';
                     }

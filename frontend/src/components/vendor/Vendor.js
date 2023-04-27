@@ -18,6 +18,7 @@ import TextField from '@mui/material/TextField';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
+import getCookie from "../extra/getCookie";
 
 const VendorProfile = (props) => {
     const curr = JSON.parse(localStorage.getItem('user'));
@@ -32,6 +33,17 @@ const VendorProfile = (props) => {
         ClosingTime: new Date(curr.ClosingTime)
     });
     
+    
+
+    useEffect( () => {
+        (async function() {
+            const token = getCookie('jwt')
+            console.log("trying refresh")
+            await axios.get('http://localhost:4000/user/protected',{headers: {'Authorization': `Bearer ${token}`}})
+        })()
+    }, [])
+    
+
     const [buttonText, setButtonText] = useState('Edit');
     const [currPass, setCurrPass] = useState('');
     const [newPass, setNewPass] = useState('');

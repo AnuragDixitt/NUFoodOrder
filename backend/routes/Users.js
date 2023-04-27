@@ -42,8 +42,6 @@ Router.get("/", async function(req, res) {
     }
 });
 
-// NOTE: Below functions are just sample to show you API endpoints working, for the assignment you may need to edit them
-
 
 // POST request 
 // Add a user to db
@@ -127,9 +125,10 @@ Router.post("/login", async (req, res) => {
                 respo.type = users.userStatus;
 
                 //JWT
-                const token =  jwt.sign({email : users.Email},process.env.JWT_SECRET, {expiresIn:process.env.LIFE} )
-                const refreshToken = jwt.sign({email : users.Email}, process.env.JWT_REFRESH_SECRET, {expiresIn: process.env.LIFE})
                 const {Password, ...restofParams} = users._doc
+                const token =  jwt.sign({email : users.Email},"awioduge80y32942uo3gejkugigiqufwkj",  { algorithm: 'HS256' },{expiresIn:"1m"} )
+                const refreshToken = jwt.sign({email : users.Email}, "awldknvwabvjwifo23u08euojdbvskjgekw4",  { algorithm: 'HS256' }, {expiresIn: "10m"})
+               
 
                 // console.log(token)
                 // res.cookie("user","token")
@@ -149,7 +148,8 @@ Router.post("/login", async (req, res) => {
 Router.get('/refresh', auth,(req,res) => {
     try {
         const {user} = req
-        const token =  jwt.sign({email : user.Email},process.env.JWT_SECRET, {expiresIn:process.env.LIFE} )
+        const {Password, ...restofParams} = user._doc
+        const token =  jwt.sign({User :restofParams},process.env.JWT_SECRET, {expiresIn:"1m"} )
         return res.status(201).send(token)
     } catch (error) {
         return res.send({err})

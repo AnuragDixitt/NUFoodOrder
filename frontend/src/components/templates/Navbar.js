@@ -15,6 +15,10 @@ const Navbar = () => {
     const navigate = useNavigate();
     const [curr, setCurr] =  useState(JSON.parse(localStorage.getItem('user')));
 
+    function deleteCookie(cookieName) {
+        document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+      }
+
     useEffect(() => {
         if (curr !== undefined && curr !== null) {
         setCurr(JSON.parse(localStorage.getItem('user')));
@@ -78,7 +82,12 @@ const Navbar = () => {
                             </Button>
                             <Button variant='contained' 
                                 color="error" startIcon={<LogoutIcon />} 
-                                onClick={() => {localStorage.clear(); window.location='/';}} >
+                                onClick={() => {
+                                    deleteCookie('jwt')
+                                    deleteCookie('refresh')
+                                    localStorage.clear(); 
+                                    window.location='/';
+                                    }} >
                                 Logout
                             </Button> 
                         </ButtonGroup>
