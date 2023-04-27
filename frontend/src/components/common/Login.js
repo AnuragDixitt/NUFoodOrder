@@ -81,7 +81,15 @@ const Login = (props) => {
                     resetInputs();
                     if (res.type === 'Vendor') {
                         localStorage.setItem('page', '/vendor');
-                        window.location='/vendor';
+                        axios.get('http://localhost:4000/vendor/' + res.user._id)
+                            .then((response) => {
+                                localStorage.setItem('vendor', JSON.stringify(response.data.vendor));
+                                window.location='/vendor';
+                            })
+                            .catch((err) => {
+                                console.log(err.response.data.errMsg);
+                            });
+                        
                     } else {
                         localStorage.setItem('page', '/buyer');
                         window.location='/buyer';

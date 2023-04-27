@@ -34,9 +34,20 @@ router.get('/logout', (req, res) => {
 // Auth  with google 
 router.get("/google", passport.authenticate("google", {scope: ["profile", "email"]}));
 router.get("/google/callback", passport.authenticate("google", {
-    successRedirect: CLIENT_URL, 
+    successRedirect: "/auth/google/success", 
     failureRedirect: "/login/failed"
 }));
 
+router.get("/google/success", (req, res) => {
+    if (req.user) {
+        if (req.user.userStatus === "Vendor") {
+            res.redirect(CLIENT_URL+"vendor");
+        } else {
+            res.redirect(CLIENT_URL+"buyer");
+        }
+    } else {
+        res.redirect("/");
+    }
+});
 
 module.exports = router;
