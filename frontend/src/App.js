@@ -14,8 +14,7 @@ import AddFoodItem from "./components/vendor/AddItem";
 import BuyerOrders from "./components/buyer/myOrders"
 import VendorOrders from "./components/vendor/myOrders";
 import Statistics from "./components/vendor/statistics"
-import { useEffect, useState } from "react";
- 
+import { useEffect } from "react";
 const Layout = (props) => {
   return (
     <div>
@@ -28,33 +27,35 @@ const Layout = (props) => {
 };
 
 function App() {
+   
+  useEffect(() => {
+      
+    const getUser = ()=> {
+      fetch("http://localhost:4000/auth/google/success", {
+        method: "GET",
+        credentials:"include",
+        headers: {
+          Accept: "application/json",
+          "Content-Type" : "application/json",
+          "Access-Control-Allow-Credentials": true,
+        },
+      }).then(response=>{
+        
+        if (response.status === 200) {
+          console.log(response.json())
+          return response.json();}
+        throw new Error("authentication has been failed!")
+      }).then(resObject=>{
+        console.log("hiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
+        console.log(resObject.user)
+      }).catch(err => {
+        console.log("hiiiiiiiiiiipppppppppppppppppppppppppppppppppppppp")
+        console.log(Object);
+      })
+    };
+    getUser();
+  }, []);
 
-    const [user, setUser] = useState(null)
-
-    useEffect(() => {
-      const getUser = ()=> {
-        fetch("http://localhost:4000/auth/login/success", {
-          method: "GET",
-          credentials:"include",
-          headers: {
-            Accept: "application/json",
-            "Content-Type" : "application/json",
-            "Access-Control-Allow-Credentials": true,
-          },
-        }).then(response=>{
-          if (response.status === 200) return response.json();
-          throw new Error("authentication has been failed!")
-        }).then(resObject=>{
-            setUser(resObject.user)
-        }).catch(err => {
-          console.log(Object);
-        })
-      };
-      getUser();
-    }, []);
-    console.log(user);
-
-    localStorage.setItem('page', '/');
   return (
     <BrowserRouter>
       <Routes>

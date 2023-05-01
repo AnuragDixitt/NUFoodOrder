@@ -129,6 +129,8 @@ Router.post("/login", async (req, res) => {
     .catch (err => res.status(500).json({errMsg: err.message}));
 });
 
+// GOOGLE Login 
+
 
 // EDIT profile
 Router.post('/edit', async (req, res) => {

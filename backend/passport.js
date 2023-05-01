@@ -11,21 +11,26 @@ passport.use(new GoogleStrategy({
     callbackURL: "/auth/google/callback"
   },
   function(accessToken, refreshToken, profile, done) {
-    Users.findOne({ googleId: profile._id} , function (err, user) {
+    const data = profile.emails
+    console.log("achaa",data[0].value)
+    Users.findOne({ Email: data[0].value} , function (err, user) {
         if (err) {
             return done(err); }
         if (user) {
             return done(null, user);
         } else {
-            const newUser = new Users({
-                // googleId: profile.id,
-                Email: profile.emails[0].value,
-                Name: profile.displayName
-            });
-            newUser.save(function(err) {
-                if (err) { return done(err);}
-                return done(null, newUser)
-            });
+            return done("Please register first")
+            // console.log("hiii",profile)
+            // const newUser = new Users({
+            //     // googleId: profile.id,
+
+            //     Email: profile.emails.value,
+            //     Name: profile.displayName
+            // });
+            // newUser.save(function(err) {
+            //     if (err) { return done(err);}
+            //     return done(null, newUser)
+            // });
         }
     });
   }

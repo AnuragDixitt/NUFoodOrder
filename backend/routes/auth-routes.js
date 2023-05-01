@@ -38,16 +38,59 @@ router.get("/google/callback", passport.authenticate("google", {
     failureRedirect: "/login/failed"
 }));
 
-router.get("/google/success", (req, res) => {
+router.get("/google/success", (req, res,next) => {
+    // console.log(req)
     if (req.user) {
+        console.log(req.user._id)
         if (req.user.userStatus === "Vendor") {
-            res.redirect(CLIENT_URL+"vendor"+res.user._id);
+            // console.log("achaaaaaaa",req.user)
+            // next();
+            // res.redirect('/vendor')
+            profile = req.user
+            console.log(profile)
+            res.cookie('usercookie',req.user._id)
+            res.send(req.user)
+            // next()
+            // res.redirect('http://localhost:4000/vendor/' + req.user._id)
+            // res.json(req.user)
+
         } else {
-            res.redirect(CLIENT_URL+"buyer"+res.user._id);
+            console.log("awdawdawdwad")
+            // next();
+            // res.redirect('/buyer')
+
+            res.json(req.user)
+            // router.get('http://localhost:4000/buyer' + req.user._id)
+            // res.redirect(CLIENT_URL+"buyer"+req.user._id);
         }
     } else {
         res.redirect("/");
     }
 });
+
+
+// router.get("/googlelogin", async (req, res) => {
+// 	const Email = req.body.Email;
+//     // const Password = req.body.Password;
+//     console.log(req.body,"idhar naye waale mei")
+
+//     res.json(req.body)
+//     // let respo = {
+//     //     code: 0,
+//     //     user: null,
+//     //     type: ''
+//     // };  
+// 	// Find user by email
+//     // User.findOne({ Email })
+//     // .then(async (users) => {
+//     //     if (!users) {
+//     //         res.json(respo);
+//     //     } else {
+//     //         res.json(respo);
+//     //     }
+//     // })
+//     // .catch (err => res.status(500).json({errMsg: err.message}));
+// });
+
 
 module.exports = router;

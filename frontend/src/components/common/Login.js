@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import swal from 'sweetalert';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
@@ -48,60 +48,93 @@ const Login = (props) => {
 
     const navigate = useNavigate();
 
-    const onSubmit = (event) => {
-        event.preventDefault();
-        if (Email === '' || Password === '') {
-            swal('Error', 'Please fill all the fields', 'error');
-            resetInputs(); return;
-        }
-        const thisUser = {
-            Email: Email,
-            Password: Password
+    useEffect(() => {
+      
+        const getUser = ()=> {
+          fetch("http://localhost:4000/auth/google/success", {
+            method: "GET",
+            credentials:"include",
+            headers: {
+              Accept: "application/json",
+              "Content-Type" : "application/json",
+              "Access-Control-Allow-Credentials": true,
+            },
+          })
         };
-        console.log(thisUser);
-        axios                               
-            .post('http://localhost:4000/user/login', thisUser)
-            .then((response) => {
-                const res = response.data;
-                if (res.code === -1) {
-                    console.log('Router error');
-                    console.log(res);
-                } else if (res.code === 0) {
-                    swal('Incorrect email', 'There is no user registered by this email. Please check the entered email.', 'warning'); 
-                    resetInputs();
-                } else if (res.code === 2) {
-                    swal('Incorrect password', 'Please enter the correct password', 'error');
-                    setPassword('');
-                } else {
-                    console.log('Successfully logged in!!');
-                    console.log(res.user);
-                    localStorage.setItem('isLoggedIn', true);
-                    localStorage.setItem('user', JSON.stringify(res.user));
-                    console.log(localStorage);
-                    resetInputs();
-                    if (res.type === 'Vendor') {
-                        localStorage.setItem('page', '/vendor');
-                        axios.get('http://localhost:4000/vendor/' + res.user._id)
-                            .then((response) => {
-                                localStorage.setItem('vendor', JSON.stringify(response.data.vendor));
-                                window.location='/vendor';
-                            })
-                            .catch((err) => {
-                                console.log(err.response.data.errMsg);
-                            });
-                        
+        getUser();
+      }, []);
+    //   console.log(user);
+  
+      localStorage.setItem('page', '/');
+    
+    const onSubmit = (event) => {
+        
+        event.preventDefault();
+        if(event.target.id === "normal"){
+            if (Email === '' || Password === '') {
+                swal('Error', 'Please fill all the fields', 'error');
+                resetInputs(); return;
+            }
+            const thisUser = {
+                Email: Email,
+                Password: Password
+            };
+            console.log(thisUser);
+            axios                               
+                .post('http://localhost:4000/user/login', thisUser)
+                .then((response) => {
+                    const res = response.data;
+                    if (res.code === -1) {
+                        console.log('Router error');
+                        console.log(res);
+                    } else if (res.code === 0) {
+                        swal('Incorrect email', 'There is no user registered by this email. Please check the entered email.', 'warning'); 
+                        resetInputs();
+                    } else if (res.code === 2) {
+                        swal('Incorrect password', 'Please enter the correct password', 'error');
+                        setPassword('');
                     } else {
-                        localStorage.setItem('page', '/buyer');
-                        window.location='/buyer';
+                        console.log('Successfully logged in!!');
+                        console.log(res.user);
+                        localStorage.setItem('isLoggedIn', true);
+                        localStorage.setItem('user', JSON.stringify(res.user));
+                        console.log(localStorage);
+                        resetInputs();
+                        if (res.type === 'Vendor') {
+                            localStorage.setItem('page', '/vendor');
+                            window.location='/vendor'
+                            console.log(res.user._id,"yaha bhaisabah vendor ke frontend mei")
+                            axios.get('http://localhost:4000/vendor' + res.user._id)
+                                .then((response) => {
+                                    localStorage.setItem('vendor', JSON.stringify(response.data.vendor));
+                                    window.location='/vendor';
+                                })
+                                .catch((err) => {
+                                    console.log(err.response.data.errMsg);
+                                });
+                            
+                        } else {
+                            localStorage.setItem('page', '/buyer');
+                            window.location='/buyer';
+                        }
                     }
-                }
-            })
-            .catch((err) => {
-                console.log(err.response.data.errMsg);
-            })
+                })
+                .catch((err) => {
+                    console.log(err.response.data.errMsg);
+                })
+            
+            resetInputs();
 
-        resetInputs();
+        }
+        else if(event.target.id === "google"){
+            event.preventDefault()
+            window.open("http://localhost:4000/auth/google","_self").then((res) => {
+                console.log(res)
+        })           
+            
+        }
     }
+
 
     return (
         <Grid container  align={'center'}  spacing={2}>
@@ -113,12 +146,6 @@ const Login = (props) => {
                                 Login with Google
                             </Button>
                         </a>
-                        <Button variant='contained' startIcon={<FacebookIcon/>}>
-                            Login with Facebook
-                        </Button>
-                        <Button variant='contained' startIcon={<GitHubIcon />}>
-                            Login with Github
-                        </Button>
                     </CardContent>
                 </Card>
             </Grid>
@@ -153,7 +180,7 @@ const Login = (props) => {
                                 label="Password"
                             />
                         </FormControl>
-                        <Button variant='contained' onClick={onSubmit}>
+                        <Button id="normal" variant='contained' onClick={onSubmit}>
                             Login
                         </Button>
                     </CardContent>
