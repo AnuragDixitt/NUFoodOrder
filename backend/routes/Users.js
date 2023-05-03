@@ -171,7 +171,7 @@ Router.post("/login", async (req, res) => {
     .catch (err => res.status(500).json({errMsg: err.message}));
 });
 
-Router.get('/refresh', auth,(req,res) => {
+Router.post('/refresh', auth,(req,res) => {
     try {
         console.log("pahuch gaya yaha")
         const {user} = req

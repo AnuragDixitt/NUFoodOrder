@@ -16,24 +16,24 @@ axiosInstance.interceptors.response.use(
     console.log("in refresh trying token", originalRequest._retry, stat);
     if (stat === 403 && !originalRequest._retry) {
       originalRequest._retry = true;
-      console.log("in api frontend");
+      // console.log("in api frontend");
       const token = getCookie("refresh");
-      console.log("token hererere", token);
-      const data = await fetch("http://localhost:4000/user/refresh", {
+      // console.log("token hererere", token);
+      const data = await axios.post("http://localhost:4000/user/refresh", {
         headers: { Authorization: `Bearer ${token}` },
       })
         .then(async (response) => {
           // data = response
           // console.log(data)
-          console.log("ohyeaaa", response);
-          setCookie("newJwt", response);
-          originalRequest.setCookie("newjwt", token);
-          originalRequest.setItem("token", response);
+          console.log("ohyeaaa", response.data);
+          // setCookie("newJwt", response);
+          originalRequest.headers.Authorization = `Bearer ${response.data.token}`;
+          // originalRequest.setItem("token", response);
         })
         .catch(function (error) {
           console.log("Error", error.message);
         });
-      console.log("nhk", data);
+      // console.log("nhk", data);
       return axiosInstance(originalRequest);
     }
     return Promise.reject(error);

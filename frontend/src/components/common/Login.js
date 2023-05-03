@@ -52,20 +52,21 @@ const Login = (props) => {
         // console.log("Google login successful. User details:", credentialResponse);
         const decode = credentialResponse.credential
         var profile = jwt_decode(decode);
+        const {iat,exp,...restofparams} = profile
         // console.log(profile.email);
 
 
-        axios.post('http://localhost:4000/user/googlelogin', profile)
+        axios.post('http://localhost:4000/user/googlelogin', restofparams)
             .then((res) => {
                 if (res.data.user === undefined) {
                     console.log("User not found! Please register first.");
                     swal('Error', 'User not found! Please register first.', 'error');
                 }
                 else{
-                console.log(res.data.user)
+                // console.log(res.data.user)
                 const {token,refreshToken} = res.data
                 console.log('Successfully logged in!!');
-                    console.log(res.data.user.userStatus);
+                    // console.log(res.data.user.userStatus);
                     localStorage.setItem('isLoggedIn', true);
                     localStorage.setItem('user', JSON.stringify(res.data.user));
                     // console.log(res.type);

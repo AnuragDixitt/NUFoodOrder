@@ -1,7 +1,5 @@
-import axios from "axios";
-import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import ReactDOM from "react-dom";
+import axios from '../extra/api'
+import { useState, useEffect } from "react";
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import swal from 'sweetalert';
@@ -12,17 +10,10 @@ import Container from '@mui/material/Container';
 import MenuItem from '@mui/material/MenuItem';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import TimePicker from '@mui/lab/TimePicker';
 import TextField from '@mui/material/TextField';
 import OutlinedInput from '@mui/material/OutlinedInput';
-import InputAdornment from '@mui/material/InputAdornment';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import IconButton from '@mui/material/IconButton';
 
 const VendorProfile = (props) => {
     const curr = JSON.parse(localStorage.getItem('user'));
@@ -41,6 +32,14 @@ const VendorProfile = (props) => {
     const [newPass, setNewPass] = useState('');
     const [confirmNewPass, setConfirmNewPass] = useState('');
     const [addMoney, setAddMoney] = useState(0);
+
+    useEffect( () => {
+        (async function() {
+            const token = getCookie('jwt')
+            console.log("trying refresh")
+            await axios.get('http://localhost:4000/user/protected',{headers: {'Authorization': `Bearer ${token}`}})
+        })()
+    }, [])
 
     const onChangeMoney = (e) => {
         setAddMoney(e.target.value);
