@@ -14,8 +14,10 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import  {FormHelperText}  from '@mui/material';
 import setCookie from '../extra/setCookie';
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import { GoogleLogin } from '@react-oauth/google';
+import jwt_decode from "jwt-decode";
 
-const cookiep = require("cookie-parser")
 
 const Login = (props) => {
     const [Email, setEmail] = useState('');
@@ -45,6 +47,56 @@ const Login = (props) => {
 		setEmail('');
         setPassword('');
     };
+
+    const googleSuccess = (credentialResponse) => {
+        // console.log("Google login successful. User details:", credentialResponse);
+        const decode = credentialResponse.credential
+        var profile = jwt_decode(decode);
+        // console.log(profile.email);
+
+
+        axios.post('http://localhost:4000/user/googlelogin', profile)
+            .then((res) => {
+                if (res.data.user === undefined) {
+                    console.log("User not found! Please register first.");
+                    swal('Error', 'User not found! Please register first.', 'error');
+                }
+                else{
+                console.log(res.data.user)
+                const {token,refreshToken} = res.data
+                console.log('Successfully logged in!!');
+                    console.log(res.data.user.userStatus);
+                    localStorage.setItem('isLoggedIn', true);
+                    localStorage.setItem('user', JSON.stringify(res.data.user));
+                    // console.log(res.type);
+                
+                    if (res.data.user.userStatus === 'Vendor') {
+                        localStorage.setItem('page', '/vendor');
+                        setCookie('jwt', token, 1);
+                        setCookie('refresh', refreshToken, 1);
+
+                        window.location='/vendor';
+                    } else {
+                        localStorage.setItem('page', '/buyer');
+                        setCookie('jwt', token, 1);
+                        setCookie('refresh', refreshToken, 1);
+
+                        window.location='/buyer';
+                    }
+                }
+            })
+            .catch((err) => {
+                console.log("Error",err.response.data.errMsg);
+            })
+        
+        
+      };
+    
+      const googleFailure = (response) => {
+        console.log("response");
+        console.log(response);
+        // navigate('/')
+      };
 
     const navigate = useNavigate();
 
@@ -94,8 +146,10 @@ const Login = (props) => {
         axios                               
             .post('http://localhost:4000/user/login', thisUser)
             .then((response) => {
+                console.log(response.data)
                 const {token,refreshToken} = response.data
-                // console.log(token)
+                console.log(token)
+                
                 const res = response.data;
                 // console.log(res)
                 if (res.code === -1) {
@@ -117,13 +171,13 @@ const Login = (props) => {
                     if (res.user.userStatus === 'Vendor') {
                         localStorage.setItem('page', '/vendor');
                         setCookie('jwt', token, 1);
-                        setCookie('refresh', token, 1);
+                        setCookie('refresh', refreshToken, 1);
 
                         window.location='/vendor';
                     } else {
                         localStorage.setItem('page', '/buyer');
                         setCookie('jwt', token, 1);
-                        setCookie('refresh', token, 1);
+                        setCookie('refresh', refreshToken, 1);
 
                         window.location='/buyer';
                     }
@@ -190,6 +244,12 @@ const Login = (props) => {
                 <Button variant='contained' onClick={onSubmit} >
                     Login
                 </Button>
+                <GoogleOAuthProvider clientId="91399337985-i8etmi3ndi8v554fk5t28er9oioh7h3a.apps.googleusercontent.com">
+                    <GoogleLogin
+                        onSuccess={googleSuccess}
+                        onError={googleFailure}
+                    />
+                </GoogleOAuthProvider>
             </Grid>
         </Grid>
         

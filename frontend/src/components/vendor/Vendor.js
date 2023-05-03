@@ -1,7 +1,6 @@
-import axios from "axios";
+// import axios from "axios";
+import axios from '../extra/api'
 import { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import ReactDOM from "react-dom";
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import swal from 'sweetalert';

@@ -99,6 +99,35 @@ Router.post("/register", async (req, res) => {
 });
 
 // POST request 
+Router.post("/googlelogin",async(req,res) => {
+    const Email  = req.body.email;
+    // console.log(Email)
+    // console.log(req.body.user);
+    let respo = {
+        code: 0,
+        user: null,
+        type: ''
+    }
+
+    User.findOne({ Email })
+    .then(async (users) => {
+        if (!users) {
+
+            res.json({msg:respo + "User not registered"});
+        } else {
+
+                //JWT
+                const {Password, ...restofParams} = users._doc
+                console.log(restofParams)
+                const token = jwt.sign(req.body, process.env.ACCESS_TOKEN_SECRET);
+                const refreshToken = jwt.sign({email : users.Email}, process.env.REFRESH_TOKEN_SECRET)
+                res.json({user: restofParams, token,refreshToken});
+
+            } 
+        }
+    )
+})
+
 // Login
 Router.post("/login", async (req, res) => {
 	const Email = req.body.Email;
@@ -123,17 +152,14 @@ Router.post("/login", async (req, res) => {
                 delete users.Password;
                 respo.user = users;
                 respo.type = users.userStatus;
-
+                profile = {
+                    name: users.Name,
+                    email : users.Email
+                }
                 //JWT
                 const {Password, ...restofParams} = users._doc
-                const token =  jwt.sign({email : users.Email},"awioduge80y32942uo3gejkugigiqufwkj",  { algorithm: 'HS256' },{expiresIn:"1m"} )
-                const refreshToken = jwt.sign({email : users.Email}, "awldknvwabvjwifo23u08euojdbvskjgekw4",  { algorithm: 'HS256' }, {expiresIn: "10m"})
-               
-
-                // console.log(token)
-                // res.cookie("user","token")
-                // res.cookie("refresh",refreshToken)
-                // console.log(respo.user)
+                const token = jwt.sign(profile, process.env.ACCESS_TOKEN_SECRET,{expiresIn:"10s"});
+                const refreshToken = jwt.sign({email : users.Email}, process.env.REFRESH_TOKEN_SECRET, {expiresIn: "10m"})
                 res.json({user: restofParams, token,refreshToken});
 
             } else {
@@ -147,18 +173,23 @@ Router.post("/login", async (req, res) => {
 
 Router.get('/refresh', auth,(req,res) => {
     try {
+        console.log("pahuch gaya yaha")
         const {user} = req
-        const {Password, ...restofParams} = user._doc
-        const token =  jwt.sign({User :restofParams},process.env.JWT_SECRET, {expiresIn:"1m"} )
+        // console.log(user)
+        // const {Password, ...restofParams} = user._doc
+        // console.log(Password)
+        const token =  jwt.sign(user,process.env.ACCESS_TOKEN_SECRET );
+        console.log("token")
         return res.status(201).send(token)
     } catch (error) {
-        return res.send({err})
+        console.log("pahuch  yaha",error)
+        return res.send(error)
     }
 })
 
 Router.get('/protected', auth, (req,res) => {
     try {
-        return res.send("Protected Route")
+        return res.status(201).send("Protected Route")
     } catch (error) {
         return res.send({err})
     }
