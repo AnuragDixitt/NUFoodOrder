@@ -10,6 +10,10 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import LogoutIcon from '@mui/icons-material/Logout';
 import ManageAccountsRoundedIcon from '@mui/icons-material/ManageAccountsRounded';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import { Badge } from "@mui/material";
+import { useCart, useDiapatchCart } from "./ContextReducer";
+
 
 const Navbar = () => {
     const navigate = useNavigate();
@@ -18,6 +22,12 @@ const Navbar = () => {
     function deleteCookie(cookieName) {
         document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
       }
+    
+    let data = useCart();
+
+    const handleCart = () => {
+        navigate("/buyer/cart")
+    }
 
     useEffect(() => {
         if (curr !== undefined && curr !== null) {
@@ -94,11 +104,12 @@ const Navbar = () => {
                         )
                         :(
                         <>
-                        <Button color="inherit" style={{'font-weight': 'bold'}} >
-                            Wallet: ₹{curr.Wallet}        
-                        </Button>
-                        
                         <ButtonGroup>
+                            <Button color="inherit" style={{fontWeight: 'bold'}} onClick={handleCart} variant="outlined">
+                                <ShoppingCartIcon style={{marginRight: '0.5rem'}} />
+                                My Cart {" "}
+                                <Badge color="secondary" badgeContent={data.length} />
+                            </Button>
                             <Button color="inherit" 
                                 variant='outlined' 
                                 startIcon={<RestaurantMenuIcon />} 

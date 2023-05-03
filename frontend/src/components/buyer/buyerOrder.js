@@ -40,6 +40,8 @@ import InputAdornment from "@mui/material/InputAdornment";
 import ListItemText from '@mui/material/ListItemText';
 import Checkbox from '@mui/material/Checkbox';
 import Fuse from 'fuse.js'
+import { useCart, useDispatchCart } from "../templates/ContextReducer";
+
 
 const TAGS = ["Beverage", "Hot", "Cold", "Meal", "Snacks", "Spicy", "Very spicy", "Sweet", "Dessert", "Vegan"];
 const revMap = new Map([
@@ -270,7 +272,17 @@ const BuyerFoodMenu = (props) => {
                 ((Now_hrs < C_hrs || (Now_hrs === C_hrs && Now_mins <= C_mins)))));
     }
 
-    const placeOrder = () => {
+    let dispatch = useDispatchCart();
+    let data = useCart();
+
+    const DateAndTime = (date) => {
+        const d = new Date(date);
+        return `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
+    }
+
+    console.log("BuyerOrder : ", data)
+
+    const handleAddToCart = async () => {
         if (currOrder.quantity === 0) {
             swal("Error", "Please enter a valid quantity", "error"); return;
         }
@@ -285,59 +297,25 @@ const BuyerFoodMenu = (props) => {
             setOpen(false); return;
         }
         const Totall = (currOrder.food.Price + (addON.map((a) => Number((a.split('₹'))[1])).reduce((prev, curr) => (prev + curr), 0))) * currOrder.quantity;
-        console.log("Price: ", currOrder.food.Price, "  Total: ", Totall);
-        if (Totall > user.Wallet) {
-            swal('Oops! Something went wrong!', 'You do not have enough money in your wallet!', 'error');
-            setCurrOrder({food: {
-                Name: '', ShopName: '', Price: 0, AddOns: []
-            }, quantity: 0, addOn: ''}); return;
-        }
-
-        axios
-            .post('http://localhost:4000/order/place', {
-                foodItem: currOrder.food.Name,
-                VendorID: currOrder.food.VendorID,
-                BuyerID: userID,
-                VendorName: currOrder.food.VendorName,
-                buyerAge: user.Age,
-                buyerBatch: user.BatchName,
-                Price: currOrder.food.Price,
-                Quantity: currOrder.quantity,
-                AddOns: (addON.map((a) => (a.split(':'))[0]).join(', ')),
-                Veg: currOrder.food.Veg,
-                Total: Totall,
-                Rating: -1,
-                date: date,
-                Status: 'PLACED'
-            }).then((response) => {
-                console.log(response.data);
-                axios
-                    .post('http://localhost:4000/user/edit', {
-                        _id: userID, 
-                        updateWallet: true, 
-                        increment: (-Totall)
-                    }).then((response) => {
-                        console.log(response.data); setCurrOrder({food: {
-                            Name: '', ShopName: '', Price: 0, AddOns: []
-                        }, quantity: 0, addOn: ''});
-                        setChips([]); setAddON([]);
-                        swal({
-                            title: `Order placed!`, 
-                            text: `Your order of ₹${Totall} has been placed. Please wait till the chef prepares it.`, 
-                            icon: `success`}).then(() => {
-                                setOpen(false);
-                                window.location='/buyer/orders';
-                            });
-                    })
-                    .catch((error) => console.log(error));
-            }).catch((err) => {
-                console.log(err.message);
-                setCurrOrder({food: {
-                    Name: '', ShopName: '', Price: 0, AddOns: []
-                }, quantity: 0, addOn: ''});
-            });
+        
+        await dispatch({type: "Add",
+        VendorID: currOrder.food.VendorID,
+        BuyerID: userID,
+        VendorName: currOrder.food.VendorName,
+        foodItem: currOrder.food.Name,
+        Veg: currOrder.food.Veg,
+        AddOns: (addON.map((a) => (a.split(':'))[0]).join(', ')),
+        Total: Totall,
+        Quantity: currOrder.quantity,
+        Date: DateAndTime(date),
+        buyerAge: user.Age,
+        buyerBatch: user.BatchName,
+        Rating: -1,
+        })
+        setOpen(false);
     }
 
+    
     const changeQuantity = (event) => {
         setCurrOrder({...currOrder, quantity:(event.target.value < 0 ? 0 : event.target.value)});
     };
@@ -629,7 +607,7 @@ const BuyerFoodMenu = (props) => {
                     </DialogContent>
                     <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={placeOrder}>Place order</Button>
+                    <Button onClick={handleAddToCart}>Add to Cart</Button>
                     </DialogActions>
                 </Dialog>
                 </div>

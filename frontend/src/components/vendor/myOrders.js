@@ -56,7 +56,7 @@ const VendorOrders = (props) => {
         if (status === 'REJECTED') {
             console.log({_id: refund._id, updateWallet: true, increment: refund.amount});
             axios
-                .post(`http://localhost:4000/user/edit`, {_id: refund._id, updateWallet: true, increment: refund.amount})
+                .post(`http://localhost:4000/user`, {_id: refund._id, updateWallet: true, increment: refund.amount})
                 .then((response) => console.log(response, ` Refunded buyer ${refund.amount}`));
         }
         axios
@@ -69,7 +69,7 @@ const VendorOrders = (props) => {
                         message: (status === 'ACCEPTED' ? 
                         `Your order has been accepted. Please wait for the chef to prepare it.`
                         : `Sorry for the inconvenience. Your order has been rejected. Try again later.`)
-                    }).then((resp) => {
+                    }, "Fcvyj7SnnAUKrasQO").then((resp) => {
                         console.log('Email sent. ', resp.status, ' ', resp.text);
                         window.location='/vendor/orders';
                     }, (err) => console.log(err))
@@ -77,7 +77,7 @@ const VendorOrders = (props) => {
                     window.location='/vendor/orders';
                 }
             })
-            .catch((err) => console.log(err));
+            .catch((err) => console.log("this is email error", err));
     }
 
     const Print = (props) => {
