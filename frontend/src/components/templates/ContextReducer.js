@@ -9,6 +9,7 @@ const reducer = (state, action) =>{
         case "Add":
             return [...state, {id: action.VendorID,
                 bid: action.BuyerID,
+                buyerEmail: action.BuyerEmail,
                 vname: action.VendorName,
                 name: action.foodItem,
                 qty: action.Quantity,

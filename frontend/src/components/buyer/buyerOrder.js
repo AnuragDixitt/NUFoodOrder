@@ -301,6 +301,7 @@ const BuyerFoodMenu = (props) => {
         await dispatch({type: "Add",
         VendorID: currOrder.food.VendorID,
         BuyerID: userID,
+        BuyerEmail: user.Email,
         VendorName: currOrder.food.VendorName,
         foodItem: currOrder.food.Name,
         Veg: currOrder.food.Veg,

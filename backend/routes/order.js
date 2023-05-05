@@ -32,10 +32,11 @@ Router.get("/", async function(req, res) {
 // Add or insert food item 
 Router.post("/place", async (req, res) => {
     const Order = req.body;
-    console.log(Order);
+    console.log("abe",Order);
     const newOrder = new order({
         foodItem: Order.foodItem,
         VendorID: Order.VendorID,
+        BuyerEmail: Order.BuyerEmail,
         BuyerID: Order.BuyerID,
         VendorName: Order.VendorName,
         buyerAge: Order.buyerAge,

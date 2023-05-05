@@ -26,6 +26,8 @@ const VendorOrders = (props) => {
 
     const [orders, setOrders] = useState([]);
 
+    console.log("Order Received : ", orders)
+
     useEffect(() => {
         console.log(userID);
         const post = {VendorID: userID};
@@ -47,6 +49,14 @@ const VendorOrders = (props) => {
 
     const changeStatus = (orderId, status, refund, vendorName) => {
         const sum = orders.reduce((prev, order) => prev + (order.Status === 'ACCEPTED' || order.Status === 'COOKING'), 0) ;
+        var email = ""
+        for (const index in orders){
+            const order = orders[index]
+            if (order["_id"] === orderId){
+                email = order["BuyerEmail"]
+            }
+        }
+
         // console.log(sum); return;
         if (sum >= 10 && 
             status === 'ACCEPTED') {
@@ -65,6 +75,8 @@ const VendorOrders = (props) => {
                 console.log('Changed Status. ', resp);
                 if (status === 'ACCEPTED' || status === 'REJECTED') {
                     emailjs.send("service_mncnz8p","template_jxsko0t",{
+                        from: user.Email,
+                        to: email,
                         from_name: user.Name,
                         message: (status === 'ACCEPTED' ? 
                         `Your order has been accepted. Please wait for the chef to prepare it.`

@@ -19,14 +19,14 @@ import { useCart, useDispatchCart } from '../templates/ContextReducer';
 
 export default function Cart(props) {
 
-    const user = JSON.parse(localStorage.getItem('user'))
+    const user = JSON.parse(localStorage.getItem('user'));
 
     const userID = user._id;
 
     const [orders, setOrders] = useState([]);
 
     const [open, setOpen] = useState(false);
-    
+
 
     const [currOrder, setCurrOrder] = useState({food: {
         Name: '', ShopName: '', Price: 0, AddOns: []
@@ -35,7 +35,6 @@ export default function Cart(props) {
     
 
     useEffect(() => {
-        console.log("User : ", userID);
         const post = {VendorID: userID};
         axios
             .get(`http://localhost:4000/order?buyerid=${userID}`)
@@ -72,13 +71,50 @@ export default function Cart(props) {
 
         const { data: { key } } = await axios.get("http://localhost:4000/api/getkey")
         console.log("Order : ", key)
-
         const options = {
             key,
             amount: totalprice*100,
             currency: "INR",
             name: "Yuvi",
             description: "Restaurent Payment",
+            handler : function (){
+                for(const d of data){
+                    axios
+                        .post('http://localhost:4000/order/place', {
+                            foodItem: d.name,
+                            VendorID: d.id,
+                            BuyerID: userID,
+                            BuyerEmail: user.Email,
+                            VendorName: d.vname,
+                            buyerAge: user.Age,
+                            buyerBatch: user.BatchName,
+                            Price: d.price,
+                            Quantity: d.qty,
+                            AddOns: d.addOn,
+                            Veg: d.veg,
+                            Total: totalprice,
+                            Rating: -1,
+                            date: d.date,
+                            Status: 'PLACED'
+                        }).then((response) => {
+                            console.log("one : ",response.data);
+                            // data = []
+                            swal({
+                                title: `Order placed!`, 
+                                text: `Your order of ₹${totalprice} has been placed. Please wait till the chef prepares it.`, 
+                                icon: `success`}).then(() => {
+                                    setOpen(false);
+                                    window.location='/buyer/orders';
+                                });
+                        }).catch((err) => {
+                            console.log(err.message);
+                            setCurrOrder({food: {
+                                Name: '', ShopName: '', Price: 0, AddOns: []
+                            }, quantity: 0, addOn: ''});
+                        });
+                        dispatch({type:"DROP"})
+                    }
+            },
             notes: {
                 "address": "Razorpay Corporate Office"
             },
@@ -89,42 +125,6 @@ export default function Cart(props) {
         const razor = new window.Razorpay(options);
         razor.open();
 
-        
-        for(const d of data){
-        axios
-            .post('http://localhost:4000/order/place', {
-                foodItem: d.name,
-                VendorID: d.id,
-                BuyerID: userID,
-                VendorName: d.vname,
-                buyerAge: user.Age,
-                buyerBatch: user.BatchName,
-                Price: d.price,
-                Quantity: d.qty,
-                AddOns: d.addOn,
-                Veg: d.veg,
-                Total: totalprice,
-                Rating: -1,
-                date: d.date,
-                Status: 'PLACED'
-            }).then((response) => {
-                console.log("one : ",response.data);
-                // data = []
-                swal({
-                    title: `Order placed!`, 
-                    text: `Your order of ₹${totalprice} has been placed. Please wait till the chef prepares it.`, 
-                    icon: `success`}).then(() => {
-                        setOpen(false);
-                        window.location='/buyer/orders';
-                    });
-              }).catch((err) => {
-                console.log(err.message);
-                setCurrOrder({food: {
-                    Name: '', ShopName: '', Price: 0, AddOns: []
-                }, quantity: 0, addOn: ''});
-            });
-            dispatch({type:"DROP"})
-        }
     }
 
     return (

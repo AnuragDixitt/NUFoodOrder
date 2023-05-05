@@ -12,6 +12,7 @@ Router.post('/', async (req, res) => {
         const newOrder = new order({
         foodItem: Order.foodItem,
         VendorID: Order.VendorID,
+        BuyerEmail: Order.BuyerEmail,
         BuyerID: Order.BuyerID,
         VendorName: Order.VendorName,
         buyerAge: Order.buyerAge,

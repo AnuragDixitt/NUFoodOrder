@@ -6,6 +6,7 @@ const orderSchema = new Schema({
     foodItem: {type: String},
     VendorID: {type: Schema.Types.ObjectId},
     BuyerID: {type: Schema.Types.ObjectId},
+    BuyerEmail: {type: String},
     VendorName: {type: String},
     buyerAge: {type: Number},
     buyerBatch: {type: String},

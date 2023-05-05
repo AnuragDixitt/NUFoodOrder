@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const PORT = 4000
-const MONGO_DB_URI = 'mongodb://127.0.0.1/yuvi';
+const MONGO_DB_URI = 'mongodb://127.0.0.1/one';
 const Razorpay = require('razorpay');
 
 
@@ -14,8 +14,7 @@ var UserRouter = require("./routes/Users");
 var foodItemRouter = require("./routes/food");
 var orderRouter = require("./routes/order");
 const cookieParser = require('cookie-parser');
-var cartOrder = require('./routes/CartOrder');
-var Payment = require('./routes/paymentRoutes');
+
 
 var instance = new Razorpay({
     key_id: 'rzp_test_HZj6s0sFOK3SAE',
@@ -40,8 +39,7 @@ app.use("/testAPI", testAPIRouter);
 app.use("/user", UserRouter);
 app.use("/food", foodItemRouter);
 app.use("/order", orderRouter);
-app.use("/cartorder", cartOrder);
-app.use("/api", Payment);
+
 
 
 app.get("/api/getkey", (req, res) =>
