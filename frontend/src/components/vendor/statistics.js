@@ -17,6 +17,7 @@ import PieChart, {
   Legend,
   Animation,
 } from "devextreme-react/pie-chart";
+import { Divider } from "@mui/material";
 
 function formatText(arg) {
   return `${arg.argumentText} (${arg.percentText})`;
@@ -77,28 +78,28 @@ const Statistics = (props) => {
   }, []);
   return (
     <div align={"center"} spacing={10}>
-      <Typography variant="h4" component="div" gutterBottom>
+      <Typography variant="h4" component="div" gutterBottom sx={{ padding: '30px 0px 10px 0px' }}>
         Statistics
       </Typography>
       <Grid item xs={12} md={9} lg={9}>
-        <Paper>
-          <Table>
+        
+          <Table size="medium" style={{borderRadius: '20px 20px 20px 20px', overflow: 'hidden',boxShadow: '10px 10px 10px rgba(0, 0, 0, 0.5)',backgroundColor:"lightblue"}}>
             <TableHead>
               <TableRow>
-                <TableCell> Orders placed </TableCell>
-                <TableCell> Orders pending </TableCell>
-                <TableCell> Completed orders </TableCell>
+                <TableCell style={{ fontSize: '20px' }} align="center"> Orders placed </TableCell>
+                <TableCell style={{ fontSize: '20px' }} align="center"> Orders pending </TableCell>
+                <TableCell style={{ fontSize: '20px' }} align="center"> Completed orders </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              <TableRow>
-                <TableCell>
+              <TableRow style={{backgroundColor:'#fff5ee'}}>
+                <TableCell style={{ fontSize: '15px' }} align="center">
                   {orders.reduce(
                     (prev, order) => prev + (order.Status === "PLACED" ? 1 : 0),
                     0
                   )}
                 </TableCell>
-                <TableCell>
+                <TableCell style={{ fontSize: '15px' }} align="center">
                   {orders.reduce(
                     (prev, order) =>
                       prev +
@@ -108,7 +109,7 @@ const Statistics = (props) => {
                     0
                   )}
                 </TableCell>
-                <TableCell>
+                <TableCell style={{ fontSize: '15px' }} align="center">
                   {orders.reduce(
                     (prev, order) =>
                       prev + (order.Status === "COMPLETED" ? 1 : 0),
@@ -118,19 +119,20 @@ const Statistics = (props) => {
               </TableRow>
             </TableBody>
           </Table>
-        </Paper>
+        
       </Grid>
       <br />
-      <Typography variant="h5" component="div" gutterBottom>
+      <Divider/>
+      <Typography variant="h5" component="div" gutterBottom sx={{ padding: '30px 0px 10px 0px' }}>
         Top orders
       </Typography>
       <Grid item xs={12} md={9} lg={9}>
-        <Paper>
-          <Table>
+        
+          <Table size="medium" style={{borderRadius: '20px 20px 20px 20px', overflow: 'hidden',boxShadow: '10px 10px 10px rgba(0, 0, 0, 0.5)',backgroundColor:"lightblue"}}>
             <TableHead>
               <TableRow>
-                <TableCell> Food item </TableCell>
-                <TableCell> Orders </TableCell>
+                <TableCell style={{ fontSize: '20px' }} align="center"> Food item </TableCell>
+                <TableCell style={{ fontSize: '20px' }} align="center"> Orders </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -147,17 +149,20 @@ const Statistics = (props) => {
                 .sort((x, y) => y[1] - x[1])
                 .slice(0, 5)
                 .map((x) => (
-                  <TableRow>
-                    <TableCell>{x[0]}</TableCell>
-                    <TableCell>{x[1]}</TableCell>
+                  <TableRow style={{backgroundColor:'#fff5ee'}}>
+                    <TableCell style={{ fontSize: '15px' }} align="center">{x[0]}</TableCell>
+                    <TableCell style={{ fontSize: '15px' }} align="center">{x[1]}</TableCell>
                   </TableRow>
                 ))}
             </TableBody>
           </Table>
-        </Paper>
+       
       </Grid>
+      <br/>
+      <Divider/>
+      <Box  sx={{position:"relative", p: 3, boxShadow: '10px 10px 10px 10px  rgba(0.1, 0.1, 0.1, 0.3)', bgcolor: '#F5F5F5',borderRadius: '50px' }}>
       <Grid container align={"center"}>
-        <Grid item xs={6}>
+        <Grid item xs={5}>
           <PieChart
             id="pie"
             dataSource={Array.from(
@@ -187,7 +192,7 @@ const Statistics = (props) => {
             <Animation enabled={false} />
           </PieChart>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={5}>
           <PieChart
             id="pie"
             dataSource={Array.from(
@@ -218,6 +223,7 @@ const Statistics = (props) => {
           </PieChart>
         </Grid>
       </Grid>
+      </Box>
     </div>
   );
 };

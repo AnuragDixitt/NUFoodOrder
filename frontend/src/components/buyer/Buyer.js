@@ -14,6 +14,8 @@ import TextField from '@mui/material/TextField';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
+import getCookie from "../extra/getCookie";
+
 
 const VendorProfile = (props) => {
     const curr = JSON.parse(localStorage.getItem('user'));
@@ -31,7 +33,7 @@ const VendorProfile = (props) => {
     const [currPass, setCurrPass] = useState('');
     const [newPass, setNewPass] = useState('');
     const [confirmNewPass, setConfirmNewPass] = useState('');
-    const [addMoney, setAddMoney] = useState(0);
+    // const [addMoney, setAddMoney] = useState(0);
 
     useEffect( () => {
         (async function() {
@@ -41,30 +43,30 @@ const VendorProfile = (props) => {
         })()
     }, [])
 
-    const onChangeMoney = (e) => {
-        setAddMoney(e.target.value);
-        let tmp = curr; tmp.Wallet = tmp.Wallet + addMoney;
-    }
+    // const onChangeMoney = (e) => {
+    //     setAddMoney(e.target.value);
+    //     let tmp = curr; tmp.Wallet = tmp.Wallet + addMoney;
+    // }
 
-    const onAddMoney = (e) => {
-        if (addMoney < 0) {
-            swal({text: 'Please enter a valid amount to add money', icon: 'warning'})
-            .then((resp) => {if (resp) {setAddMoney(0); return;}});
-        }
-        // e.preventDefault();
-        if (addMoney === 0) {return;}
-        axios
-            .post('http://localhost:4000/user/edit', {
-                updateWallet: true, 
-                _id: curr._id, 
-                increment: Number(addMoney)
-            }).then((resp) => {
-                console.log(resp);
-                let tmp = curr; tmp.Wallet = Number(tmp.Wallet) + Number(addMoney);
-                localStorage.setItem('user', JSON.stringify(tmp));
-                window.location.reload();
-            }).catch((err) => {console.log(err);});
-    }
+    // const onAddMoney = (e) => {
+    //     if (addMoney < 0) {
+    //         swal({text: 'Please enter a valid amount to add money', icon: 'warning'})
+    //         .then((resp) => {if (resp) {setAddMoney(0); return;}});
+    //     }
+    //     // e.preventDefault();
+    //     if (addMoney === 0) {return;}
+    //     axios
+    //         .post('http://localhost:4000/user/edit', {
+    //             updateWallet: true, 
+    //             _id: curr._id, 
+    //             increment: Number(addMoney)
+    //         }).then((resp) => {
+    //             console.log(resp);
+    //             let tmp = curr; tmp.Wallet = Number(tmp.Wallet) + Number(addMoney);
+    //             localStorage.setItem('user', JSON.stringify(tmp));
+    //             window.location.reload();
+    //         }).catch((err) => {console.log(err);});
+    // }
 
     const handleChange = (prop) => (event) => {
         setThisUser({ ...thisUser, [prop]: event.target.value });
@@ -138,29 +140,38 @@ const VendorProfile = (props) => {
                 theme.palette.mode === 'light'
                     ? theme.palette.grey[100]
                     : theme.palette.grey[900],
+                backgroundColor:'lightBlue',    
+                //backgroundImage: 'url(https://media.licdn.com/dms/image/C4E16AQG3mVEcQH0oBw/profile-displaybackgroundimage-shrink_350_1400/0/1538140195496?e=1687996800&v=beta&t=cza0kwZWYjlIHsRT39L8QWsD9ajqo76RdoRXFAdxHfU)', // replace with your image URL
+                //backgroundPosition: 'center',
+                //backgroundRepeat: 'no-repeat',
+                //backgroundSize: 'cover',
+                //boxShadow: '50 50 10px rgba(0.5, 0.5, 0.5, 0.2)', // add shadow    
                 flexGrow: 1,
-                height: '100vh',
+                height: '93.9vh',
                 overflow: 'auto',
             }}
             >
             <Toolbar />
-            <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+            <Container maxWidth="lg" sx={{ mt: 10, mb: 10 }}>
                 <Grid container spacing={2} align={'center'}>
                 <Grid item xs={12}>
                 <Paper
                     sx={{
-                        p: 2,
+                        p: 6,
                         display: 'flex',
                         flexDirection: 'column',
-                        height: 460,
+                        height: 500,
+                        width:600,
+                        borderRadius:"20px 20px 20px 20px",
+                        boxShadow: '10px 10px 10px 10px rgba(0, 0, 0, 0.2)',
                     }}
                 >
                     <Grid container align={'center'}>
                         <Grid item xs={buttonText === 'Edit' ? 12 : 6}>
-                            <Grid container align={'center'} spacing={2}>
+                            <Grid container align={'center'} spacing={5}>
 
                                 <Grid item xs={12}>
-                                    <Typography gutterbottom>
+                                    <Typography gutterbottom sx={{ fontSize: '30px', fontWeight: 'bold' }}>
                                         Email: {thisUser.Email}    
                                     </Typography>
                                 </Grid>
@@ -171,6 +182,7 @@ const VendorProfile = (props) => {
                                         value={thisUser.Name}
                                         InputProps={{readOnly: true}}
                                         onChange={handleChange('Name')}
+                                        sx={{ width: '60%', height: '50px', fontSize: '30px'}}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -180,6 +192,7 @@ const VendorProfile = (props) => {
                                         value={thisUser.ContactNo}
                                         InputProps={{readOnly: true}}
                                         onChange={handleChange('ContactNo')}
+                                        sx={{ width: '60%', height: '50px', fontSize: '30px'}}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -189,6 +202,7 @@ const VendorProfile = (props) => {
                                         value={thisUser.Age}
                                         InputProps={{readOnly: true}}
                                         onChange={handleChange('Age')}
+                                        sx={{ width: '60%', height: '50px', fontSize: '30px'}}
                                     />
                                 </Grid>
                                 {buttonText === 'Edit' && (
@@ -197,6 +211,7 @@ const VendorProfile = (props) => {
                                             InputProps={{readOnly: true}}
                                             label='Batch'
                                             defaultValue={thisUser.BatchName}
+                                            sx={{ width: '60%', height: '50px', fontSize: '30px'}}
                                         />
                                     </Grid></>)
                                 }
@@ -210,8 +225,6 @@ const VendorProfile = (props) => {
                                             >
                                             <MenuItem value={'UG1'}>UG1</MenuItem>
                                             <MenuItem value={'UG2'}>UG2</MenuItem>
-                                            <MenuItem value={'UG3'}>UG3</MenuItem>
-                                            <MenuItem value={'UG4'}>UG4</MenuItem>
                                             <MenuItem value={'PG1'}>PG1</MenuItem>
                                             <MenuItem value={'PG2'}>PG2</MenuItem>
                                         </TextField>
@@ -270,7 +283,7 @@ const VendorProfile = (props) => {
                                     </Button>
                                 </Grid>
                             </Grid></Grid>
-                            <Grid item xs={12}>
+                            {/* <Grid item xs={12}>
                             <Grid container align={'center'} spacing={2}>
                                 <Grid item xs={12}>
                                     <TextField 
@@ -284,7 +297,8 @@ const VendorProfile = (props) => {
                                         Add money
                                     </Button>
                                 </Grid>
-                            </Grid></Grid></Grid>
+                            </Grid></Grid> */}
+                            </Grid>
                         </Grid>
                         : null}
                     </Grid>

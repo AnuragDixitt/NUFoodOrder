@@ -127,28 +127,37 @@ const VendorProfile = (props) => {
                 theme.palette.mode === 'light'
                     ? theme.palette.grey[100]
                     : theme.palette.grey[900],
+                backgroundColor:'lightBlue',    
+                //backgroundImage: 'url(https://media.licdn.com/dms/image/C4E16AQG3mVEcQH0oBw/profile-displaybackgroundimage-shrink_350_1400/0/1538140195496?e=1687996800&v=beta&t=cza0kwZWYjlIHsRT39L8QWsD9ajqo76RdoRXFAdxHfU)', // replace with your image URL
+                //backgroundPosition: 'center',
+                //backgroundRepeat: 'no-repeat',
+                //backgroundSize: 'cover',
+                //boxShadow: '50 50 10px rgba(0.5, 0.5, 0.5, 0.2)', // add shadow    
                 flexGrow: 1,
-                height: '100vh',
+                height: '93.9vh',
                 overflow: 'auto',
             }}
             >
             <Toolbar />
-            <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+            <Container maxWidth="lg" sx={{ mt: 10, mb: 10 }}>
                 <Grid container spacing={2} align={'center'}>
                 <Grid item xs={12}>
                 <Paper
                     sx={{
-                        p: 2,
+                        p: 6,
                         display: 'flex',
                         flexDirection: 'column',
-                        height: 480,
+                        height: 500,
+                        width:600,
+                        borderRadius:"20px 20px 20px 20px",
+                        boxShadow: '10px 10px 10px 10px rgba(0, 0, 0, 0.2)',
                     }}
                 >
                     <Grid container align={'center'}>
                         <Grid item xs={buttonText === 'Edit' ? 12 : 6}>
                             <Grid container align={'center'} spacing={2}>
                                 <Grid item xs={12}>
-                                    <Typography gutterbottom>
+                                    <Typography gutterbottom sx={{ fontSize: '30px', fontWeight: 'bold' }}>
                                         Email: {thisUser.Email}    
                                     </Typography>
                                 </Grid>
@@ -159,6 +168,7 @@ const VendorProfile = (props) => {
                                         value={thisUser.Name}
                                         InputProps={{readOnly: true}}
                                         onChange={handleChange('Name')}
+                                        sx={{ width: '60%', height: '50px', fontSize: '30px'}}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -168,6 +178,7 @@ const VendorProfile = (props) => {
                                         value={thisUser.ContactNo}
                                         InputProps={{readOnly: true}}
                                         onChange={handleChange('ContactNo')}
+                                        sx={{ width: '60%', height: '50px', fontSize: '30px'}}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>
@@ -177,6 +188,7 @@ const VendorProfile = (props) => {
                                         value={thisUser.ShopName}
                                         InputProps={{readOnly: true}}
                                         onChange={handleChange('ContactNo')}
+                                        sx={{ width: '60%', height: '50px', fontSize: '30px'}}
                                     />
                                 </Grid>
 
@@ -188,6 +200,7 @@ const VendorProfile = (props) => {
                                                 label='Opening time'
                                                 value={thisUser.OpeningTime}
                                                 renderInput={(params) => <TextField {...params} />}
+                                                sx={{ width: '60%', height: '50px', fontSize: '30px'}}
                                             />
                                         </LocalizationProvider>
                                     </Grid>
@@ -198,6 +211,7 @@ const VendorProfile = (props) => {
                                                 label='Closing time'
                                                 value={thisUser.ClosingTime}
                                                 renderInput={(params) => <TextField {...params} />}
+                                                sx={{ width: '60%', height: '50px', fontSize: '30px'}}
                                             />
                                         </LocalizationProvider>
                                     </Grid></>)

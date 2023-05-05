@@ -45,24 +45,25 @@ const Navbar = () => {
     }, []);
 
     return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1,bgcolor: "green", "& .MuiAppBar-root": { backgroundColor: "green" } }}>
         <AppBar position="static">
             <Toolbar>
+                
                 <Typography
-                    variant="h6"
+                    variant="h4"
                     component="div"
                     sx={{ cursor: "pointer" }}
                     onClick={() => navigate("/")}
                 >
-                    Canteen Portal
+                    NuOrder
                 </Typography>
                 <Box sx={{ flexGrow: 1 }} />
                 {curr === undefined || curr === null ?
                     <>
-                        <Button color="inherit" href='/login'>
+                        <Button color="inherit" href='/login' style={{ fontSize: "1.2rem" }}>
                         Login
                         </Button>
-                        <Button color="inherit" href='/register'>
+                        <Button color="inherit" href='/register' style={{ fontSize: "1.2rem" }}>
                             Register
                         </Button>
                     </>
@@ -70,28 +71,28 @@ const Navbar = () => {
 
                     (curr.userStatus === 'Vendor' ? (
                         <ButtonGroup>
-                            <Button color="inherit" href='/vendor/statistics'>
+                            <Button color="inherit" href='/vendor/statistics' style={{ fontSize: "1.2rem" }}>
                                 Statistics
                             </Button>
                             <Button color="inherit" 
                                 variant='outlined' 
                                 startIcon={<RestaurantMenuIcon />} 
-                                href={'/vendor/shop-menu'}>
+                                href={'/vendor/shop-menu'} style={{ fontSize: "1.2rem" }}>
                                 Menu
                             </Button>
                             <Button color="inherit" 
                                 variant='outlined' 
                                 startIcon={<ManageAccountsRoundedIcon />}  
-                                href={'/vendor'} >
+                                href={'/vendor'} style={{ fontSize: "1.2rem" }}>
                                 Profile
                             </Button>
                             <Button color="inherit" 
                                 variant='outlined' 
-                                href={'/vendor/orders'} >
+                                href={'/vendor/orders'} style={{ fontSize: "1.2rem" }} >
                                 My orders
                             </Button>
                             <Button variant='contained' 
-                                color="error" startIcon={<LogoutIcon />} 
+                                color="error" startIcon={<LogoutIcon /> } 
                                 onClick={() => {
                                     deleteCookie('jwt')
                                     deleteCookie('refresh')
@@ -105,7 +106,7 @@ const Navbar = () => {
                         :(
                         <>
                         <ButtonGroup>
-                            <Button color="inherit" style={{fontWeight: 'bold'}} onClick={handleCart} variant="outlined">
+                            <Button color="inherit" style={{fontSize: "1.2rem"}} onClick={handleCart} variant="outlined">
                                 <ShoppingCartIcon style={{marginRight: '0.5rem'}} />
                                 My Cart {" "}
                                 <Badge color="secondary" badgeContent={data.length} />
@@ -113,23 +114,23 @@ const Navbar = () => {
                             <Button color="inherit" 
                                 variant='outlined' 
                                 startIcon={<RestaurantMenuIcon />} 
-                                href={'/buyer/menu'}>
+                                href={'/buyer/menu'} style={{ fontSize: "1.2rem" }}>
                                 Menu
                             </Button>
                             <Button color="inherit" 
                                 variant='outlined' 
                                 startIcon={<ManageAccountsRoundedIcon />}  
-                                href={'/buyer'} >
+                                href={'/buyer'} style={{ fontSize: "1.2rem" }}>
                                 Profile
                             </Button>
                             <Button color="inherit" 
                                 variant='outlined' 
-                                href={'/buyer/orders'} >
+                                href={'/buyer/orders'} style={{ fontSize: "1.2rem" }}>
                                 My orders
                             </Button>
                             <Button variant='contained' 
                                 color="error" startIcon={<LogoutIcon />} 
-                                onClick={() => {localStorage.clear(); window.location='/'}} >
+                                onClick={() => {localStorage.clear(); window.location='/'}} style={{ fontSize: "1.2rem" }} >
                                 Logout
                             </Button>
                         </ButtonGroup></>)) 

@@ -70,6 +70,29 @@ const AddFoodItem = (props) => {
         const tmp = [...addOnPrice]; tmp[idx] = event.target.value;
         setAddOnPrice(tmp);
     }
+    const styles = {
+        container: {
+          height: 'full',
+        //   backgroundImage: `url(${backgroundImage})`,
+          backgroundColor:"lightblue",
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center center',
+          backgroundSize: 'cover',
+          backgroundAttachment: 'fixed',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'Top',
+          padding: '0px',
+          margin: '0px'
+        },
+        tableContainer: {
+          background: 'linear-gradient(to bottom, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 70%, rgba(255,255,255,0.2) 100%)',
+          borderRadius: '20px',
+          boxShadow: '10px 10px 20px rgba(0, 0, 0, 0.5)',
+          padding: '20px',
+          width: "60%"
+        },
+      }; 
 
     const onChangeName = (e) => {
         setName(e.target.value);
@@ -115,7 +138,8 @@ const AddFoodItem = (props) => {
     }   
 
   return (
-    <div align={'center'} >
+    <div align={'center'} style={styles.container}>
+    <div align={'center'} style={styles.tableContainer}>
 
        
                     <Grid container align={'center'} spacing={2}>
@@ -135,9 +159,10 @@ const AddFoodItem = (props) => {
                                 onChange={onChangePrice}
                             />
                         </Grid>
+                        <Divider/>
                         <Grid item xs={12}>
                             <FormControl>
-                                <FormLabel id="demo-radio-buttons-group-label">Veg or Non-veg?</FormLabel>
+                                <FormLabel id="demo-radio-buttons-group-label" sx={{ fontSize: '25px' }}>Veg or Non-veg?</FormLabel>
                                 <RadioGroup
                                     aria-labelledby="demo-radio-buttons-group-label"
                                     value={Veg}
@@ -151,9 +176,13 @@ const AddFoodItem = (props) => {
                             </FormControl>
                         </Grid>
 
+                        <Grid container spacing={2} padding="10px 10px 10px 10px">
+                        <Grid item xs={12} md={6}>
                         <Grid item xs={12} >
+                        <Box sx={{ p: 3, boxShadow: '10px 10px 10px 10px  rgba(0.1, 0.1, 0.1, 0.3)', bgcolor: '#F5F5F5',borderRadius: '50px' }}>    
+
                         <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
-                            <FormLabel component="legend" align={'center'}>Add ons: </FormLabel>
+                            <FormLabel component="legend" align={'center'} sx={{fontSize: '1.5rem'}}>Add ons: </FormLabel>
                             <FormGroup>
                             <Grid container spacing={1}>
                             {indices.map((i) => (
@@ -163,12 +192,13 @@ const AddFoodItem = (props) => {
                                         control={
                                             <Checkbox checked={addOnBool[i]} onChange={handleChangeBool(i)} />
                                         }
-                                        label={ADD_ONS[i]}
+                                        label={<div style={{fontSize: '1.5rem'}}>{ADD_ONS[i]}</div>}
+                                        sx={{mb: 1}}
                                     />
                                 </Grid>
-                                <Grid item  xs={2}  >
+                                <Grid item  xs={9}  >
                                     <TextField
-                                        size='small'
+                                        size='medium'
                                         label={ADD_ONS[i] + ' price'}
                                         variant='outlined'
                                         value={addOnPrice[i]}
@@ -180,22 +210,28 @@ const AddFoodItem = (props) => {
                             </Grid>
                             </FormGroup>
                         </FormControl>
+                        </Box>
                         </Grid>
 
+                        </Grid>
+                        <Grid item xs={12} md={6}>
                         <Grid item xs={12} >
-                        <Box sx={{ display: 'flex' }}>
+                        <Box sx={{ p: 3, boxShadow: '10px 10px 10px 10px  rgba(0.1, 0.1, 0.1, 0.3)', bgcolor: '#F5F5F5',borderRadius: '50px' }}>
                         <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
-                            <FormLabel component="legend" align={'center'}>Tags: </FormLabel>
+                            <FormLabel component="legend" align={'center'} sx={{fontSize: '1.5rem'}}>Tags: </FormLabel>
                             <FormGroup>
-                            <Grid container spacing={1} >
+                            <Grid container spacing={5} >
                             {indices.map((i) => (
                             <Grid item xs={12}>
+                                <Grid item xs={10} >
                                 <FormControlLabel align={'center'}
                                     control={
                                         <Checkbox checked={tagBool[i]} onChange={handleChangeTagBool(i)} />
                                     }
-                                    label={TAGS[i]}
+                                    label={<div style={{fontSize: '1.5rem'}}>{TAGS[i]}</div>}
+                                    sx={{mb: 1}}
                                 />
+                                </Grid>
                             </Grid>
                             ))}
                             </Grid>
@@ -203,15 +239,18 @@ const AddFoodItem = (props) => {
                         </FormControl>
                         </Box>
                         </Grid>
+                        </Grid>
+                        </Grid>
                         
                     </Grid>
                
         <Grid item xs={12} align={'center'}>
-            <Button variant='contained' onClick={onAddFoodItem}>
+            <Button variant='contained' onClick={onAddFoodItem} sx={{ fontSize: '1.2rem' }}>
                 Add Food Item
             </Button>
         </Grid>
 
+    </div>
     </div>
   );
 };

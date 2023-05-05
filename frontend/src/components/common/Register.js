@@ -23,7 +23,7 @@ const Register = (props) => {
 	const [Name, setName] = useState('');
 	const [Email, setEmail] = useState('');
 	const [date, setDate] = useState(null);
-    const [Money, setMoney] = useState(0);
+    // const [Money, setMoney] = useState(0);
 	const [Password, setPassword] = useState('');
     const [confirmPass, setConfirmPass] = useState('');
 	const [ContactNo, setContactNo] = useState(null);
@@ -40,9 +40,9 @@ const Register = (props) => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfPass, setShowConfPass] = useState(false);
 
-    const onChangeMoney = (e) => {
-        setMoney(e.target.value);
-    };
+    // const onChangeMoney = (e) => {
+    //     setMoney(e.target.value);
+    // };
 
     const handleClickShowConfPass = () => {
         setShowConfPass(!showConfPass);
@@ -112,7 +112,7 @@ const Register = (props) => {
         setShopName('');
         setOpeningTime(null);
         setClosingTime(null);
-        setMoney(null);
+        // setMoney(null);
 	};
 
 	const onSubmit = (event) => {
@@ -154,7 +154,7 @@ const Register = (props) => {
             
             } else {
 
-                if (Age === null || BatchName === '' || Money === null) {
+                if (Age === null || BatchName === '') {
                     swal("Oops!", "Please fill all the fields!", "error");
                     return;
                 }
@@ -167,7 +167,7 @@ const Register = (props) => {
                     userStatus: Status,
                     Age: Age,
                     BatchName: BatchName,
-                    Wallet: Money
+                    // Wallet: Money
                 };
                 console.log(newUser);
                 axios
@@ -322,14 +322,14 @@ const Register = (props) => {
                 }
                 {Status === 'Buyer' && 
                     <>
-                    <Grid item xs={12}>
+                    {/* <Grid item xs={12}>
                         <TextField
                             label='Add money  '
                             variant='outlined'
                             value={Money}
                             onChange={onChangeMoney}
                         />
-                    </Grid>
+                    </Grid> */}
                     <Grid item xs={12}>
                         <TextField
                             label='Age'

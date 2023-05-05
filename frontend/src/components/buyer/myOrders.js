@@ -68,6 +68,29 @@ const VendorOrders = (props) => {
     const handleClose = () => {
         setOpen(false);
     };
+    const styles = {
+        container: {
+          height: '93.9vh',
+        //   backgroundImage: `url(${backgroundImage})`,
+          backgroundColor:"lightblue",
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center center',
+          backgroundSize: 'cover',
+          backgroundAttachment: 'fixed',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'Top',
+          padding: '0px',
+          margin: '0px'
+        },
+        tableContainer: {
+          background: 'linear-gradient(to bottom, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 70%, rgba(255,255,255,0.2) 100%)',
+          borderRadius: '20px',
+          boxShadow: '10px 10px 20px rgba(0, 0, 0, 0.5)',
+          padding: '20px',
+          
+        },
+      };
 
     const onRate = () => {
         axios
@@ -136,28 +159,29 @@ const VendorOrders = (props) => {
     }
 
 return (
-    <div align={'center'} >
+    <div align={'center'} style={styles.container}>
+        <div align={'center'} style={styles.tableContainer}>
 
-        <Grid item xs={12} md={9} lg={9}>
+        <Grid item xs={15} md={10} lg={9}>
             <Paper>
-                <Table size="small">
-                    <TableHead>
+                <Table size="medium"style={{borderRadius: '20px 20px 20px 20px', overflow: 'hidden',boxShadow: '10px 10px 10px rgba(0, 0, 0, 0.5)'}}>
+                    <TableHead style={{ backgroundColor: 'lightblue'}}>
                         <TableRow>
-                            <TableCell> Sr No.</TableCell>
-                            <TableCell>Placed on</TableCell>
-                            <TableCell>Vendor Name</TableCell>
-                            <TableCell>Food item</TableCell>
-                            <TableCell>Veg/Non-veg</TableCell>
-                            <TableCell>Add ons</TableCell>
-                            <TableCell>Quantity</TableCell>
-                            <TableCell>Order total</TableCell>
-                            <TableCell>Status</TableCell>
-                            <TableCell align={'center'}>Rating</TableCell>
+                            <TableCell style={{ fontSize: '20px' }}> Sr No.</TableCell>
+                            <TableCell style={{ fontSize: '20px' }}>Placed on</TableCell>
+                            <TableCell style={{ fontSize: '20px' }}>Vendor Name</TableCell>
+                            <TableCell style={{ fontSize: '20px' }}>Food item</TableCell>
+                            <TableCell style={{ fontSize: '20px' }}>Veg/Non-veg</TableCell>
+                            <TableCell style={{ fontSize: '20px' }}>Add ons</TableCell>
+                            <TableCell style={{ fontSize: '20px' }}>Quantity</TableCell>
+                            <TableCell style={{ fontSize: '20px' }}>Order total</TableCell>
+                            <TableCell style={{ fontSize: '20px' }}>Status</TableCell>
+                            <TableCell align={'center'} style={{ fontSize: '20px' }}>Rating</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {orders.map((order, ind) => (
-                        <TableRow key={ind}>
+                        <TableRow key={ind} style={{backgroundColor:'#fff5ee' , fontSize:'20px'}}>
                             <TableCell>{ind + 1}</TableCell>
                             <TableCell>{DateAndTime(order.date)}</TableCell>
                             <TableCell>{order.VendorName}</TableCell>
@@ -218,6 +242,7 @@ return (
                 </div>
         </Paper>
         </Grid>
+        </div>
     </div>
 );
 };

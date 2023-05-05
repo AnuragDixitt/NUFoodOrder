@@ -202,7 +202,7 @@ const BuyerFoodMenu = (props) => {
     
         return (
             <div>
-            <FormControl sx={{ m: 1, width: 300 }}>
+            <FormControl sx={{ m: 1, width: 390 }}>
         <InputLabel id="demo-multiple-checkbox-label">Tags</InputLabel>
         <Select
           labelId="demo-multiple-checkbox-label"
@@ -240,7 +240,7 @@ const BuyerFoodMenu = (props) => {
     
         return (
             <div>
-            <FormControl sx={{ m: 1, width: 300 }}>
+            <FormControl sx={{ m: 1, width: 390 }}>
         <InputLabel id="demo-multiple-checkbox-label">Shops</InputLabel>
         <Select
           labelId="demo-multiple-checkbox-label"
@@ -400,13 +400,16 @@ const BuyerFoodMenu = (props) => {
 
         <Grid container>
             <Grid item xs={12} md={3} lg={3}>
+            <Box style={{backgroundColor:"lightblue"}} borderRadius="0 0 30px 0" p={2} mb={2}>    
             <List component="nav" aria-label="mailbox folders">
                 <ListItem text>
-                <h1>Filters</h1>
+                <h1 style={{ fontSize: "35px" }}>Filters</h1>
                 </ListItem>
             </List>
+            </Box>
             </Grid>
             <Grid item xs={12} md={9} lg={9}>
+            <Box boxShadow={5} borderRadius="0 0 20px 20px" p={2} mb={2}>    
             <List component="nav" aria-label="mailbox folders">
                 <TextField
                 id="standard-basic"
@@ -424,17 +427,20 @@ const BuyerFoodMenu = (props) => {
                 onChange={searchBar}
                 />
             </List>
+            </Box>
+            <Divider sx={{ fontWeight: 'bold', padding: '10px' }}/>
             </Grid>
         </Grid>
         <Grid container>
         <Grid item xs={12} md={3} lg={3}>
+          <Box style={{ backgroundColor: "lightgreen", padding: "10px", borderRadius: "0 30px 0 0" ,height: "785px" }}>  
           <List component="nav" aria-label="mailbox folders">
             <ListItem>
-              <Grid container spacing={2}>
-                    <Grid item xs={12}>
+              <Grid container spacing={3}>
+                    <Grid item xs={24} style={{ fontSize: "24px" }}>
                     Food item price
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={9}>
                     <TextField
                         id="standard-basic"
                         label="Enter Min"
@@ -443,7 +449,7 @@ const BuyerFoodMenu = (props) => {
                         onChange={changeLower}
                     />
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={9}>
                     <TextField
                         id="standard-basic"
                         label="Enter Max"
@@ -460,7 +466,7 @@ const BuyerFoodMenu = (props) => {
             </ListItem>
             <Divider />
             <ListItem divider>
-                <FormControl sx={{ m: 1, minWidth: 120 }}>
+                <FormControl sx={{ m: 1, minWidth: 390 }}>
                     <InputLabel id="demo-simple-select-helper-label">Veg or Non-veg?</InputLabel>
                     <Select
                         labelId="demo-simple-select-helper-label"
@@ -482,9 +488,11 @@ const BuyerFoodMenu = (props) => {
                 <MultiSelectShops />
             </ListItem>
           </List>
+          </Box>
         </Grid>
         <Grid item xs={12} md={9} lg={9}>
             <Paper>
+                <Box sx={{ bgcolor: 'lightgray', p: 2, borderRadius: "30px 0 0 0",height:"770px"}}>
                 <Table size="small">
                     <TableHead>
                         <TableRow>
@@ -546,6 +554,7 @@ const BuyerFoodMenu = (props) => {
                         })}
                     </TableBody>
                 </Table>
+                </Box>
 
                 <div>
                 <Dialog open={open} onClose={handleClose}>
