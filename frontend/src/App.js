@@ -16,6 +16,8 @@ import VendorOrders from "./components/vendor/myOrders";
 import Statistics from "./components/vendor/statistics"
 import { CartProvider } from "./components/templates/ContextReducer";
 import Cart from "./components/common/cart";
+import ResetPassword from "./components/common/resetPassword";
+
 
 const Layout = (props) => {
   return (
@@ -48,6 +50,7 @@ function App() {
             <Route path="buyer/orders" element={<BuyerOrders />} />
             <Route path="vendor/orders" element={<VendorOrders />} />
             <Route path="vendor/statistics" element={<Statistics />} />
+            <Route path="reset-password" element={<ResetPassword />} />
           </Route>
         </Routes>
       </CartProvider>

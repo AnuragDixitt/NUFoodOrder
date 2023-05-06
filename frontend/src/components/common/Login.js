@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useState } from 'react';
 import swal from 'sweetalert';
 import Grid from '@mui/material/Grid';
@@ -297,6 +298,9 @@ const Login = (props) => {
                         onError={googleFailure}
                     />
                 </GoogleOAuthProvider>
+                <p className="grey-text text-darken-1">
+                Forgot your password? <Link to="/reset-password">Reset Now</Link>
+                </p>
             </Grid>
         </Grid>
 

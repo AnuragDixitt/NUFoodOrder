@@ -88,7 +88,7 @@ const Register = (props) => {
     const onChangeStatus = (event) => {
         setStatus(event.target.value);
         if (expand === true) {
-            setHeight(height+200);
+            setHeight(height+225);
             setExpand(false);
         }
     };

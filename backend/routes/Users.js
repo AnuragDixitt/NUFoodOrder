@@ -6,6 +6,8 @@ const jwt = require("jsonwebtoken")
 const bcrypt = require("bcrypt");
 const auth = require("../controller/auth.js")
 require("dotenv").config();
+const authcontroller = require("../controller/authController.js")
+
 
 // GET request 
 // Getting all the users
@@ -282,6 +284,10 @@ Router.post('/edit', async (req, res) => {
         }
     }
 });
+
+Router.post('/email-send', authcontroller.emailSend)
+
+Router.post('/reset-password', authcontroller.changePassword)
 
 module.exports = Router;
 

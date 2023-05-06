@@ -1,0 +1,336 @@
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
+import { useState } from 'react';
+import swal from 'sweetalert';
+import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import IconButton from '@mui/material/IconButton';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputAdornment from '@mui/material/InputAdornment';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import  {FormHelperText}  from '@mui/material';
+
+
+const ResetPassword = (props) => {
+    // const EmailContext = createContext();
+
+    const [Otp, setOtp] = useState('');
+    const [otpError, setOtpError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+    const [Confirm, setConfirm] = useState('');
+    const [confirmError, setConfirmError] = useState('');
+    const [status, setStatus] = useState(false);
+    const [Email, setEmail] = useState('');
+    const [temp, setTemp] = useState('');
+    const [emailError, setEmailError] = useState('');
+
+    // =======================================================
+    const [Password, setPassword] = useState('');
+    const [confirmPass, setConfirmPass] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfPass, setShowConfPass] = useState(false);
+
+    const onChangeConfirmPass = (event) => {
+        setConfirmPass(event.target.value);
+    };
+    
+    const handleClickShowPassword = () => {
+        setShowPassword(!showPassword);
+    };
+
+    const handleClickShowConfPass = () => {
+        setShowConfPass(!showConfPass);
+    };
+
+    const handleMouseDownPassword = (event) => {
+        event.preventDefault();
+    };
+
+    // =======================================================
+    const onChangeOtp = (event) => {
+		setOtp(event.target.value);
+	};
+
+    const onChangePassword = (event) => {
+		setPassword(event.target.value);
+	};
+
+    const resetInputsLater = () => {
+		setOtp('');
+        setPassword('');
+        setConfirm('')
+    };
+
+    
+    const onChangeEmail = (event) => {
+		setEmail(event.target.value);
+        setTemp(event.target.value)
+	};
+
+
+    const resetInputs = () => {
+		setEmail('');
+    };
+
+    const navigate = useNavigate();
+
+    const onSubmit = (event) => {
+        event.preventDefault();
+
+        if (Email === '') {
+            setEmailError('Email is required');
+            resetInputs(); return;
+        }
+        else if(!String(Email).toLowerCase()
+        .match(
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        ))
+        {
+            setEmailError('Invalid Email Id');
+            return;
+        }        
+        else{
+            setEmailError('');
+        }
+
+        const thisUserForget = {
+            Email: Email,
+            
+        };
+        console.log(thisUserForget);
+
+        axios                               
+            .post('http://localhost:4000/user/email-send', thisUserForget)
+            .then((response) => {
+                const res = response.data;
+                if (res.code === -1) {
+                    console.log('Router error');
+                } else if (res.code === 0) {
+                    swal('User does not exist', 'There is no user registered by this email. Please check the entered email.', 'warning'); 
+                    resetInputs();
+                } else if (res.code === 2) {
+                    swal('Incorrect password', 'Please enter the correct password', 'error');
+                } else {
+                    console.log('Successfully sent mail in!!');
+                    setStatus(true);                  
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+
+        resetInputs();
+            console.log(status)
+    }
+
+    const onSubmitReset = (event) => {
+        event.preventDefault();
+        let regularExpression = /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{8,}$/
+
+        
+        if (Otp === '') {
+            setOtpError('OTP is required');
+            resetInputsLater(); 
+            return;
+        }
+        else if(Otp.length != 4)
+        {
+            setOtpError('Enter OTP of 4 digits');
+            return;
+        }
+        else if (Password === '') {
+            setOtpError('');
+            setPasswordError('Password is required');
+            return;
+        }
+        else if(!String(Password).match(regularExpression)){
+            setPasswordError('Password must contain atleast 1 uppercase, 1 lowercase, 1 number, 1 special character and length should be minimum 8');
+            return;
+        }
+        else if(confirmPass === ''){
+            setPasswordError('');
+            setConfirmError('Confirm Password is required');
+            return;
+        }
+        else if(Password !== confirmPass){
+
+            setConfirmError('Password does not match');
+            return;
+        }
+                
+        else{
+            setOtpError('');
+            setPasswordError('');
+            setConfirmError('')
+        }
+
+        const thisUser = {
+            Email: temp,
+            OTP: Otp,
+            Password: Password,
+            ConfirmPassword: Confirm
+            
+        };
+        console.log(thisUser);
+        
+        axios                               
+            .post('http://localhost:4000/user/reset-password', thisUser)
+            .then((response) => {
+                
+                const res = response.data;
+                if(res.status === 3){
+                    console.log(res);
+                    swal({title:'Invalid OTP', text:'Enter correct OTP', type:'warning'}).then(
+                    function(){
+                        resetInputsLater()
+                    });
+                    
+                    
+                }
+                else if (res.status === 0) {
+                    console.log('Router error');
+                    swal({title:'OTP Expired', text:'Please try again', type:'warning'}).then(
+                    function(){
+                        navigate('/login')
+                    });
+                    
+                }
+                else if(res.status === 1){
+                    console.log('Success!');
+                    // console.log(res);
+                    swal({title:'Password Changed Successfully', text:'Please login with new password', type:'success'}).then(
+                    function(){
+                        navigate('/login')
+                    });
+                    
+                    
+                }
+                else if(res.status === 2){
+                    console.log('Something went wrong!');
+                    swal({title:'Something went wrong', text:'Please try again', type:'error'}).then(
+                        function(){
+                            navigate('/reset-password')
+                        })
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+
+        resetInputs();
+    }
+
+    return (
+        
+        <Grid container  align={'center'}  spacing={2}>
+            
+            {!status &&
+            <>
+            <Grid item xs={12}>
+                <TextField
+                    label='Email'
+                    variant='outlined'
+                    value={Email}
+                    FormHelperTextProps={{
+                        style: { color: 'red' }
+                      }}
+                    onChange={onChangeEmail}
+                    helperText={emailError}
+                />
+            </Grid>
+            <Grid item xs={12}>
+                <Button variant='contained' onClick={onSubmit} >
+                    Send OTP
+                </Button>
+                
+            </Grid>
+            </>}
+            
+            {status &&
+            <>
+                <Grid item xs={12}>
+                <TextField
+                    label='OTP'
+                    variant='outlined'
+                    value={Otp}
+                    FormHelperTextProps={{
+                        style: { color: 'red' }
+                      }}
+                    onChange={onChangeOtp}
+                    helperText={otpError}
+                />
+            </Grid>
+            <Grid item xs={12}>
+                <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+                    <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                    <OutlinedInput
+                        id="outlined-adornment-password"
+                        type={showPassword ? 'text' : 'password'}
+                        value={Password}
+                        onChange={onChangePassword}
+                        endAdornment={
+                        <InputAdornment position="end">
+                            <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                            edge="end"
+                            >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                            </IconButton>
+                        </InputAdornment>
+                        }
+                        label="Password"
+                    />
+                    <FormHelperText style={{color : "red"}}>
+                            {passwordError}
+                    </FormHelperText>
+                    </FormControl>
+                </Grid>
+                <Grid item xs={12}>
+                <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+                    <InputLabel htmlFor="outlined-adornment-password">Confirm password</InputLabel>
+                    <OutlinedInput
+                        id="outlined-adornment-password"
+                        type={showConfPass ? 'text' : 'password'}
+                        value={confirmPass}
+                        onChange={onChangeConfirmPass}
+                        endAdornment={
+                        <InputAdornment position="end">
+                            <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowConfPass}
+                            onMouseDown={handleMouseDownPassword}
+                            edge="end"
+                            >
+                            {showConfPass ? <VisibilityOff /> : <Visibility />}
+                            </IconButton>
+                        </InputAdornment>
+                        }
+                        label="Password"
+                    />
+                    <FormHelperText style={{color : "red"}}>
+                            {confirmError}
+                    </FormHelperText>
+                    </FormControl>
+                    
+                </Grid>
+            <Grid item xs={12}>
+                <Button variant='contained' onClick={onSubmitReset} >
+                    Change Password
+                </Button>
+                
+            </Grid> 
+            
+            </>}
+            
+        </Grid>
+        
+    );
+};
+
+export default ResetPassword;
