@@ -23,7 +23,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-
+import close from './close.jpg';
 
 
 const Login = (props) => {
@@ -54,6 +54,32 @@ const Login = (props) => {
 		setEmail('');
         setPassword('');
     };
+    const styles = {
+        container: {
+          height: '93.9vh',
+          backgroundImage: `url(${close})`,
+        //   backgroundColor:"lightblue",
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center center',
+          backgroundSize: 'cover',
+          backgroundAttachment: 'fixed',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'Top',
+          padding: '0px',
+          margin: '0px'
+        },
+        tableContainer: {
+          background: 'rgba(0,0,0,0.5)',
+          height:"93.9vh",
+          width:"100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          
+        },
+      };
+
 
     const googleSuccess = (credentialResponse) => {
         // console.log("Google login successful. User details:", credentialResponse);
@@ -199,20 +225,13 @@ const Login = (props) => {
     }
 
     return (
+        <div align={'center'} style={styles.container}>
+        <div align={'center'} style={styles.tableContainer}>
 
         <Box sx={{ display: 'flex' }}>
             <Box
                 component="main"
-                sx={{
-                    backgroundColor: (theme) =>
-                    theme.palette.mode === 'light'
-                        ? theme.palette.grey[100]
-                        : theme.palette.grey[900],
-                    backgroundColor:'lightGrey',     
-                    flexGrow: 1,
-                    height: '93.9vh',
-                    overflow: 'auto',
-                }}
+                
             >
             <Toolbar />
                 <Container maxWidth="lg" sx={{ mt: 10, mb: 10 }}>
@@ -222,15 +241,15 @@ const Login = (props) => {
                             p: 6,
                             display: 'flex',
                             flexDirection: 'column',
-                            height: 350,
-                            width:400,
+                            height: 500,
+                            width:500,
                             borderRadius:"20px 20px 20px 20px",
                             boxShadow: '10px 10px 10px 10px rgba(0, 0, 0, 0.2)',
                         }}
                     >
                     <Grid  align={'center'}>
                         <Grid item spacing={5}>
-                            <Typography gutterbottom sx={{ fontSize: '25px', fontWeight: 'bold', mb:2 }}>
+                            <Typography gutterbottom sx={{ fontSize: '40px', fontWeight: 'bold', mb:2 }}>
                                 Login   
                             </Typography>
                         </Grid>
@@ -248,16 +267,18 @@ const Login = (props) => {
                       }}
                     onChange={onChangeEmail}
                     helperText={emailError}
+                    sx={{ width: '80%', height: '60px' }}
                 />
             </Grid>
             <Grid item xs={12}>
-                <FormControl sx={{ m: 1, width: '27ch' }} variant="outlined" size='normal'>
+                <FormControl sx={{ m: 1, width: '48ch' }} variant="outlined" size='normal'>
                 
                     <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                     
                     <OutlinedInput
                         id="outlined-adornment-password"
                         type={showPassword ? 'text' : 'password'}
+                        
                         value={Password}
                         onChange={onChangePassword}
                         endAdornment={
@@ -280,6 +301,7 @@ const Login = (props) => {
                         
                         label="Password"
                         
+                        
                     /> 
                     <FormHelperText style={{color : "red"}}>
                             {passError}
@@ -287,7 +309,7 @@ const Login = (props) => {
                 </FormControl>
             </Grid>
             <Grid item xs={12}>
-                <Button variant='contained' onClick={onSubmit} >
+                <Button variant='contained' onClick={onSubmit} sx={{ width: '150px', height: '60px', fontSize: '20px' }} >
                     Login
                 </Button>
             </Grid>
@@ -298,7 +320,7 @@ const Login = (props) => {
                         onError={googleFailure}
                     />
                 </GoogleOAuthProvider>
-                <p className="grey-text text-darken-1">
+                <p className="grey-text text-darken-1" style={{ fontSize: '20px' }}>
                 Forgot your password? <Link to="/reset-password">Reset Now</Link>
                 </p>
             </Grid>
@@ -309,7 +331,8 @@ const Login = (props) => {
         </Container>
         </Box>
         </Box>
-        
+    </div>
+    </div>    
     );
 };
 

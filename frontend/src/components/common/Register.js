@@ -21,6 +21,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
+import view from "./view.jpg";
 
 const Register = (props) => {
 	const [Name, setName] = useState('');
@@ -107,7 +108,33 @@ const Register = (props) => {
 
     const navigate = useNavigate();
 
-    const [height, setHeight] = useState(550);
+    const [height, setHeight] = useState(600);
+
+    const styles = {
+        container: {
+          height: '105.4vh',
+          backgroundImage: `url(${view})`,
+        //   backgroundColor:"lightblue",
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center center',
+          backgroundSize: 'cover',
+          backgroundAttachment: 'fixed',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'Top',
+          padding: '0px',
+          margin: '0px'
+        },
+        tableContainer: {
+          background: 'rgba(0,0,0,0.5)',
+          height:"102vh",
+          width:"100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          
+        },
+      };
 
 	const resetInputs = () => {
 		setName('');
@@ -197,26 +224,15 @@ const Register = (props) => {
 	};
 
 	return (
+        <div align={'center'} style={styles.container}>
+        <div align={'center'} style={styles.tableContainer}>
         <>
 
 <Box sx={{ display: 'flex' }}>
             <Box
             component="main"
-            sx={{
-                backgroundColor: (theme) =>
-                theme.palette.mode === 'light'
-                    ? theme.palette.grey[100]
-                    : theme.palette.grey[900],
-                backgroundColor:'lightBlue',    
-                //backgroundImage: 'url(https://media.licdn.com/dms/image/C4E16AQG3mVEcQH0oBw/profile-displaybackgroundimage-shrink_350_1400/0/1538140195496?e=1687996800&v=beta&t=cza0kwZWYjlIHsRT39L8QWsD9ajqo76RdoRXFAdxHfU)', // replace with your image URL
-                //backgroundPosition: 'center',
-                //backgroundRepeat: 'no-repeat',
-                //backgroundSize: 'cover',
-                //boxShadow: '50 50 10px rgba(0.5, 0.5, 0.5, 0.2)', // add shadow    
-                flexGrow: 1,
-                height: '93.9vh',
-                overflow: 'auto',
-            }}
+           
+            
             >
             <Toolbar />
             <Container maxWidth="lg" sx={{ mt: 10, mb: 10 }}>
@@ -228,14 +244,14 @@ const Register = (props) => {
                         display: 'flex',
                         flexDirection: 'column',
                         height: height,
-                        width:600,
+                        width:500,
                         borderRadius:"20px 20px 20px 20px",
                         boxShadow: '10px 10px 10px 10px rgba(0, 0, 0, 0.2)',
                     }}
                 >
                     <Grid  align={'center'}>
                         <Grid item spacing={5}>
-                            <Typography gutterbottom sx={{ fontSize: '25px', fontWeight: 'bold', mb:2 }}>
+                            <Typography gutterbottom sx={{ fontSize: '40px', fontWeight: 'bold', mb:1 }}>
                                 Register   
                             </Typography>
                         </Grid>
@@ -249,6 +265,7 @@ const Register = (props) => {
                         variant='outlined'
                         value={Name}
                         onChange={onChangeUsername}
+                        sx={{ width: '80%', height: '60px' }}
                     />
                 </Grid>
                 <Grid item xs={12}>
@@ -257,10 +274,11 @@ const Register = (props) => {
                         variant='outlined'
                         value={Email}
                         onChange={onChangeEmail}
+                        sx={{ width: '80%', height: '60px' }}
                     />
                 </Grid>
                 <Grid item xs={12}>
-                <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+                <FormControl sx={{ m: 1, width: '48ch' }} variant="outlined">
                     <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
                     <OutlinedInput
                         id="outlined-adornment-password"
@@ -284,7 +302,7 @@ const Register = (props) => {
                     </FormControl>
                 </Grid>
                 <Grid item xs={12}>
-                <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+                <FormControl sx={{ m: 1, width: '48ch' }} variant="outlined">
                     <InputLabel htmlFor="outlined-adornment-password">Confirm password</InputLabel>
                     <OutlinedInput
                         id="outlined-adornment-password"
@@ -313,6 +331,7 @@ const Register = (props) => {
                         variant='outlined'
                         value={ContactNo}
                         onChange={onChangeContactNo}
+                        sx={{ width: '80%', height: '60px' }}
                     />
                 </Grid>
                 <Grid item xs={12}>
@@ -322,6 +341,8 @@ const Register = (props) => {
                         value={Status}
                         onChange={onChangeStatus}
                         helperText='Please select your status'
+                        
+                        sx={{ width: '80%', height: '60px' }}
                         >
                         <MenuItem value={'Vendor'}>Vendor</MenuItem>
                         <MenuItem value={'Buyer'}>Buyer</MenuItem>
@@ -339,7 +360,7 @@ const Register = (props) => {
                     <div align={'center'}>
                 {Status === 'Vendor' && 
                 <>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} sx={{ mt: 2}}>
                         <TextField
                             label='Shop name'
                             variant='outlined'
@@ -384,7 +405,7 @@ const Register = (props) => {
                             onChange={onChangeMoney}
                         />
                     </Grid> */}
-                    <Grid item xs={12}>
+                    <Grid item xs={12} sx={{ mt: 2 }}>
                         <TextField
                             label='Age'
                             variant='outlined'
@@ -402,8 +423,6 @@ const Register = (props) => {
                             >
                             <MenuItem value={'UG1'}>UG1</MenuItem>
                             <MenuItem value={'UG2'}>UG2</MenuItem>
-                            <MenuItem value={'UG3'}>UG3</MenuItem>
-                            <MenuItem value={'UG4'}>UG4</MenuItem>
                             <MenuItem value={'PG1'}>PG1</MenuItem>
                             <MenuItem value={'PG2'}>PG2</MenuItem>
                         </TextField>
@@ -412,8 +431,8 @@ const Register = (props) => {
                 }
                     </div>
                 </Box>
-                <Grid item xs={12} align={'center'}>
-                    <Button variant='contained' onClick={onSubmit}>
+                <Grid item xs={12} align={'center'} sx={{ mt: 3}}>
+                    <Button variant='contained' onClick={onSubmit} sx={{ width: '150px', height: '50px', fontSize: '20px'}}>
                         Register
                     </Button>
                 </Grid>
@@ -424,6 +443,8 @@ const Register = (props) => {
                 </Box>
                 </Box>
         </>
+        </div>
+        </div>
 	);
 };
 
