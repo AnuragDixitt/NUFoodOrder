@@ -50,7 +50,6 @@ const Home = (props) => {
     </div>
     <div style={{ 
       position: "absolute",
-      bottom: 80,
       left: 0,
       right: 0,
       fontSize: "3vw",

@@ -17,7 +17,10 @@ import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-
+import Toolbar from '@mui/material/Toolbar';
+import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
 
 const Register = (props) => {
 	const [Name, setName] = useState('');
@@ -80,8 +83,14 @@ const Register = (props) => {
         setContactNo(event.target.value);
     };
 
+    const [expand, setExpand] = useState(true);
+
     const onChangeStatus = (event) => {
         setStatus(event.target.value);
+        if (expand === true) {
+            setHeight(height+200);
+            setExpand(false);
+        }
     };
 
     const onChangeAge = (event) => {
@@ -98,6 +107,7 @@ const Register = (props) => {
 
     const navigate = useNavigate();
 
+    const [height, setHeight] = useState(550);
 
 	const resetInputs = () => {
 		setName('');
@@ -188,6 +198,50 @@ const Register = (props) => {
 
 	return (
         <>
+
+<Box sx={{ display: 'flex' }}>
+            <Box
+            component="main"
+            sx={{
+                backgroundColor: (theme) =>
+                theme.palette.mode === 'light'
+                    ? theme.palette.grey[100]
+                    : theme.palette.grey[900],
+                backgroundColor:'lightBlue',    
+                //backgroundImage: 'url(https://media.licdn.com/dms/image/C4E16AQG3mVEcQH0oBw/profile-displaybackgroundimage-shrink_350_1400/0/1538140195496?e=1687996800&v=beta&t=cza0kwZWYjlIHsRT39L8QWsD9ajqo76RdoRXFAdxHfU)', // replace with your image URL
+                //backgroundPosition: 'center',
+                //backgroundRepeat: 'no-repeat',
+                //backgroundSize: 'cover',
+                //boxShadow: '50 50 10px rgba(0.5, 0.5, 0.5, 0.2)', // add shadow    
+                flexGrow: 1,
+                height: '93.9vh',
+                overflow: 'auto',
+            }}
+            >
+            <Toolbar />
+            <Container maxWidth="lg" sx={{ mt: 10, mb: 10 }}>
+                <Grid container spacing={2} align={'center'}>
+                <Grid item xs={12}>
+                <Paper
+                    sx={{
+                        p: 6,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        height: height,
+                        width:600,
+                        borderRadius:"20px 20px 20px 20px",
+                        boxShadow: '10px 10px 10px 10px rgba(0, 0, 0, 0.2)',
+                    }}
+                >
+                    <Grid  align={'center'}>
+                        <Grid item spacing={5}>
+                            <Typography gutterbottom sx={{ fontSize: '25px', fontWeight: 'bold', mb:2 }}>
+                                Register   
+                            </Typography>
+                        </Grid>
+                    </Grid>
+
+
             <Grid container align={'center'} spacing={2}>
                 <Grid item xs={12}>
                     <TextField
@@ -363,6 +417,12 @@ const Register = (props) => {
                         Register
                     </Button>
                 </Grid>
+                </Paper>
+                </Grid>
+                </Grid>
+                </Container>
+                </Box>
+                </Box>
         </>
 	);
 };

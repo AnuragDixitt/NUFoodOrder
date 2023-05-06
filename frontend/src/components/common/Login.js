@@ -17,6 +17,12 @@ import setCookie from '../extra/setCookie';
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { GoogleLogin } from '@react-oauth/google';
 import jwt_decode from "jwt-decode";
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
+
 
 
 const Login = (props) => {
@@ -192,7 +198,45 @@ const Login = (props) => {
     }
 
     return (
-        <Grid container  align={'center'}  spacing={2}>
+
+        <Box sx={{ display: 'flex' }}>
+            <Box
+                component="main"
+                sx={{
+                    backgroundColor: (theme) =>
+                    theme.palette.mode === 'light'
+                        ? theme.palette.grey[100]
+                        : theme.palette.grey[900],
+                    backgroundColor:'lightGrey',     
+                    flexGrow: 1,
+                    height: '93.9vh',
+                    overflow: 'auto',
+                }}
+            >
+            <Toolbar />
+                <Container maxWidth="lg" sx={{ mt: 10, mb: 10 }}>
+                <div align="center">
+                <Paper
+                        sx={{
+                            p: 6,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            height: 350,
+                            width:400,
+                            borderRadius:"20px 20px 20px 20px",
+                            boxShadow: '10px 10px 10px 10px rgba(0, 0, 0, 0.2)',
+                        }}
+                    >
+                    <Grid  align={'center'}>
+                        <Grid item spacing={5}>
+                            <Typography gutterbottom sx={{ fontSize: '25px', fontWeight: 'bold', mb:2 }}>
+                                Login   
+                            </Typography>
+                        </Grid>
+                    </Grid>
+                    <Grid container  align={'center'}  spacing={3}>
+
+            
             <Grid item xs={12}>
                 <TextField
                     label='Email'
@@ -245,6 +289,8 @@ const Login = (props) => {
                 <Button variant='contained' onClick={onSubmit} >
                     Login
                 </Button>
+            </Grid>
+            <Grid item xs={12} sx={{mt:1}}>
                 <GoogleOAuthProvider clientId="91399337985-i8etmi3ndi8v554fk5t28er9oioh7h3a.apps.googleusercontent.com">
                     <GoogleLogin
                         onSuccess={googleSuccess}
@@ -253,6 +299,12 @@ const Login = (props) => {
                 </GoogleOAuthProvider>
             </Grid>
         </Grid>
+
+        </Paper>
+        </div>
+        </Container>
+        </Box>
+        </Box>
         
     );
 };
