@@ -11,6 +11,7 @@ import TableBody from "@mui/material/TableBody";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import swal from 'sweetalert';
+import { Box } from '@mui/material';
 
 
 
@@ -66,6 +67,29 @@ export default function Cart(props) {
             </div>
         )
     }
+    const styles = {
+        container: {
+          height: '93.9vh',
+        //   backgroundImage: `url(${backgroundImage})`,
+          backgroundColor:"lightblue",
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center center',
+          backgroundSize: 'cover',
+          backgroundAttachment: 'fixed',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'Top',
+          padding: '0px',
+          margin: '0px'
+        },
+        tableContainer: {
+          background: 'linear-gradient(to bottom, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 70%, rgba(255,255,255,0.2) 100%)',
+          borderRadius: '20px',
+          boxShadow: '10px 10px 20px rgba(0, 0, 0, 0.5)',
+          padding: '20px',
+          width: "60%"
+        },
+      };
 
     const proceedToPay = async () => {
 
@@ -128,49 +152,55 @@ export default function Cart(props) {
     }
 
     return (
-    <div align={'center'} >
+        <div align={'center'} style={styles.container}>
+        <div align={'center'} style={styles.tableContainer}>
 
         <Grid item xs={12} md={9} lg={9}>
-            <Paper>
-                <Table size="small">
-                    <TableHead>
+            
+                <Table size="medium" style={{borderRadius: '20px 20px 20px 20px', overflow: 'hidden',boxShadow: '10px 10px 10px rgba(0, 0, 0, 0.5)',backgroundColor: 'lightblue'}}>
+                    <TableHead >
                         <TableRow>
-                            <TableCell> Sr No.</TableCell>
-                            <TableCell>Vendor Name</TableCell>
-                            <TableCell>Food item</TableCell>
-                            <TableCell>Veg/Non-veg</TableCell>
-                            <TableCell>Add ons</TableCell>
-                            <TableCell>Quantity</TableCell>
-                            <TableCell>Amount</TableCell>
+                            <TableCell style={{ fontSize: '20px' }}  align="center"> Sr No.</TableCell>
+                            <TableCell style={{ fontSize: '20px' }}  align="center">Vendor Name</TableCell>
+                            <TableCell style={{ fontSize: '20px' }}  align="center">Food item</TableCell>
+                            <TableCell style={{ fontSize: '20px' }}  align="center">Veg/Non-veg</TableCell>
+                            <TableCell style={{ fontSize: '20px' }}  align="center">Add ons</TableCell>
+                            <TableCell style={{ fontSize: '20px' }}  align="center">Quantity</TableCell>
+                            <TableCell style={{ fontSize: '20px' }}  align="center">Amount</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {data.map((order, ind) => (
-                        <TableRow key={ind}>
-                            <TableCell>{ind + 1}</TableCell>
-                            <TableCell>{order.vname}</TableCell>
-                            <TableCell>{order.name}</TableCell>
-                            <TableCell>{order.veg ? 'Veg' : 'Non-veg'}</TableCell>
-                            <TableCell>{order.addOn}</TableCell>
-                            <TableCell>{order.qty}</TableCell>
-                            <TableCell>{'₹ ' + order.price}</TableCell>
-                            <TableCell>
-                                <Button onClick={()=> { dispatch({type: "REMOVE", index: ind}) }}>
+                        <TableRow key={ind} style={{backgroundColor:'#fff5ee' , fontSize:'20px'}}>
+                            <TableCell style={{ fontSize: '15px' }}  align="center">{ind + 1}</TableCell>
+                            <TableCell style={{ fontSize: '15px' }}  align="center">{order.vname}</TableCell>
+                            <TableCell style={{ fontSize: '15px' }}  align="center">{order.name}</TableCell>
+                            <TableCell style={{ fontSize: '15px' }}  align="center">{order.veg ? 'Veg' : 'Non-veg'}</TableCell>
+                            <TableCell style={{ fontSize: '15px' }}  align="center">{order.addOn}</TableCell>
+                            <TableCell style={{ fontSize: '15px' }}  align="center">{order.qty}</TableCell>
+                            <TableCell style={{ fontSize: '15px' }}  align="center">{'₹ ' + order.price}</TableCell>
+                            <TableCell style={{ fontSize: '15px' }}  align="center">
+                                <Box sx={{ display: 'inline-block', bgcolor: 'red', borderRadius: '5px', p: '5px' }}>
+                                <Button sx={{ color: 'white' }} onClick={()=> { dispatch({type: "REMOVE", index: ind}) }}>
                                     Delete
                                 </Button>
+                                </Box>
                             </TableCell>
                         </TableRow>
                         ))}
                     </TableBody>
                 </Table>
-        </Paper>
+        
         </Grid>
         <div>
             <h1>Total Price : ₹ {totalprice} /-</h1>
         </div>
         <div>
-            <Button onClick={proceedToPay}>Proceed to pay</Button>
+            <Box sx={{ display: 'inline-block', bgcolor: 'lightgreen', borderRadius: '5px', p: '5px' }}>
+            <Button sx={{ color: 'white' }} onClick={proceedToPay}>Proceed to pay</Button>
+            </Box>
         </div>
+    </div>
     </div>
   )
 }

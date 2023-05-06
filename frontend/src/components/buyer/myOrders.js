@@ -167,33 +167,33 @@ return (
                 <Table size="medium"style={{borderRadius: '20px 20px 20px 20px', overflow: 'hidden',boxShadow: '10px 10px 10px rgba(0, 0, 0, 0.5)'}}>
                     <TableHead style={{ backgroundColor: 'lightblue'}}>
                         <TableRow>
-                            <TableCell style={{ fontSize: '20px' }}> Sr No.</TableCell>
-                            <TableCell style={{ fontSize: '20px' }}>Placed on</TableCell>
-                            <TableCell style={{ fontSize: '20px' }}>Vendor Name</TableCell>
-                            <TableCell style={{ fontSize: '20px' }}>Food item</TableCell>
-                            <TableCell style={{ fontSize: '20px' }}>Veg/Non-veg</TableCell>
-                            <TableCell style={{ fontSize: '20px' }}>Add ons</TableCell>
-                            <TableCell style={{ fontSize: '20px' }}>Quantity</TableCell>
-                            <TableCell style={{ fontSize: '20px' }}>Order total</TableCell>
-                            <TableCell style={{ fontSize: '20px' }}>Status</TableCell>
-                            <TableCell align={'center'} style={{ fontSize: '20px' }}>Rating</TableCell>
+                            <TableCell style={{ fontSize: '20px' }} align="center"> Sr No.</TableCell>
+                            <TableCell style={{ fontSize: '20px' }} align="center">Placed on</TableCell>
+                            <TableCell style={{ fontSize: '20px' }} align="center">Vendor Name</TableCell>
+                            <TableCell style={{ fontSize: '20px' }} align="center">Food item</TableCell>
+                            <TableCell style={{ fontSize: '20px' }} align="center">Veg/Non-veg</TableCell>
+                            <TableCell style={{ fontSize: '20px' }} align="center">Add ons</TableCell>
+                            <TableCell style={{ fontSize: '20px' }} align="center">Quantity</TableCell>
+                            <TableCell style={{ fontSize: '20px' }} align="center">Order total</TableCell>
+                            <TableCell style={{ fontSize: '20px' }} align="center">Status</TableCell>
+                            <TableCell align={'center'} style={{ fontSize: '20px' }} >Rating</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {orders.map((order, ind) => (
                         <TableRow key={ind} style={{backgroundColor:'#fff5ee' , fontSize:'20px'}}>
-                            <TableCell>{ind + 1}</TableCell>
-                            <TableCell>{DateAndTime(order.date)}</TableCell>
-                            <TableCell>{order.VendorName}</TableCell>
-                            <TableCell>{order.foodItem}</TableCell>
-                            <TableCell>{order.Veg ? 'Veg' : 'Non-veg'}</TableCell>
-                            <TableCell>{order.AddOns}</TableCell>
-                            <TableCell>{order.Quantity}</TableCell>
-                            <TableCell>{'₹ ' + order.Total}</TableCell>
-                            <TableCell>
+                            <TableCell style={{ fontSize: '15px' }}  align="center">{ind + 1}</TableCell>
+                            <TableCell style={{ fontSize: '15px' }}  align="center">{DateAndTime(order.date)}</TableCell>
+                            <TableCell style={{ fontSize: '15px' }}  align="center">{order.VendorName}</TableCell>
+                            <TableCell style={{ fontSize: '15px' }}  align="center">{order.foodItem}</TableCell>
+                            <TableCell style={{ fontSize: '15px' }}  align="center">{order.Veg ? 'Veg' : 'Non-veg'}</TableCell>
+                            <TableCell style={{ fontSize: '15px' }}  align="center">{order.AddOns}</TableCell>
+                            <TableCell style={{ fontSize: '15px' }}  align="center">{order.Quantity}</TableCell>
+                            <TableCell style={{ fontSize: '15px' }}  align="center">{'₹ ' + order.Total}</TableCell>
+                            <TableCell style={{ fontSize: '15px' }}  align="center">
                                 <Print status={order.Status} _id={order._id} />
                             </TableCell>
-                            <TableCell>
+                            <TableCell style={{ fontSize: '15px' }}  align="center">
                                 {order.Status === 'COMPLETED' ?
                                     (order.Rating === -1 ?
                                         (<Button onClick={() => {

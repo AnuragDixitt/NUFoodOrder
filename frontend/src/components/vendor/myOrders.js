@@ -120,7 +120,7 @@ const VendorOrders = (props) => {
         switch(status) {
             case 'PLACED': return(
                 <>
-                    <Box sx={{ '& > button': { m: 1 } }}>
+                    <Box sx={{display: 'flex', justifyContent: 'center', '& > button': { m: 1 } }}>
                         <Button 
                             variant='contained'
                             startIcon={<CheckIcon />}

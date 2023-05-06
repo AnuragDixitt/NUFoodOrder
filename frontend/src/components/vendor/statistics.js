@@ -160,7 +160,7 @@ const Statistics = (props) => {
       </Grid>
       <br/>
       <Divider/>
-      <Box  sx={{position:"relative", p: 3, boxShadow: '10px 10px 10px 10px  rgba(0.1, 0.1, 0.1, 0.3)', bgcolor: '#F5F5F5',borderRadius: '50px' }}>
+      <Box  sx={{marginTop:"40px",position:"relative", p: 3, boxShadow: '10px 10px 10px 10px  rgba(0.1, 0.1, 0.1, 0.3)', bgcolor: '#fff5ee',borderRadius: '50px' }}>
       <Grid container align={"center"}>
         <Grid item xs={5}>
           <PieChart

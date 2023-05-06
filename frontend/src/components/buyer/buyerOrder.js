@@ -496,20 +496,20 @@ const BuyerFoodMenu = (props) => {
                 <Table size="small">
                     <TableHead>
                         <TableRow>
-                            <TableCell> Sr No.</TableCell>
-                            <TableCell>Food item</TableCell>
-                            <TableCell>Shop</TableCell>
-                            <TableCell>
+                            <TableCell style={{ fontSize: '20px' }} align="center"> Sr No.</TableCell>
+                            <TableCell style={{ fontSize: '20px' }} align="center">Food item</TableCell>
+                            <TableCell style={{ fontSize: '20px' }} align="center">Shop</TableCell>
+                            <TableCell style={{ fontSize: '20px' }} align="center">
                                 {" "}
                                 <Button onClick={onSortByPrice}>
                                 {sortByPrice ?  <ArrowUpwardIcon /> : <ArrowDownwardIcon />}
                                 </Button>
                                 Price
                             </TableCell>
-                            <TableCell>Veg/Non-veg</TableCell>
-                            <TableCell>Add ons</TableCell>
-                            <TableCell>Tags</TableCell>
-                            <TableCell>
+                            <TableCell style={{ fontSize: '20px' }} align="center">Veg/Non-veg</TableCell>
+                            <TableCell style={{ fontSize: '20px' }} align="center">Add ons</TableCell>
+                            <TableCell style={{ fontSize: '20px' }} align="center">Tags</TableCell>
+                            <TableCell style={{ fontSize: '20px' }} align="center">
                             {" "}
                                 <Button onClick={onSortByRating}>
                                 {sortByRating ? <ArrowDownwardIcon /> : <ArrowUpwardIcon />}
@@ -529,19 +529,19 @@ const BuyerFoodMenu = (props) => {
                             (filterVeg === 2 || (Number(user.Veg) === filterVeg)) &&
                             (filterShops.length === 0 || ((filterShops.indexOf(user.ShopName)) > -1))) {
                                 return (<>
-                            <TableRow key={ind}>
-                            <TableCell>{ind + 1}</TableCell>
-                            <TableCell>{user.Name}</TableCell>
-                            <TableCell>{user.ShopName}</TableCell>
-                            <TableCell>{user.Price}</TableCell>
-                            <TableCell>{user.Veg ? 'Veg' : 'Non-veg'}</TableCell>
-                            <TableCell>{ user.AddOns.map((addOn) => (
+                            <TableRow key={ind} style={{backgroundColor:'#fff5ee' , fontSize:'20px'}} align="center">
+                            <TableCell style={{ fontSize: '15px' }}  align="center">{ind + 1}</TableCell>
+                            <TableCell style={{ fontSize: '15px' }}  align="center">{user.Name}</TableCell>
+                            <TableCell style={{ fontSize: '15px' }}  align="center">{user.ShopName}</TableCell>
+                            <TableCell style={{ fontSize: '15px' }}  align="center">{user.Price}</TableCell>
+                            <TableCell style={{ fontSize: '15px' }}  align="center">{user.Veg ? 'Veg' : 'Non-veg'}</TableCell>
+                            <TableCell style={{ fontSize: '15px' }}  align="center">{ user.AddOns.map((addOn) => (
                                 <Chip label={ADD_ONS[addOn.Name] + ': ₹' + addOn.Price} variant='outlined'/>
                                 )) }</TableCell>
-                            <TableCell>{getTags(user.Tags).map((tag) => (<Chip label={tag} variant='outlined' />))}</TableCell>
-                            <TableCell>{user.Rating}</TableCell>
-                            <TableCell>
-                                <Button variant="outlined" onClick={() => {
+                            <TableCell style={{ fontSize: '15px' }}  align="center">{getTags(user.Tags).map((tag) => (<Chip label={tag} variant='outlined' />))}</TableCell>
+                            <TableCell style={{ fontSize: '15px' }}  align="center">{user.Rating}</TableCell>
+                            <TableCell style={{ fontSize: '15px' }}  align="center">
+                                <Button variant="contained"  onClick={() => {
                                     console.log(user.Rating);
                                     setChips((user.AddOns).map((addOn) => `${ADD_ONS[addOn.Name]}: ₹${addOn.Price}`));
                                     setCurrOrder({food: user, quantity: 0});

@@ -45,7 +45,7 @@ const Navbar = () => {
     }, []);
 
     return (
-    <Box sx={{ flexGrow: 1,bgcolor: "green", "& .MuiAppBar-root": { backgroundColor: "green" } }}>
+    <Box sx={{ flexGrow: 1,bgcolor: "#E57373", "& .MuiAppBar-root": { backgroundColor: "#E57373" } }}>
         <AppBar position="static">
             <Toolbar>
                 

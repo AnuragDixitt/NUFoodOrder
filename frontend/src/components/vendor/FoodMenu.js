@@ -240,7 +240,7 @@ const FoodMenu = (props) => {
                             <TableCell style={{ fontSize: '15px' }}  align="center">{getTags(user.Tags).map((tag) => (<Chip label={tag} variant='outlined' />))}</TableCell>
                             <TableCell style={{ fontSize: '15px' }}  align="center">{user.Rating}</TableCell>
                             <TableCell style={{ fontSize: '15px' }}  align="center">
-                                <Button variant="outlined" startIcon={<DeleteIcon />} onClick={() => {
+                                <Button variant="contained" color="error" startIcon={<DeleteIcon />} onClick={() => {
                                     const itemName = user.Name;
                                     swal({
                                         title: "Are you sure?",
@@ -271,7 +271,7 @@ const FoodMenu = (props) => {
                                 </Button>
                             </TableCell>
                             <TableCell style={{ fontSize: '15px' }}>
-                                <Button variant="outlined" onClick={() => {
+                                <Button variant="contained"  onClick={() => {
                                     setEditItem({
                                         _id: user._id,
                                         Name: user.Name, 

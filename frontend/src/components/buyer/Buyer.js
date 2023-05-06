@@ -88,11 +88,19 @@ const VendorProfile = (props) => {
         setConfirmNewPass(event.target.value);
     }
 
+    const [expand, setExpand] = useState(true);
+
+    const [height, setHeight] = useState(500);
+
     const onSubmit = (props) => {
         var elements = document.getElementsByClassName("MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input");
         if (buttonText === 'Edit') {
             for (var i = 0; i < elements.length; i++) {elements[i].readOnly=false;}
             setButtonText('Submit');
+            if (expand === true){
+                setHeight(height+300);
+                setExpand(false);
+            }
         } else {
             console.log("User: ", curr);
             console.log("thisUser: ", thisUser);
@@ -106,6 +114,8 @@ const VendorProfile = (props) => {
             for (var i = 0; i < elements.length; i++) { elements[i].readOnly=true; }
             localStorage.setItem('user', JSON.stringify(thisUser));
             setButtonText('Edit');
+            setHeight(height-300);
+            setExpand(true);
         }
     };
 
@@ -160,14 +170,14 @@ const VendorProfile = (props) => {
                         p: 6,
                         display: 'flex',
                         flexDirection: 'column',
-                        height: 500,
+                        height: height,
                         width:600,
                         borderRadius:"20px 20px 20px 20px",
                         boxShadow: '10px 10px 10px 10px rgba(0, 0, 0, 0.2)',
                     }}
                 >
                     <Grid container align={'center'}>
-                        <Grid item xs={buttonText === 'Edit' ? 12 : 6}>
+                        <Grid item xs={buttonText === 'Edit' ? 24 : 12}>
                             <Grid container align={'center'} spacing={5}>
 
                                 <Grid item xs={12}>
@@ -239,6 +249,7 @@ const VendorProfile = (props) => {
                             
                         </Grid>
                         {buttonText === 'Submit' ?
+                        <Grid align={'center'} sx={{mt:3}}>
                         <Grid item xs={6}>
                             <Grid container align={'center'} spacing={2}>
                             <Grid item xs={12}>
@@ -299,6 +310,7 @@ const VendorProfile = (props) => {
                                 </Grid>
                             </Grid></Grid> */}
                             </Grid>
+                        </Grid>
                         </Grid>
                         : null}
                     </Grid>
