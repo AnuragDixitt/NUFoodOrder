@@ -13,6 +13,11 @@ import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import  {FormHelperText}  from '@mui/material';
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import Container from '@mui/material/Container';
+import Paper from '@mui/material/Paper';
+
 
 
 const ResetPassword = (props) => {
@@ -106,22 +111,37 @@ const ResetPassword = (props) => {
         axios                               
             .post('http://localhost:4000/user/email-send', thisUserForget)
             .then((response) => {
+                console.log(response)
                 const res = response.data;
-                if (res.code === -1) {
-                    console.log('Router error');
-                } else if (res.code === 0) {
-                    swal('User does not exist', 'There is no user registered by this email. Please check the entered email.', 'warning'); 
-                    resetInputs();
-                } else if (res.code === 2) {
-                    swal('Incorrect password', 'Please enter the correct password', 'error');
-                } else {
-                    console.log('Successfully sent mail in!!');
-                    setStatus(true);                  
+                if(res.status === 0){
+                    console.log(res);
+                    swal({title:'Email not registered', text:'Please register first', type:'error'}).then(
+                    function(){
+                        navigate('/register')
+                    });
+                    
+                    
+                }
+                else if (res.status === 2) {
+                    console.log('SOmething went wrong');
+                    swal({title:'Mail Service down', text:'Retry Later', type:'error'}).then(
+                    function(){
+                        navigate('/login')
+                    });
+                    
+                }
+                else if(res.status === 1){
+                    console.log('Success!');
+                    swal({title:'Email Sent!', text:'Please check your email', type:'success'}).then(
+                    function(){
+                        setStatus(true);
+                    });
                 }
             })
             .catch((err) => {
                 console.log(err);
             })
+
 
         resetInputs();
             console.log(status)
@@ -225,110 +245,144 @@ const ResetPassword = (props) => {
     }
 
     return (
-        
-        <Grid container  align={'center'}  spacing={2}>
+        <Box sx={{ display: 'flex' }}>
+            <Box
+                component="main"
+                sx={{
+                    backgroundColor: (theme) =>
+                    theme.palette.mode === 'light'
+                        ? theme.palette.grey[100]
+                        : theme.palette.grey[900],
+                    backgroundColor:'lightGrey',     
+                    flexGrow: 1,
+                    height: '93.9vh',
+                    overflow: 'auto',
+                }}
+            >
+            <Toolbar />
+                <Container maxWidth="lg" sx={{ mt: 10, mb: 10 }}>
+                <div align="center">
+                <Paper
+                        sx={{
+                            p: 6,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            height: 350,
+                            width:400,
+                            borderRadius:"20px 20px 20px 20px",
+                            boxShadow: '10px 10px 10px 10px rgba(0, 0, 0, 0.2)',
+                        }}
+                    >
             
-            {!status &&
-            <>
-            <Grid item xs={12}>
-                <TextField
-                    label='Email'
-                    variant='outlined'
-                    value={Email}
-                    FormHelperTextProps={{
-                        style: { color: 'red' }
-                      }}
-                    onChange={onChangeEmail}
-                    helperText={emailError}
-                />
-            </Grid>
-            <Grid item xs={12}>
-                <Button variant='contained' onClick={onSubmit} >
-                    Send OTP
-                </Button>
+            <Grid container align={'center'} spacing={2} >
                 
-            </Grid>
-            </>}
-            
-            {status &&
-            <>
-                <Grid item xs={12}>
-                <TextField
-                    label='OTP'
-                    variant='outlined'
-                    value={Otp}
-                    FormHelperTextProps={{
-                        style: { color: 'red' }
-                      }}
-                    onChange={onChangeOtp}
-                    helperText={otpError}
-                />
-            </Grid>
-            <Grid item xs={12}>
-                <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
-                    <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                    <OutlinedInput
-                        id="outlined-adornment-password"
-                        type={showPassword ? 'text' : 'password'}
-                        value={Password}
-                        onChange={onChangePassword}
-                        endAdornment={
-                        <InputAdornment position="end">
-                            <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
-                            onMouseDown={handleMouseDownPassword}
-                            edge="end"
-                            >
-                            {showPassword ? <VisibilityOff /> : <Visibility />}
-                            </IconButton>
-                        </InputAdornment>
-                        }
-                        label="Password"
+                {!status &&
+                <>
+                <Grid item xs={12} sx={{ marginTop: '8rem' }}>
+                    <TextField
+                        label='Email'
+                        variant='outlined'
+                        value={Email}
+                        FormHelperTextProps={{
+                            style: { color: 'red' }
+                        }}
+                        onChange={onChangeEmail}
+                        helperText={emailError}
                     />
-                    <FormHelperText style={{color : "red"}}>
-                            {passwordError}
-                    </FormHelperText>
-                    </FormControl>
                 </Grid>
                 <Grid item xs={12}>
-                <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
-                    <InputLabel htmlFor="outlined-adornment-password">Confirm password</InputLabel>
-                    <OutlinedInput
-                        id="outlined-adornment-password"
-                        type={showConfPass ? 'text' : 'password'}
-                        value={confirmPass}
-                        onChange={onChangeConfirmPass}
-                        endAdornment={
-                        <InputAdornment position="end">
-                            <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={handleClickShowConfPass}
-                            onMouseDown={handleMouseDownPassword}
-                            edge="end"
-                            >
-                            {showConfPass ? <VisibilityOff /> : <Visibility />}
-                            </IconButton>
-                        </InputAdornment>
-                        }
-                        label="Password"
-                    />
-                    <FormHelperText style={{color : "red"}}>
-                            {confirmError}
-                    </FormHelperText>
-                    </FormControl>
+                    <Button variant='contained' onClick={onSubmit} >
+                        Send OTP
+                    </Button>
                     
                 </Grid>
-            <Grid item xs={12}>
-                <Button variant='contained' onClick={onSubmitReset} >
-                    Change Password
-                </Button>
+                </>}
                 
-            </Grid> 
-            
-            </>}
+                {status &&
+                <>
+                    <Grid item xs={12}>
+                    <TextField
+                        label='OTP'
+                        variant='outlined'
+                        value={Otp}
+                        FormHelperTextProps={{
+                            style: { color: 'red' }
+                        }}
+                        onChange={onChangeOtp}
+                        helperText={otpError}
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                    <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+                        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+                        <OutlinedInput
+                            id="outlined-adornment-password"
+                            type={showPassword ? 'text' : 'password'}
+                            value={Password}
+                            onChange={onChangePassword}
+                            endAdornment={
+                            <InputAdornment position="end">
+                                <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={handleClickShowPassword}
+                                onMouseDown={handleMouseDownPassword}
+                                edge="end"
+                                >
+                                {showPassword ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>
+                            </InputAdornment>
+                            }
+                            label="Password"
+                        />
+                        <FormHelperText style={{color : "red"}}>
+                                {passwordError}
+                        </FormHelperText>
+                        </FormControl>
+                    </Grid>
+                    <Grid item xs={12}>
+                    <FormControl sx={{ m: 1, width: '25ch' }} variant="outlined">
+                        <InputLabel htmlFor="outlined-adornment-password">Confirm password</InputLabel>
+                        <OutlinedInput
+                            id="outlined-adornment-password"
+                            type={showConfPass ? 'text' : 'password'}
+                            value={confirmPass}
+                            onChange={onChangeConfirmPass}
+                            endAdornment={
+                            <InputAdornment position="end">
+                                <IconButton
+                                aria-label="toggle password visibility"
+                                onClick={handleClickShowConfPass}
+                                onMouseDown={handleMouseDownPassword}
+                                edge="end"
+                                >
+                                {showConfPass ? <VisibilityOff /> : <Visibility />}
+                                </IconButton>
+                            </InputAdornment>
+                            }
+                            label="Password"
+                        />
+                        <FormHelperText style={{color : "red"}}>
+                                {confirmError}
+                        </FormHelperText>
+                        </FormControl>
+                        
+                    </Grid>
+                <Grid item xs={12}>
+                    <Button variant='contained' onClick={onSubmitReset} >
+                        Change Password
+                    </Button>
+                    
+                </Grid> 
+                
+                </>}
+                
             
         </Grid>
+        </Paper>
+        </div>
+        </Container>
+        </Box>
+        </Box>
         
     );
 };

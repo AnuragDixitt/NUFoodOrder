@@ -132,7 +132,7 @@ const Register = (props) => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          
+
         },
       };
 
@@ -231,8 +231,6 @@ const Register = (props) => {
 <Box sx={{ display: 'flex' }}>
             <Box
             component="main"
-           
-            
             >
             <Toolbar />
             <Container maxWidth="lg" sx={{ mt: 10, mb: 10 }}>
@@ -251,7 +249,7 @@ const Register = (props) => {
                 >
                     <Grid  align={'center'}>
                         <Grid item spacing={5}>
-                            <Typography gutterbottom sx={{ fontSize: '40px', fontWeight: 'bold', mb:1 }}>
+                        <Typography gutterbottom sx={{ fontSize: '40px', fontWeight: 'bold', mb:1 }}>
                                 Register   
                             </Typography>
                         </Grid>
@@ -341,7 +339,6 @@ const Register = (props) => {
                         value={Status}
                         onChange={onChangeStatus}
                         helperText='Please select your status'
-                        
                         sx={{ width: '80%', height: '60px' }}
                         >
                         <MenuItem value={'Vendor'}>Vendor</MenuItem>
@@ -360,7 +357,8 @@ const Register = (props) => {
                     <div align={'center'}>
                 {Status === 'Vendor' && 
                 <>
-                    <Grid item xs={12} sx={{ mt: 2}}>
+
+                    <Grid item xs={12} sx={{ mt: 2 }}>
                         <TextField
                             label='Shop name'
                             variant='outlined'
@@ -413,7 +411,7 @@ const Register = (props) => {
                             onChange={onChangeAge}
                         />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} sx={{ mt: 2 }}>
                         <TextField
                             select
                             label='Batch'

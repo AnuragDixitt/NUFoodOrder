@@ -54,6 +54,7 @@ const Login = (props) => {
 		setEmail('');
         setPassword('');
     };
+
     const styles = {
         container: {
           height: '93.9vh',
@@ -76,10 +77,9 @@ const Login = (props) => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          
+
         },
       };
-
 
     const googleSuccess = (credentialResponse) => {
         // console.log("Google login successful. User details:", credentialResponse);
@@ -225,13 +225,13 @@ const Login = (props) => {
     }
 
     return (
+
         <div align={'center'} style={styles.container}>
         <div align={'center'} style={styles.tableContainer}>
 
         <Box sx={{ display: 'flex' }}>
             <Box
                 component="main"
-                
             >
             <Toolbar />
                 <Container maxWidth="lg" sx={{ mt: 10, mb: 10 }}>
@@ -249,7 +249,7 @@ const Login = (props) => {
                     >
                     <Grid  align={'center'}>
                         <Grid item spacing={5}>
-                            <Typography gutterbottom sx={{ fontSize: '40px', fontWeight: 'bold', mb:2 }}>
+                        <Typography gutterbottom sx={{ fontSize: '40px', fontWeight: 'bold', mb:2 }}>
                                 Login   
                             </Typography>
                         </Grid>
@@ -278,7 +278,6 @@ const Login = (props) => {
                     <OutlinedInput
                         id="outlined-adornment-password"
                         type={showPassword ? 'text' : 'password'}
-                        
                         value={Password}
                         onChange={onChangePassword}
                         endAdornment={
@@ -301,7 +300,6 @@ const Login = (props) => {
                         
                         label="Password"
                         
-                        
                     /> 
                     <FormHelperText style={{color : "red"}}>
                             {passError}
@@ -309,7 +307,7 @@ const Login = (props) => {
                 </FormControl>
             </Grid>
             <Grid item xs={12}>
-                <Button variant='contained' onClick={onSubmit} sx={{ width: '150px', height: '60px', fontSize: '20px' }} >
+            <Button variant='contained' onClick={onSubmit} sx={{ width: '150px', height: '60px', fontSize: '20px' }} >
                     Login
                 </Button>
             </Grid>
@@ -331,8 +329,8 @@ const Login = (props) => {
         </Container>
         </Box>
         </Box>
-    </div>
-    </div>    
+        </div>
+    </div>  
     );
 };
 

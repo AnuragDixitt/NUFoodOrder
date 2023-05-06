@@ -1,3 +1,4 @@
+
 const User = require("../models/Users");
 
 function AuthController() {
@@ -55,11 +56,19 @@ function AuthController() {
     // console.log("email ",req.body.Email)
     const response = {};
     email = req.body.Email
-    
+    console.log(email)
     // console.log(User)
+   
+    
         await User.findOne({Email:email}).then(async (users) => {
-        console.log("hola",users);
-        
+            console.log(users)
+            if (users === null){
+                response.status = 0
+                response.message = "Email Not Found"
+                console.log("Email not found")
+                res.json(response)
+            }
+            else{
         let otpcode = Math.floor((Math.random()*10000+1));
         let otpData = new Otp({
             email: email,
@@ -70,20 +79,21 @@ function AuthController() {
         mailer(email,otpData.code);
         
         response.message = 'Mail sent'
-        response.status = "Success"
+        response.status = 1
         res.status(200).json(response)
-        console.log("Success otp mail sent",otpResponse)
-        console.log("Check Email");
+    }
+        // console.log("Success otp mail sent",otpResponse)
+        // console.log("Check Email");
     
     }).catch( (err) => {
-        console.log("gola",err)
-        response.message = 'Mail Not sent! Somthing went wrong';
-        response.status = 'Failure';
-        res.status(400).json(response)
+        // console.log("gola",err)
+        response.message = 'Somthing went wrong';
+        response.status = 2;
+        res.json(response)
         console.log("Error!!");
         console.log("Email not found")
     });
-
+        
     
     }
 
