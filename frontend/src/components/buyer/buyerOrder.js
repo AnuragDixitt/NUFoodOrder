@@ -322,16 +322,12 @@ const BuyerFoodMenu = (props) => {
     };
 
     useEffect(() => {
-        // console.log(userID);
-        // if (foodMenu.length > 0) return;
         axios
             .get('http://localhost:4000/food')
             .then((response) => {
                 setFoodMenu(response.data);
                 setFilteredMenu(response.data);
-                // console.log(foodMenu);
                 setShops(Array.from(foodMenu.reduce((acc, item) => acc.add(item.ShopName), new Set())));
-                // console.log(shops);
                 setFilterTagSet(0);
                 setSearchText('');
             })
@@ -624,7 +620,6 @@ const BuyerFoodMenu = (props) => {
           </Paper>
           </Grid>
         </Grid>
-        {/* </Grid> */}
     </div>
   );
 };

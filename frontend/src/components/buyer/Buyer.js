@@ -33,7 +33,6 @@ const VendorProfile = (props) => {
     const [currPass, setCurrPass] = useState('');
     const [newPass, setNewPass] = useState('');
     const [confirmNewPass, setConfirmNewPass] = useState('');
-    // const [addMoney, setAddMoney] = useState(0);
 
     useEffect( () => {
         (async function() {
@@ -42,31 +41,6 @@ const VendorProfile = (props) => {
             await axios.get('http://localhost:4000/user/protected',{headers: {'Authorization': `Bearer ${token}`}})
         })()
     }, [])
-
-    // const onChangeMoney = (e) => {
-    //     setAddMoney(e.target.value);
-    //     let tmp = curr; tmp.Wallet = tmp.Wallet + addMoney;
-    // }
-
-    // const onAddMoney = (e) => {
-    //     if (addMoney < 0) {
-    //         swal({text: 'Please enter a valid amount to add money', icon: 'warning'})
-    //         .then((resp) => {if (resp) {setAddMoney(0); return;}});
-    //     }
-    //     // e.preventDefault();
-    //     if (addMoney === 0) {return;}
-    //     axios
-    //         .post('http://localhost:4000/user/edit', {
-    //             updateWallet: true, 
-    //             _id: curr._id, 
-    //             increment: Number(addMoney)
-    //         }).then((resp) => {
-    //             console.log(resp);
-    //             let tmp = curr; tmp.Wallet = Number(tmp.Wallet) + Number(addMoney);
-    //             localStorage.setItem('user', JSON.stringify(tmp));
-    //             window.location.reload();
-    //         }).catch((err) => {console.log(err);});
-    // }
 
     const handleChange = (prop) => (event) => {
         setThisUser({ ...thisUser, [prop]: event.target.value });
@@ -146,16 +120,8 @@ const VendorProfile = (props) => {
             <Box
             component="main"
             sx={{
-                backgroundColor: (theme) =>
-                theme.palette.mode === 'light'
-                    ? theme.palette.grey[100]
-                    : theme.palette.grey[900],
+
                 backgroundColor:'lightBlue',    
-                //backgroundImage: 'url(https://media.licdn.com/dms/image/C4E16AQG3mVEcQH0oBw/profile-displaybackgroundimage-shrink_350_1400/0/1538140195496?e=1687996800&v=beta&t=cza0kwZWYjlIHsRT39L8QWsD9ajqo76RdoRXFAdxHfU)', // replace with your image URL
-                //backgroundPosition: 'center',
-                //backgroundRepeat: 'no-repeat',
-                //backgroundSize: 'cover',
-                //boxShadow: '50 50 10px rgba(0.5, 0.5, 0.5, 0.2)', // add shadow    
                 flexGrow: 1,
                 height: '93.9vh',
                 overflow: 'auto',
@@ -294,21 +260,6 @@ const VendorProfile = (props) => {
                                     </Button>
                                 </Grid>
                             </Grid></Grid>
-                            {/* <Grid item xs={12}>
-                            <Grid container align={'center'} spacing={2}>
-                                <Grid item xs={12}>
-                                    <TextField 
-                                        variant='outlined'
-                                        value={addMoney}
-                                        onChange={onChangeMoney}
-                                    />                                    
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <Button variant='contained' onClick={onAddMoney}>
-                                        Add money
-                                    </Button>
-                                </Grid>
-                            </Grid></Grid> */}
                             </Grid>
                         </Grid>
                         </Grid>

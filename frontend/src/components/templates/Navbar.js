@@ -45,7 +45,7 @@ const Navbar = () => {
     }, []);
 
     return (
-    <Box sx={{ flexGrow: 1,bgcolor: "#000000", "& .MuiAppBar-root": { backgroundColor: "#000000" } }}>
+    <Box sx={{ flexGrow: 1,bgcolor: "#000000", "& .MuiAppBar-root": { backgroundColor: "#000000" }, height: "64px", padding: "20px"}}>
         <AppBar position="static">
             <Toolbar>
                 
@@ -71,24 +71,24 @@ const Navbar = () => {
 
                     (curr.userStatus === 'Vendor' ? (
                         <ButtonGroup>
-                            <Button color="inherit" href='/vendor/statistics' style={{ fontSize: "1.2rem" }}>
+                            <Button color="inherit" href='/vendor/statistics' style={{ fontSize: "1.2rem",  marginRight: "20px" }} variant='text' >
                                 Statistics
                             </Button>
                             <Button color="inherit" 
-                                variant='outlined' 
+                                variant='text' 
                                 startIcon={<RestaurantMenuIcon />} 
-                                href={'/vendor/shop-menu'} style={{ fontSize: "1.2rem" }}>
+                                href={'/vendor/shop-menu'} style={{ fontSize: "1.2rem",  marginRight: "20px" }}>
                                 Menu
                             </Button>
                             <Button color="inherit" 
-                                variant='outlined' 
+                                variant='text' 
                                 startIcon={<ManageAccountsRoundedIcon />}  
-                                href={'/vendor'} style={{ fontSize: "1.2rem" }}>
+                                href={'/vendor'} style={{ fontSize: "1.2rem",  marginRight: "20px" }}>
                                 Profile
                             </Button>
                             <Button color="inherit" 
-                                variant='outlined' 
-                                href={'/vendor/orders'} style={{ fontSize: "1.2rem" }} >
+                                variant='text' 
+                                href={'/vendor/orders'} style={{ fontSize: "1.2rem",  marginRight: "20px" }} >
                                 My orders
                             </Button>
                             <Button variant='contained' 
@@ -106,26 +106,26 @@ const Navbar = () => {
                         :(
                         <>
                         <ButtonGroup>
-                            <Button color="inherit" style={{fontSize: "1.2rem"}} onClick={handleCart} variant="outlined">
+                            <Button color="inherit" style={{fontSize: "1.2rem",  marginRight: "20px"}} onClick={handleCart} variant="text">
                                 <ShoppingCartIcon style={{marginRight: '0.5rem'}} />
                                 My Cart {" "}
                                 <Badge color="secondary" badgeContent={data.length} />
                             </Button>
                             <Button color="inherit" 
-                                variant='outlined' 
+                                variant='text' 
                                 startIcon={<RestaurantMenuIcon />} 
-                                href={'/buyer/menu'} style={{ fontSize: "1.2rem" }}>
+                                href={'/buyer/menu'} style={{ fontSize: "1.2rem", marginRight: "20px" }}>
                                 Menu
                             </Button>
                             <Button color="inherit" 
-                                variant='outlined' 
+                                variant='text' 
                                 startIcon={<ManageAccountsRoundedIcon />}  
-                                href={'/buyer'} style={{ fontSize: "1.2rem" }}>
+                                href={'/buyer'} style={{ fontSize: "1.2rem",  marginRight: "20px" }}>
                                 Profile
                             </Button>
                             <Button color="inherit" 
-                                variant='outlined' 
-                                href={'/buyer/orders'} style={{ fontSize: "1.2rem" }}>
+                                variant='text' 
+                                href={'/buyer/orders'} style={{ fontSize: "1.2rem",  marginRight: "20px" }}>
                                 My orders
                             </Button>
                             <Button variant='contained' 

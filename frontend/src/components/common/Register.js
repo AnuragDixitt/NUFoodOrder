@@ -22,12 +22,14 @@ import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import view from "./view.jpg";
+import  {FormHelperText}  from '@mui/material';
+import Tooltip from '@mui/material/Tooltip';
+
 
 const Register = (props) => {
 	const [Name, setName] = useState('');
 	const [Email, setEmail] = useState('');
 	const [date, setDate] = useState(null);
-    // const [Money, setMoney] = useState(0);
 	const [Password, setPassword] = useState('');
     const [confirmPass, setConfirmPass] = useState('');
 	const [ContactNo, setContactNo] = useState(null);
@@ -44,9 +46,9 @@ const Register = (props) => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfPass, setShowConfPass] = useState(false);
 
-    // const onChangeMoney = (e) => {
-    //     setMoney(e.target.value);
-    // };
+    const [error, setError] = useState("");
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
 
     const handleClickShowConfPass = () => {
         setShowConfPass(!showConfPass);
@@ -65,15 +67,33 @@ const Register = (props) => {
 	};
 
 	const onChangeEmail = (event) => {
-		setEmail(event.target.value);
-	};
+
+        setEmail(event.target.value);
+        if(!String(event.target.value).toLowerCase()
+            .match(
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            ))
+            {
+                setEmailError('Invalid Email Id');
+            }
+	}
 
     const onChangeDate = (event) => {
         setDate(event.target.value);
     };
 
     const onChangePassword = (event) => {
-        setPassword(event.target.value);
+
+        let regularExpression = /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{8,}$/
+        
+        setPassword(event.target.value);        
+        
+        if(!String(event.target.value).match(regularExpression)){
+            setPasswordError('Invalid Password');
+            return;
+        }else{
+            setPasswordError("");
+        }
     };
 
     const onChangeConfirmPass = (event) => {
@@ -81,7 +101,16 @@ const Register = (props) => {
     };
 
     const onChangeContactNo = (event) => {
-        setContactNo(event.target.value);
+        const value = event.target.value;
+        setContactNo(value);
+
+        if (value.length === 1) {
+            setError('');
+          } else if (!/^\d+$/.test(value) || value.length > 10 || value.length < 10) {
+            setError('Contact number must be numeric and 10 digit long');
+          } else {
+            setError('');
+          }
     };
 
     const [expand, setExpand] = useState(true);
@@ -89,7 +118,7 @@ const Register = (props) => {
     const onChangeStatus = (event) => {
         setStatus(event.target.value);
         if (expand === true) {
-            setHeight(height+225);
+            setHeight(height+250);
             setExpand(false);
         }
     };
@@ -114,7 +143,6 @@ const Register = (props) => {
         container: {
           height: '105.4vh',
           backgroundImage: `url(${view})`,
-        //   backgroundColor:"lightblue",
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center center',
           backgroundSize: 'cover',
@@ -149,7 +177,6 @@ const Register = (props) => {
         setShopName('');
         setOpeningTime(null);
         setClosingTime(null);
-        // setMoney(null);
 	};
 
 	const onSubmit = (event) => {
@@ -158,13 +185,13 @@ const Register = (props) => {
         if (Password === confirmPass) {
             const bad = Boolean(ContactNo === null || ContactNo === 0 || Number(ContactNo) === NaN);
             if (Name === '' || Email === '' || Password === '' || bad || Status === '') {
-                swal("Oops!", "Please fill all the fields!", "error");
+                setError("Oops! Please fill all the fields.")
                 return;
             }
                 
             if (Status === 'Vendor') {
                 if (ShopName === '' || OpeningTime === null || ClosingTime === null) {
-                    swal("Oops!", "Please fill all the fields!", "error");
+                    setError("Oops! vendor details are missing")
                     return;
                 }
 
@@ -192,7 +219,7 @@ const Register = (props) => {
             } else {
 
                 if (Age === null || BatchName === '') {
-                    swal("Oops!", "Please fill all the fields!", "error");
+                    setError("Oops! vendor details are missing")
                     return;
                 }
                 const newUser = {
@@ -204,7 +231,6 @@ const Register = (props) => {
                     userStatus: Status,
                     Age: Age,
                     BatchName: BatchName,
-                    // Wallet: Money
                 };
                 console.log(newUser);
                 axios
@@ -219,7 +245,7 @@ const Register = (props) => {
             }
             resetInputs();
         } else {
-            swal('Invalid', 'Please confirm your password correctly.', 'warning');
+            setError("Invalid details, Please check confirm password")
         } 
 	};
 
@@ -264,6 +290,7 @@ const Register = (props) => {
                         value={Name}
                         onChange={onChangeUsername}
                         sx={{ width: '80%', height: '60px' }}
+                        helperText={<span style={{color: Name.trim().length === 0 ? 'red' : 'inherit'}}>{Name.trim().length === 0 ? error : ' '}</span>}
                     />
                 </Grid>
                 <Grid item xs={12}>
@@ -273,6 +300,14 @@ const Register = (props) => {
                         value={Email}
                         onChange={onChangeEmail}
                         sx={{ width: '80%', height: '60px' }}
+                        helperText={[
+                            <span key={1} style={{ color: Email.trim().length === 0 ? 'red' : error ? 'red' : 'inherit' }}>
+                              {Email.trim().length === 0 ? error : ' '}
+                            </span>,
+                            <span key={2} style={{ color: !Email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/) && emailError ? 'red' : 'inherit' }}>
+                              {!Email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/) && emailError ? emailError : ' '}
+                            </span>
+                          ]}
                     />
                 </Grid>
                 <Grid item xs={12}>
@@ -297,6 +332,16 @@ const Register = (props) => {
                         }
                         label="Password"
                     />
+                    {passwordError && (
+                        <Tooltip title="Password must contain atleast 1 uppercase, 1 lowercase, 1 number, 1 special character and length should be minimum 8" style={{color:"red"}}>
+                        <span>i</span>
+                      </Tooltip>
+                    )}
+                    {passwordError && (
+                    <FormHelperText style={{color : "red"}}>
+                        {passwordError}
+                    </FormHelperText>
+                    )}
                     </FormControl>
                 </Grid>
                 <Grid item xs={12}>
@@ -321,6 +366,11 @@ const Register = (props) => {
                         }
                         label="Password"
                     />
+                    {!confirmPass && error && (
+                    <FormHelperText style={{color : "red"}}>
+                        {error}
+                    </FormHelperText>
+                    )}
                     </FormControl>
                 </Grid>
                 <Grid item xs={12}>
@@ -330,6 +380,12 @@ const Register = (props) => {
                         value={ContactNo}
                         onChange={onChangeContactNo}
                         sx={{ width: '80%', height: '60px' }}
+                        helperText={error ? (
+                            <span style={{ color: 'red' }}>
+                              {error}
+                            </span>
+                          ) : (' '
+                          )}
                     />
                 </Grid>
                 <Grid item xs={12}>
@@ -395,20 +451,18 @@ const Register = (props) => {
                 }
                 {Status === 'Buyer' && 
                     <>
-                    {/* <Grid item xs={12}>
-                        <TextField
-                            label='Add money  '
-                            variant='outlined'
-                            value={Money}
-                            onChange={onChangeMoney}
-                        />
-                    </Grid> */}
                     <Grid item xs={12} sx={{ mt: 2 }}>
                         <TextField
                             label='Age'
                             variant='outlined'
                             value={Age}
                             onChange={onChangeAge}
+                            helperText={error ? (
+                                <span style={{ color: 'red' }}>
+                                  {error}
+                                </span>
+                              ) : (' '
+                              )}
                         />
                     </Grid>
                     <Grid item xs={12} sx={{ mt: 2 }}>
@@ -430,7 +484,7 @@ const Register = (props) => {
                     </div>
                 </Box>
                 <Grid item xs={12} align={'center'} sx={{ mt: 3}}>
-                    <Button variant='contained' onClick={onSubmit} sx={{ width: '150px', height: '50px', fontSize: '20px'}}>
+                    <Button variant='contained' onClick={onSubmit} sx={{ width: '150px', height: '50px', fontSize: '20px'}} style={{backgroundColor:"black"}}>
                         Register
                     </Button>
                 </Grid>

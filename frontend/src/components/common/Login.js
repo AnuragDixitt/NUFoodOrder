@@ -307,7 +307,7 @@ const Login = (props) => {
                 </FormControl>
             </Grid>
             <Grid item xs={12}>
-            <Button variant='contained' onClick={onSubmit} sx={{ width: '150px', height: '60px', fontSize: '20px' }} >
+            <Button variant='contained' onClick={onSubmit} sx={{ width: '150px', height: '60px', fontSize: '20px' }} style={{backgroundColor:"black"}} >
                     Login
                 </Button>
             </Grid>
@@ -319,7 +319,7 @@ const Login = (props) => {
                     />
                 </GoogleOAuthProvider>
                 <p className="grey-text text-darken-1" style={{ fontSize: '20px' }}>
-                Forgot your password? <Link to="/reset-password">Reset Now</Link>
+                Forgot password? <Link to="/reset-password">Reset Now</Link>
                 </p>
             </Grid>
         </Grid>

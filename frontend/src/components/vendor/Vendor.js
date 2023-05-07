@@ -137,11 +137,6 @@ const VendorProfile = (props) => {
                     ? theme.palette.grey[100]
                     : theme.palette.grey[900],
                 backgroundColor:'lightBlue',    
-                //backgroundImage: 'url(https://media.licdn.com/dms/image/C4E16AQG3mVEcQH0oBw/profile-displaybackgroundimage-shrink_350_1400/0/1538140195496?e=1687996800&v=beta&t=cza0kwZWYjlIHsRT39L8QWsD9ajqo76RdoRXFAdxHfU)', // replace with your image URL
-                //backgroundPosition: 'center',
-                //backgroundRepeat: 'no-repeat',
-                //backgroundSize: 'cover',
-                //boxShadow: '50 50 10px rgba(0.5, 0.5, 0.5, 0.2)', // add shadow    
                 flexGrow: 1,
                 height: '93.9vh',
                 overflow: 'auto',
@@ -248,7 +243,7 @@ const VendorProfile = (props) => {
                                     </Grid></>)
                                 }
                                 <Grid item xs={12} align={'center'}>
-                                    <Button variant='contained' onClick={onSubmit}>
+                                    <Button variant='contained' onClick={onSubmit} style={{backgroundColor:"black"}}>
                                         {buttonText === 'Edit' ? 'Edit' : 'Save Edited Changes'}
                                     </Button>
                                 </Grid>

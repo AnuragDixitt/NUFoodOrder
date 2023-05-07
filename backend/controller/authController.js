@@ -53,11 +53,9 @@ function AuthController() {
     
 
     this.emailSend = async (req,res) => {
-    // console.log("email ",req.body.Email)
     const response = {};
     email = req.body.Email
     console.log(email)
-    // console.log(User)
    
     
         await User.findOne({Email:email}).then(async (users) => {

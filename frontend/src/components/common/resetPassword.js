@@ -111,7 +111,6 @@ const ResetPassword = (props) => {
         axios                               
             .post('http://localhost:4000/user/email-send', thisUserForget)
             .then((response) => {
-                console.log(response)
                 const res = response.data;
                 if(res.status === 0){
                     console.log(res);
