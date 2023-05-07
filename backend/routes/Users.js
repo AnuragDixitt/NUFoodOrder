@@ -7,7 +7,7 @@ const bcrypt = require("bcrypt");
 const auth = require("../controller/auth.js")
 require("dotenv").config();
 const authcontroller = require("../controller/authController.js")
-
+const loginController = require("../controller/loginController")
 
 // GET request 
 // Getting all the users
