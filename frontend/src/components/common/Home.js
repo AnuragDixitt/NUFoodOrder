@@ -5,7 +5,7 @@ import food from './food-transformed.jpeg';
 import free from './free.jpg';
 import hy from './hyg-transformed.jpeg';
 import di from './dining.png';
-import backgroundImage2 from './flat-lay.jpg';
+import backgroundImage2 from './chinese.jpg';
 import backgroundImage3 from './side-view-rice.jpg';
 
 const backgrounds = [backgroundImage1, backgroundImage2, backgroundImage3];

@@ -85,13 +85,7 @@ const AddFoodItem = (props) => {
           padding: '0px',
           margin: '0px'
         },
-        tableContainer: {
-          background: 'linear-gradient(to bottom, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 70%, rgba(255,255,255,0.2) 100%)',
-          borderRadius: '20px',
-          boxShadow: '10px 10px 20px rgba(0, 0, 0, 0.5)',
-          padding: '20px',
-          width: "60%"
-        },
+        
       }; 
 
     const onChangeName = (e) => {
@@ -139,9 +133,9 @@ const AddFoodItem = (props) => {
 
   return (
     <div align={'center'} style={styles.container}>
-    <div align={'center'} style={styles.tableContainer}>
+    <div align={'center'} style={{width:"50%"}}>
 
-       
+                    <Grid container spacing={2} padding="10px 10px 10px 10px">
                     <Grid container align={'center'} spacing={2}>
                         <Grid item xs={12}>
                             <TextField
@@ -176,10 +170,10 @@ const AddFoodItem = (props) => {
                             </FormControl>
                         </Grid>
 
-                        <Grid container spacing={2} padding="10px 10px 10px 10px">
+                        {/* <Grid container spacing={2} padding="10px 10px 10px 10px"> */}
                         <Grid item xs={12} md={6}>
                         <Grid item xs={12} >
-                        <Box sx={{ p: 3, boxShadow: '10px 10px 10px 10px  rgba(0.1, 0.1, 0.1, 0.3)', bgcolor: '#F5F5F5',borderRadius: '50px' }}>    
+                        {/* <Box sx={{ p: 3, bgcolor: '#F5F5F5',borderRadius: '50px' }}> */}   
 
                         <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
                             <FormLabel component="legend" align={'center'} sx={{fontSize: '1.5rem'}}>Add ons: </FormLabel>
@@ -210,13 +204,13 @@ const AddFoodItem = (props) => {
                             </Grid>
                             </FormGroup>
                         </FormControl>
-                        </Box>
+                        {/* </Box> */}
                         </Grid>
 
                         </Grid>
                         <Grid item xs={12} md={6}>
                         <Grid item xs={12} >
-                        <Box sx={{ p: 3, boxShadow: '10px 10px 10px 10px  rgba(0.1, 0.1, 0.1, 0.3)', bgcolor: '#F5F5F5',borderRadius: '50px' }}>
+                        {/* <Box sx={{ p: 3, bgcolor: '#F5F5F5',borderRadius: '50px' }}> */}
                         <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
                             <FormLabel component="legend" align={'center'} sx={{fontSize: '1.5rem'}}>Tags: </FormLabel>
                             <FormGroup>
@@ -237,12 +231,12 @@ const AddFoodItem = (props) => {
                             </Grid>
                             </FormGroup>
                         </FormControl>
-                        </Box>
+                        {/* </Box> */}
                         </Grid>
                         </Grid>
                         </Grid>
-                        
-                    </Grid>
+                    </Grid>    
+                    
                
         <Grid item xs={12} align={'center'}>
             <Button variant='contained' onClick={onAddFoodItem} sx={{ fontSize: '1.2rem' }}>

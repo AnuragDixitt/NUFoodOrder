@@ -132,10 +132,7 @@ const VendorProfile = (props) => {
             <Box
             component="main"
             sx={{
-                backgroundColor: (theme) =>
-                theme.palette.mode === 'light'
-                    ? theme.palette.grey[100]
-                    : theme.palette.grey[900],
+                
                 backgroundColor:'lightBlue',    
                 flexGrow: 1,
                 height: '93.9vh',
@@ -154,7 +151,7 @@ const VendorProfile = (props) => {
                         height: height,
                         width:600,
                         borderRadius:"20px 20px 20px 20px",
-                        boxShadow: '10px 10px 10px 10px rgba(0, 0, 0, 0.2)',
+                        boxShadow: 'rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px',
                     }}
                 >
                     <Grid container align={'center'}>
@@ -243,7 +240,7 @@ const VendorProfile = (props) => {
                                     </Grid></>)
                                 }
                                 <Grid item xs={12} align={'center'}>
-                                    <Button variant='contained' onClick={onSubmit} style={{backgroundColor:"black"}}>
+                                    <Button variant='contained' onClick={onSubmit}  style={{backgroundColor:"black"}}>
                                         {buttonText === 'Edit' ? 'Edit' : 'Save Edited Changes'}
                                     </Button>
                                 </Grid>
@@ -289,7 +286,7 @@ const VendorProfile = (props) => {
                                 </Grid>
                                 
                                 <Grid item xs={12} align={'center'}>
-                                    <Button variant='contained' onClick={onChangePasswordButton}>
+                                    <Button variant='contained' onClick={onChangePasswordButton} style={{backgroundColor:"black"}}>
                                         Change Password
                                     </Button>
                                 </Grid>

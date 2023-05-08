@@ -129,13 +129,7 @@ const FoodMenu = (props) => {
           padding: '0px',
           margin: '0px'
         },
-        tableContainer: {
-          background: 'linear-gradient(to bottom, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 70%, rgba(255,255,255,0.2) 100%)',
-          borderRadius: '20px',
-          boxShadow: '10px 10px 20px rgba(0, 0, 0, 0.5)',
-          padding: '20px',
-          width: "70%"
-        },
+        
       };
 
     const sortRating = () => {
@@ -192,7 +186,7 @@ const FoodMenu = (props) => {
 
   return (
     <div align={'center'} style={styles.container}>
-    <div align={'center'} style={styles.tableContainer}>
+    <div align={'center'} style={{width:"80%"}}>
      
         <Grid item xs={12} align={'center'}  padding={5}>
             <Button variant='contained' onClick={addFoodItem} sx={{ fontSize: '1.2rem',padding: '10px',boxShadow: '0px 0px 15px rgba(0, 0, 0, 0.3)' }}>
@@ -200,46 +194,46 @@ const FoodMenu = (props) => {
             </Button>
         </Grid>
 
-        <Grid item xs={12} md={9} lg={9}>
+        <Grid item xs={20} md={20}  mb={3} lg={20}>
             
-                <Table size="medium" style={{borderRadius: '20px 20px 20px 20px', overflow: 'hidden',boxShadow: '10px 10px 10px rgba(0, 0, 0, 0.5)',backgroundColor:"lightblue"}}>
+                <Table size="medium" style={{borderRadius: '20px 20px 20px 20px', overflow: 'hidden',boxShadow: '10px 10px 10px rgba(0, 0, 0, 0.2)',backgroundColor:"#3D72A4"}}>
                     <TableHead>
                         <TableRow>
-                            <TableCell style={{ fontSize: '20px' }} align="center"> Sr No.</TableCell>
-                            <TableCell style={{ fontSize: '20px' }} align="center">Name</TableCell>
-                            <TableCell>
+                            <TableCell style={{ fontSize: '25px',color:"white" }}  align="center"> Sr No.</TableCell>
+                            <TableCell style={{ fontSize: '25px',color:"white" }}align="center">Name</TableCell>
+                            <TableCell style={{ fontSize: '25px',color:"white" }}align="center">
                                 {" "}
-                                <Button onClick={sortChange}>
+                                <Button onClick={sortChange} style={{color:"white"}}>
                                 {sortByPrice ? <ArrowDownwardIcon /> : <ArrowUpwardIcon />}
                                 </Button>
                                 Price
                             </TableCell>
-                            <TableCell style={{ fontSize: '20px' }} align="center">Veg/Non-veg</TableCell>
-                            <TableCell style={{ fontSize: '20px' }} align="center">Add ons</TableCell>
-                            <TableCell style={{ fontSize: '20px' }} align="center">Tags</TableCell>
-                            <TableCell style={{ fontSize: '20px' }} align="center">
+                            <TableCell style={{ fontSize: '25px',color:"white" }} align="center">Veg/Non-veg</TableCell>
+                            <TableCell style={{ fontSize: '25px',color:"white" }} align="center">Add ons</TableCell>
+                            <TableCell style={{ fontSize: '25px',color:"white" }} align="center">Tags</TableCell>
+                            <TableCell style={{ fontSize: '25px',color:"white" }} align="center">
                                 {" "}
-                                <Button onClick={sortRating}>
+                                <Button onClick={sortRating} style={{color:"white"}}>
                                 {sortByRating ? <ArrowDownwardIcon /> : <ArrowUpwardIcon />}
                                 </Button>
                                 Rating
                             </TableCell>
-                            <TableCell  style={{ fontSize: '20px' }}  align="center"> Actions </TableCell>
+                            <TableCell  style={{ fontSize: '25px',color:"white" }}  align="center"> Actions </TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {foodMenu.map((user, ind) => (
                         <TableRow key={ind} style={{backgroundColor:'#fff5ee' , fontSize:'20px'}}>
-                            <TableCell style={{ fontSize: '15px' }}  align="center">{ind + 1}</TableCell>
-                            <TableCell style={{ fontSize: '15px' }}  align="center">{user.Name}</TableCell>
-                            <TableCell style={{ fontSize: '15px' }}  align="center">{user.Price}</TableCell>
-                            <TableCell style={{ fontSize: '15px' }}  align="center">{user.Veg ? 'Veg' : 'Non-veg'}</TableCell>
-                            <TableCell style={{ fontSize: '15px' }}  align="center">{ user.AddOns.map((addOn) => (
+                            <TableCell style={{ fontSize: '20px' }}  align="center">{ind + 1}</TableCell>
+                            <TableCell style={{ fontSize: '20px' }}  align="center">{user.Name}</TableCell>
+                            <TableCell style={{ fontSize: '20px' }}  align="center">{user.Price}</TableCell>
+                            <TableCell style={{ fontSize: '20px' }}  align="center">{user.Veg ? 'Veg' : 'Non-veg'}</TableCell>
+                            <TableCell style={{ fontSize: '20px' }}  align="center">{ user.AddOns.map((addOn) => (
                                 <Chip label={ADD_ONS[addOn.Name] + ': ₹' + addOn.Price} variant='outlined'/>
                                 )) }</TableCell>
-                            <TableCell style={{ fontSize: '15px' }}  align="center">{getTags(user.Tags).map((tag) => (<Chip label={tag} variant='outlined' />))}</TableCell>
-                            <TableCell style={{ fontSize: '15px' }}  align="center">{user.Rating}</TableCell>
-                            <TableCell style={{ fontSize: '15px' }}  align="center">
+                            <TableCell style={{ fontSize: '20px' }}  align="center">{getTags(user.Tags).map((tag) => (<Chip label={tag} variant='outlined' />))}</TableCell>
+                            <TableCell style={{ fontSize: '20px' }}  align="center">{user.Rating}</TableCell>
+                            <TableCell style={{ fontSize: '20px' }}  align="center">
                                 <Button variant="contained" color="error" startIcon={<DeleteIcon />} onClick={() => {
                                     const itemName = user.Name;
                                     swal({

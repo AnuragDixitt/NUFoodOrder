@@ -137,11 +137,11 @@ const Register = (props) => {
 
     const navigate = useNavigate();
 
-    const [height, setHeight] = useState(600);
+    const [height, setHeight] = useState(650);
 
     const styles = {
         container: {
-          height: '105.4vh',
+          height: '110.4vh',
           backgroundImage: `url(${view})`,
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center center',
@@ -155,8 +155,9 @@ const Register = (props) => {
         },
         tableContainer: {
           background: 'rgba(0,0,0,0.5)',
-          height:"102vh",
+          height:"105vh",
           width:"100%",
+          
           display: "flex",
           justifyContent: "center",
           alignItems: "center",

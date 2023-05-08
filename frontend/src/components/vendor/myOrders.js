@@ -60,13 +60,7 @@ const VendorOrders = (props) => {
           padding: '0px',
           margin: '0px'
         },
-        tableContainer: {
-          background: 'linear-gradient(to bottom, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 70%, rgba(255,255,255,0.2) 100%)',
-          borderRadius: '20px',
-          boxShadow: '10px 10px 20px rgba(0, 0, 0, 0.5)',
-          padding: '20px',
-          width: "60%"
-        },
+        
       };
 
 
@@ -181,33 +175,33 @@ const VendorOrders = (props) => {
 
 return (
     <div align={'center'} style={styles.container}>
-    <div align={'center'} style={styles.tableContainer}>
+    <div align={'center'} style={{width:"80%"}}>
 
-        <Grid item xs={12} md={9} lg={9}>
+        <Grid item xs={20} md={20} mt={3} mb={3} lg={20}>
             
-                <Table size="medium" style={{borderRadius: '20px 20px 20px 20px', overflow: 'hidden',boxShadow: '10px 10px 10px rgba(0, 0, 0, 0.5)'}}>
-                    <TableHead style={{ backgroundColor: 'lightblue'}}>
+                <Table size="medium" style={{borderRadius: '20px 20px 20px 20px', overflow: 'hidden',boxShadow: '10px 10px 10px rgba(0, 0, 0, 0.2)',backgroundColor: '#3D72A4'}}>
+                    <TableHead >
                         <TableRow>
-                            <TableCell style={{ fontSize: '20px' }}  align="center"> Sr No.</TableCell>
-                            <TableCell style={{ fontSize: '20px' }}  align="center">Placed on</TableCell>
-                            <TableCell style={{ fontSize: '20px' }}  align="center">Food item</TableCell>
-                            <TableCell style={{ fontSize: '20px' }}  align="center">Veg/Non-veg</TableCell>
-                            <TableCell style={{ fontSize: '20px' }}  align="center">Add ons</TableCell>
-                            <TableCell style={{ fontSize: '20px' }}  align="center">Quantity</TableCell>
-                            <TableCell style={{ fontSize: '20px' }}  align="center">Order total</TableCell>
-                            <TableCell style={{ fontSize: '20px' }}  align="center">Status</TableCell>
+                            <TableCell style={{ fontSize: '25px',color:"white" }} align="center"> Sr No.</TableCell>
+                            <TableCell style={{ fontSize: '25px',color:"white" }}  align="center">Placed on</TableCell>
+                            <TableCell style={{ fontSize: '25px',color:"white" }} align="center">Food item</TableCell>
+                            <TableCell style={{ fontSize: '25px',color:"white" }}  align="center">Veg/Non-veg</TableCell>
+                            <TableCell style={{ fontSize: '25px',color:"white" }}  align="center">Add ons</TableCell>
+                            <TableCell style={{ fontSize: '25px',color:"white" }}  align="center">Quantity</TableCell>
+                            <TableCell style={{ fontSize: '25px',color:"white" }}  align="center">Order total</TableCell>
+                            <TableCell style={{ fontSize: '25px',color:"white" }}  align="center">Status</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {orders.map((order, ind) => (
                         <TableRow key={ind} style={{backgroundColor:'#fff5ee' , fontSize:'20px'}}>
-                            <TableCell style={{ fontSize: '15px' }}  align="center">{ind + 1}</TableCell>
-                            <TableCell style={{ fontSize: '15px' }}  align="center">{DateAndTime(order.date)}</TableCell>
-                            <TableCell style={{ fontSize: '15px' }}  align="center">{order.foodItem}</TableCell>
-                            <TableCell style={{ fontSize: '15px' }}  align="center">{order.Veg ? 'Veg' : 'Non-veg'}</TableCell>
-                            <TableCell style={{ fontSize: '15px' }}  align="center">{order.AddOns}</TableCell>
-                            <TableCell style={{ fontSize: '15px' }}  align="center">{order.Quantity}</TableCell>
-                            <TableCell style={{ fontSize: '15px' }}  align="center">{'₹ ' + order.Total}</TableCell>
+                            <TableCell style={{ fontSize: '20px' }}  align="center">{ind + 1}</TableCell>
+                            <TableCell style={{ fontSize: '20px' }}  align="center">{DateAndTime(order.date)}</TableCell>
+                            <TableCell style={{ fontSize: '20px' }}  align="center">{order.foodItem}</TableCell>
+                            <TableCell style={{ fontSize: '20px' }}  align="center">{order.Veg ? 'Veg' : 'Non-veg'}</TableCell>
+                            <TableCell style={{ fontSize: '20px' }}  align="center">{order.AddOns}</TableCell>
+                            <TableCell style={{ fontSize: '20px' }}  align="center">{order.Quantity}</TableCell>
+                            <TableCell style={{ fontSize: '20px' }}  align="center">{'₹ ' + order.Total}</TableCell>
                             <TableCell>
                                 <Print 
                                     status={order.Status} 

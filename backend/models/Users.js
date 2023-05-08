@@ -49,10 +49,6 @@ const UserSchema = new Schema({
 	ClosingTime: { 
 		type: Date, 
         required: false
-    },
-    Wallet: { 
-        type: Number, 
-        required: false
     }
 });
 

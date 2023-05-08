@@ -542,7 +542,7 @@ const BuyerFoodMenu = (props) => {
                                     setChips((user.AddOns).map((addOn) => `${ADD_ONS[addOn.Name]}: ₹${addOn.Price}`));
                                     setCurrOrder({food: user, quantity: 0});
                                     setOpen(true);
-                                }}>
+                                }} style={{background:"black"}}>
                                     Buy item
                                 </Button>
                             </TableCell>
