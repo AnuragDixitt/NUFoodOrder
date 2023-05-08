@@ -114,9 +114,8 @@ function LoginController() {
     
                     //JWT
                     const {Password, ...restofParams} = users._doc
-                    console.log(restofParams)
-                    const token = jwt.sign(req.body, process.env.ACCESS_TOKEN_SECRET);
-                    const refreshToken = jwt.sign({email : users.Email}, process.env.REFRESH_TOKEN_SECRET)
+                    const token = jwt.sign({email : users.Email}, process.env.ACCESS_TOKEN_SECRET,{expiresIn:"10s"});
+                    const refreshToken = jwt.sign({email : users.Email}, process.env.REFRESH_TOKEN_SECRET,{expiresIn:"10s"});
                     res.json({user: restofParams, token,refreshToken});
     
                 } 

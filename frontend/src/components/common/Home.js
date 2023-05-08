@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import backgroundImage1 from './side-view-vegetable.jpg';
-import fast from './pf_logo.png';
-import food from './food-transformed.jpeg';
-import free from './free.jpg';
-import hy from './hyg-transformed.jpeg';
-import di from './dining.png';
-import backgroundImage2 from './chinese.jpg';
-import backgroundImage3 from './side-view-rice.jpg';
+import backgroundImage1 from '../images/side-view-vegetable.jpg';
+import fast from '../images/pf_logo.png';
+import food from '../images/food-transformed.jpeg';
+import free from '../images/free.jpg';
+import hy from '../images/hyg-transformed.jpeg';
+import di from '../images/dining.png';
+import backgroundImage2 from '../images/chinese.jpg';
+import backgroundImage3 from '../images/side-view-rice.jpg';
 
 const backgrounds = [backgroundImage1, backgroundImage2, backgroundImage3];
 

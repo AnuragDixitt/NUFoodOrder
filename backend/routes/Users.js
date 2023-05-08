@@ -27,10 +27,17 @@ Router.post("/googlelogin",loginController.google)
 Router.post("/login", loginController.login);
 
 
-Router.post('/refresh', auth,(req,res) => {
+Router.get('/refresh', auth,(req,res) => {
     try {
         const {user} = req
-        const token =  jwt.sign(user,process.env.ACCESS_TOKEN_SECRET );
+        const {email,iat,exp} = user
+        const nowTime = Math.floor(Date.now() * 0.001)
+        const newUser = {
+            email: email,
+            iat:nowTime,
+            exp:nowTime + 10
+        }
+        const token =  jwt.sign(newUser,process.env.ACCESS_TOKEN_SECRET );
         return res.status(201).send(token)
     } catch (error) {
         return res.send(error)

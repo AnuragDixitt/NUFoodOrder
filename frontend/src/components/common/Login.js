@@ -23,7 +23,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import close from './close.jpg';
+import close from '../images/close.jpg';
 
 
 const Login = (props) => {

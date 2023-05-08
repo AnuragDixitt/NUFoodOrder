@@ -21,7 +21,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-import view from "./view.jpg";
+import view from "../images/view.jpg";
 import  {FormHelperText}  from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
 
