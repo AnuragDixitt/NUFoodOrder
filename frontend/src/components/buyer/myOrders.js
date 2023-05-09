@@ -72,7 +72,7 @@ const VendorOrders = (props) => {
         container: {
           height: '93.9vh',
         //   backgroundImage: `url(${backgroundImage})`,
-          backgroundColor:"lightblue",
+          backgroundColor:"#F5FEFD",
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center center',
           backgroundSize: 'cover',
@@ -158,7 +158,7 @@ return (
 
         <Grid item xs={20} md={20} mt={3} mb={3} lg={20}>
             
-                <Table size="medium"style={{borderRadius: '20px 20px 20px 20px', overflow: 'hidden',boxShadow: '10px 10px 10px rgba(0, 0, 0, 0.2)',backgroundColor: '#3D72A4'}}>
+                <Table size="medium"style={{borderRadius: '20px 20px 20px 20px', overflow: 'hidden',boxShadow: '0px 2px 8px 0px rgba(99, 99, 99, 0.2)',backgroundColor: '#ff6602'}}>
                     <TableHead >
                         <TableRow>
                             <TableCell style={{ fontSize: '25px',color:"white" }} align="center"> Sr No.</TableCell>
@@ -175,7 +175,7 @@ return (
                     </TableHead>
                     <TableBody>
                         {orders.map((order, ind) => (
-                        <TableRow key={ind} style={{backgroundColor:'#fff5ee' , fontSize:'20px'}}>
+                        <TableRow key={ind} style={{backgroundColor:'#FEFEFA' , fontSize:'20px'}}>
                             <TableCell style={{ fontSize: '20px' }}  align="center">{ind + 1}</TableCell>
                             <TableCell style={{ fontSize: '20px' }}  align="center">{DateAndTime(order.date)}</TableCell>
                             <TableCell style={{ fontSize: '20px' }}  align="center">{order.VendorName}</TableCell>

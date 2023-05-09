@@ -121,7 +121,7 @@ const VendorProfile = (props) => {
             component="main"
             sx={{
 
-                backgroundColor:'#FCF4D9',    
+                backgroundColor:'#F5FEFD',    
                 flexGrow: 1,
                 height: '93.9vh',
                 overflow: 'auto',
@@ -135,6 +135,7 @@ const VendorProfile = (props) => {
                     sx={{
                         p: 6,
                         display: 'flex',
+                        backgroundColor: '#FFFFFF',
                         flexDirection: 'column',
                         height: height,
                         width:600,

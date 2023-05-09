@@ -392,20 +392,19 @@ const BuyerFoodMenu = (props) => {
     }
 
   return (
-    <div align={'center'} >
+    <div style={{ backgroundColor: "#F5FEFD", height: "100vh" }}>
+    <div align={'center'}>
 
         <Grid container>
-            <Grid item xs={12} md={3} lg={3}>
-            <Box style={{backgroundColor:"lightblue"}} borderRadius="0 0 30px 0" p={2} mb={2}>    
+            <Grid item xs={12} md={3} lg={3} style={{ display: "flex", justifyContent: "center" }}>
             <List component="nav" aria-label="mailbox folders">
                 <ListItem text>
                 <h1 style={{ fontSize: "35px" }}>Filters</h1>
                 </ListItem>
             </List>
-            </Box>
             </Grid>
             <Grid item xs={12} md={9} lg={9}>
-            <Box boxShadow={5} borderRadius="0 0 20px 20px" p={2} mb={2}>    
+            <Box boxShadow={5} borderRadius="0 0 20px 20px" p={2} mb={2} style={{ backgroundColor: "#ffffff" }}>   
             <List component="nav" aria-label="mailbox folders">
                 <TextField
                 id="standard-basic"
@@ -424,19 +423,18 @@ const BuyerFoodMenu = (props) => {
                 />
             </List>
             </Box>
-            <Divider sx={{ fontWeight: 'bold', padding: '10px' }}/>
             </Grid>
         </Grid>
-        <Grid container>
-        <Grid item xs={12} md={3} lg={3}>
-          <Box style={{ backgroundColor: "lightgreen", padding: "10px", borderRadius: "0 30px 0 0" ,height: "785px" }}>  
-          <List component="nav" aria-label="mailbox folders">
-            <ListItem>
+        <Grid container >
+        <Grid item xs={12} md={3} lg={3} sx={{backgroundColor:"#F5F5DC",height: "785px",width:"550px", borderRadius: " 0px 30px 30px 0px"}}>
+          <List component="nav" aria-label="mailbox folders" >
+            <ListItem style={{ marginBottom: "16px" }}>
               <Grid container spacing={3}>
-                    <Grid item xs={24} style={{ fontSize: "24px" }}>
+                    <Grid item xs={24} sx={{mb:3,textAlign: "center" }} style={{ fontSize: "24px" ,fontWeight:"bold"}}>
                     Food item price
                     </Grid>
-                    <Grid item xs={9}>
+                    <Grid container direction="column" alignItems="center" spacing={3}>
+                    <Grid item xs={6}>
                     <TextField
                         id="standard-basic"
                         label="Enter Min"
@@ -445,7 +443,7 @@ const BuyerFoodMenu = (props) => {
                         onChange={changeLower}
                     />
                     </Grid>
-                    <Grid item xs={9}>
+                    <Grid item xs={6}>
                     <TextField
                         id="standard-basic"
                         label="Enter Max"
@@ -454,14 +452,15 @@ const BuyerFoodMenu = (props) => {
                         onChange={changeUpper}
                     />
                     </Grid>
+                </Grid>
               </Grid>
             </ListItem>
             <Divider />
-            <ListItem divider>
+            <ListItem  style={{width: "100px", marginTop: "16px", marginBottom: "16px", marginRight: "360px", marginLeft: "0px" }}>
               <MutliSelectChip2 />
             </ListItem>
             <Divider />
-            <ListItem divider>
+            <ListItem style={{width: "100px", marginTop: "16px", marginBottom: "16px", marginRight: "360px", marginLeft: "0px" }}>
                 <FormControl sx={{ m: 1, minWidth: 390 }}>
                     <InputLabel id="demo-simple-select-helper-label">Veg or Non-veg?</InputLabel>
                     <Select
@@ -480,16 +479,15 @@ const BuyerFoodMenu = (props) => {
                 </FormControl>
             </ListItem>
             <Divider />
-            <ListItem divider>
+            <ListItem style={{width: "100px", marginTop: "16px", marginBottom: "16px", marginRight: "360px", marginLeft: "0px" }}>
                 <MultiSelectShops />
             </ListItem>
+            <Divider/>
           </List>
-          </Box>
         </Grid>
         <Grid item xs={12} md={9} lg={9}>
-            <Paper>
-                <Box sx={{ bgcolor: 'lightgray', p: 2, borderRadius: "30px 0 0 0",height:"770px"}}>
-                <Table size="small">
+            <Paper sx = {{ml:5, borderRadius: "15px 15px 15px 15px"}}>
+                <Table size="small" style={{backgroundColor: "#ff6602", borderRadius: "15px 15px 0px 0px"}}>
                     <TableHead>
                         <TableRow>
                             <TableCell style={{ fontSize: '20px' }} align="center"> Sr No.</TableCell>
@@ -525,7 +523,7 @@ const BuyerFoodMenu = (props) => {
                             (filterVeg === 2 || (Number(user.Veg) === filterVeg)) &&
                             (filterShops.length === 0 || ((filterShops.indexOf(user.ShopName)) > -1))) {
                                 return (<>
-                            <TableRow key={ind} style={{backgroundColor:'#fff5ee' , fontSize:'20px'}} align="center">
+                            <TableRow key={ind} style={{backgroundColor:'#FEFEFA' , fontSize:'20px'}} align="center">
                             <TableCell style={{ fontSize: '15px' }}  align="center">{ind + 1}</TableCell>
                             <TableCell style={{ fontSize: '15px' }}  align="center">{user.Name}</TableCell>
                             <TableCell style={{ fontSize: '15px' }}  align="center">{user.ShopName}</TableCell>
@@ -550,8 +548,6 @@ const BuyerFoodMenu = (props) => {
                         })}
                     </TableBody>
                 </Table>
-                </Box>
-
                 <div>
                 <Dialog open={open} onClose={handleClose}>
                     <DialogTitle>Place order</DialogTitle>
@@ -620,6 +616,7 @@ const BuyerFoodMenu = (props) => {
           </Paper>
           </Grid>
         </Grid>
+    </div>
     </div>
   );
 };
