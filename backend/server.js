@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const PORT = 4000
-const MONGO_DB_URI = 'mongodb://127.0.0.1/one';
+const MONGO_DB_URI = 'mongodb://127.0.0.1/yuvi';
 const Razorpay = require('razorpay');
 
 

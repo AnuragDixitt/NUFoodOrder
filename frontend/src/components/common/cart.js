@@ -91,14 +91,35 @@ export default function Cart(props) {
     const proceedToPay = async () => {
 
         const { data: { key } } = await axios.get("http://localhost:4000/api/getkey")
-        console.log("Order : ", key)
+        console.log("Key : ", key)
+
+        const { data: { order } } = await axios.post("http://localhost:4000/api/checkout", {
+            totalprice: totalprice*100,
+        })
+
         const options = {
             key,
             amount: totalprice*100,
             currency: "INR",
+            order_id: order.id,
+            name: data[0].vname,
             name: "NuOrder",
             description: "Restaurent Payment",
-            handler : function (){
+            handler : function (response){
+                console.log("Resposnse Receivedd : ", response);
+                axios.post("http://localhost:4000/api/saveinfo",{
+                    orderid : response.razorpay_payment_id,
+                    paymentid : response.razorpay_order_id,
+                    signature : response.razorpay_signature,
+                    amt : totalprice,
+                    orderid : order.id
+                })
+                .then( () => {
+                    console.log("hogaya")
+                })
+                .catch( (err) => {
+                    console.log("in saving",err)
+                })
                 for(const d of data){
                     axios
                         .post('http://localhost:4000/order/place', {

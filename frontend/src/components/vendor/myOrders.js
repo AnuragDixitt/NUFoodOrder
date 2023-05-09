@@ -97,7 +97,7 @@ const VendorOrders = (props) => {
                         from_name: user.Name,
                         message: (status === 'ACCEPTED' ? 
                         `Your order has been accepted. Please wait for the chef to prepare it.`
-                        : `Sorry for the inconvenience. Your order has been rejected. Try again later.`)
+                        : `Sorry for the inconvenience. Your order has been rejected. Please collect your money from reception and try again later.`)
                     }, "Fcvyj7SnnAUKrasQO").then((resp) => {
                         console.log('Email sent. ', resp.status, ' ', resp.text);
                         window.location='/vendor/orders';

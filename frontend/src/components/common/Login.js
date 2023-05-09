@@ -33,6 +33,15 @@ const Login = (props) => {
     const [emailError, setEmailError] = useState('');
     const [passError, setPassError] = useState('');
 
+    // function preventManualUrlChange() {
+    //     console.log("reached here", window.location.href)
+    //     if (window.location.href !== "http://localhost:3000/buyer") {
+    //       window.location.replace("http://localhost:3000/buyer")
+    //     }
+    //   }
+    
+    // setInterval(preventManualUrlChange, 100);
+
 
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword);

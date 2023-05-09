@@ -34,6 +34,14 @@ const VendorProfile = (props) => {
     const [newPass, setNewPass] = useState('');
     const [confirmNewPass, setConfirmNewPass] = useState('');
 
+    // function preventManualUrlChange() {
+    //     console.log("reached here", window.location.href)
+    //     if (window.location.href !== "http://localhost:3000/buyer") {
+    //     //   window.location.replace("/buyer")
+    //     console.log("hii")
+    //     }
+    //   }
+
     useEffect( () => {
         (async function() {
             const token = getCookie('jwt')
@@ -42,6 +50,7 @@ const VendorProfile = (props) => {
         })()
     }, [])
 
+    // setInterval(preventManualUrlChange(), 100);
     const handleChange = (prop) => (event) => {
         setThisUser({ ...thisUser, [prop]: event.target.value });
     };
