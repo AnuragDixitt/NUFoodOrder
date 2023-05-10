@@ -1,22 +1,19 @@
 var express = require("express");
 const food = require("../models/food");
 var Router = express.Router();
-// Load User model
+
 const foodImport = require("../models/food");
-// const TAGS = new Map(foodImport.TAGS.map((tag, index) => [tag, index]));
-// const ADD_ONS = new Map(foodImport.ADD_ONS.map((addOn, index) => [addOn, (index >>> 0)]));
 const foodItem = foodImport.foodItem;
 
 Router.get("/", function(req, res) {
-    console.log(req.query.vendorid)
-    // console.log("Vendor ID: ", req.body);
+
     if (req.query.vendorid === null || req.query.vendorid === undefined) {
         foodItem.find(function(err, users) {
             if (err) {
                 console.log(err);
                 res.status(500).json(err);
             } else {
-                // console.log(users);
+
                 res.status(200).json(users);
             }
         });
@@ -26,7 +23,7 @@ Router.get("/", function(req, res) {
                 console.log(err);
                 res.status(500).json(err);
             } else {
-                // console.log(users);
+
                 res.status(200).json(users);
             }
         });
@@ -51,7 +48,6 @@ Router.post("/insert-item", async (req, res) => {
 
 // Edit 
 Router.post('/edit-item', async (req, res) => {
-    console.log(req.body);
     const FoodItem = req.body;
     if (FoodItem.vendorEdited) {
         foodItem.updateMany({VendorID: FoodItem.VendorID}, {
@@ -72,7 +68,6 @@ Router.post('/edit-item', async (req, res) => {
                         console.log(err);
                         res.status(500).json(err);
                     } else {
-                        console.log("Incremented no of buyers who rated ", doc.Name,": ", doc.BuyersRated); 
                         const newRating = (doc.Rating * (doc.BuyersRated - 1) + FoodItem.Rating) / (doc.BuyersRated); 
                         foodItem.findOneAndUpdate({ _id: doc._id },
                             {
@@ -84,7 +79,6 @@ Router.post('/edit-item', async (req, res) => {
                                     console.log(err);
                                     res.status(500).json(err);
                                 } else {
-                                    console.log(`New rating of ${doc.Name}: `, doc.Rating); 
                                     res.status(200).send(`OK, edited ${doc.Name}`);
                                 }
                             }
@@ -107,7 +101,6 @@ Router.post('/edit-item', async (req, res) => {
                         console.log(err);
                         res.status(500).json(err);
                     } else {
-                        console.log("FOOD ITEM: ", doc.Name); 
                         res.status(200).send(`OK, edited ${doc.Name}`);
                     }
                 }
@@ -120,10 +113,8 @@ Router.post('/edit-item', async (req, res) => {
 Router.post('/delete', async (req, res) => {
     const ID = req.body._id;
     foodItem.deleteOne({_id: ID}).then(() => {
-        console.log('Deleted: ', ID);
         res.status(200).send("OK");
     }).catch((error) => {
-        console.log(error);
         res.status(500).json({errMsg: error.message});
     })
 });

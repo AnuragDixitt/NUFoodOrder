@@ -106,14 +106,12 @@ const ResetPassword = (props) => {
             Email: Email,
             
         };
-        console.log(thisUserForget);
 
         axios                               
             .post('http://localhost:4000/user/email-send', thisUserForget)
             .then((response) => {
                 const res = response.data;
                 if(res.status === 0){
-                    console.log(res);
                     swal({title:'Email not registered', text:'Please register first', type:'error'}).then(
                     function(){
                         navigate('/register')
@@ -122,7 +120,6 @@ const ResetPassword = (props) => {
                     
                 }
                 else if (res.status === 2) {
-                    console.log('SOmething went wrong');
                     swal({title:'Mail Service down', text:'Retry Later', type:'error'}).then(
                     function(){
                         navigate('/login')
@@ -130,7 +127,6 @@ const ResetPassword = (props) => {
                     
                 }
                 else if(res.status === 1){
-                    console.log('Success!');
                     swal({title:'Email Sent!', text:'Please check your email', type:'success'}).then(
                     function(){
                         setStatus(true);
@@ -143,7 +139,6 @@ const ResetPassword = (props) => {
 
 
         resetInputs();
-            console.log(status)
     }
 
     const onSubmitReset = (event) => {
@@ -194,15 +189,13 @@ const ResetPassword = (props) => {
             ConfirmPassword: Confirm
             
         };
-        console.log(thisUser);
-        
+
         axios                               
             .post('http://localhost:4000/user/reset-password', thisUser)
             .then((response) => {
                 
                 const res = response.data;
                 if(res.status === 3){
-                    console.log(res);
                     swal({title:'Invalid OTP', text:'Enter correct OTP', type:'warning'}).then(
                     function(){
                         resetInputsLater()
@@ -219,8 +212,6 @@ const ResetPassword = (props) => {
                     
                 }
                 else if(res.status === 1){
-                    console.log('Success!');
-                    // console.log(res);
                     swal({title:'Password Changed Successfully', text:'Please login with new password', type:'success'}).then(
                     function(){
                         navigate('/login')
@@ -229,7 +220,6 @@ const ResetPassword = (props) => {
                     
                 }
                 else if(res.status === 2){
-                    console.log('Something went wrong!');
                     swal({title:'Something went wrong', text:'Please try again', type:'error'}).then(
                         function(){
                             navigate('/reset-password')
@@ -248,10 +238,7 @@ const ResetPassword = (props) => {
             <Box
                 component="main"
                 sx={{
-                    backgroundColor: (theme) =>
-                    theme.palette.mode === 'light'
-                        ? theme.palette.grey[100]
-                        : theme.palette.grey[900],
+                    
                     backgroundColor:'lightGrey',     
                     flexGrow: 1,
                     height: '93.9vh',

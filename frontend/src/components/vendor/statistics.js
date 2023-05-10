@@ -30,7 +30,6 @@ const Statistics = (props) => {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    console.log(userID);
 
     axios
       .get(`http://localhost:4000/order?vendorid=${userID}`)
@@ -70,7 +69,6 @@ const Statistics = (props) => {
             });
         }
         Promise.all(batch);
-        console.log(age);
       })
       .catch((err) => {
         console.log("Err.Message: ", err);

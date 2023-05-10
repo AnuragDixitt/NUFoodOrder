@@ -267,7 +267,6 @@ const BuyerFoodMenu = (props) => {
 
     const isCanteenOpen = (date, O_hrs, O_mins, C_hrs, C_mins) => {
         const Now_hrs = date.getHours(); const Now_mins = date.getMinutes();
-        console.log(O_hrs, O_mins, '\n', Now_hrs, Now_mins, '\n', C_hrs, C_mins);
         return Boolean(((O_hrs < Now_hrs || (O_hrs === Now_hrs && O_mins <= Now_mins)) && 
                 ((Now_hrs < C_hrs || (Now_hrs === C_hrs && Now_mins <= C_mins)))));
     }
@@ -280,7 +279,6 @@ const BuyerFoodMenu = (props) => {
         return `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
     }
 
-    console.log("BuyerOrder : ", data)
 
     const handleAddToCart = async () => {
         if (currOrder.quantity === 0) {
@@ -288,7 +286,6 @@ const BuyerFoodMenu = (props) => {
         }
         setCOT(new Date(currOrder.food.CanteenOpeningTime)); setCCT(new Date(currOrder.food.CanteenClosingTime));
         const date = new Date();
-        console.log(date);
         if (!isCanteenOpen(date, COT.getHours(), COT.getMinutes(), CCT.getHours(), CCT.getMinutes())) {
             swal("Error", `Sorry for the inconvenience. ${currOrder.food.ShopName} is not open right now.`, "error"); 
             setCurrOrder({food: {
@@ -332,13 +329,12 @@ const BuyerFoodMenu = (props) => {
                 setSearchText('');
             })
             .catch(err => {
-                console.log('Err.Message: ', err)
+                console.log('Err')
             })
     }, []);
 
     const searchBar = (event) => {
         setSearchText(event.target.value);
-        console.log("Text: ", searchText, "  Type of searchText: ", typeof(searchText));
     }
 
     useEffect(() => {
@@ -349,14 +345,12 @@ const BuyerFoodMenu = (props) => {
                 keys: ['Name']
             });
             const results = fuse.search(searchText);
-            console.log("Fuse results: ", results);
             if (results.length) {
                 setFilteredMenu(results.map(result => result.item));
             } else {
                 setFilteredMenu([]);
             }
         }
-        console.log("Use Effect, filtered: ", filteredMenu);
     }, [searchText]);
 
     const changeLower = (e) => {
@@ -379,7 +373,6 @@ const BuyerFoodMenu = (props) => {
         let tmp = filteredMenu;
         const flag = sortByRating;
         tmp.sort((a, b) => ((2 * flag - 1) * (a.Rating - b.Rating)));
-        console.log(tmp);
         setFilteredMenu(tmp);
         setSortByRating(!flag);
     }
@@ -457,12 +450,12 @@ const BuyerFoodMenu = (props) => {
             </ListItem>
             <Divider />
             <ListItem  style={{width: "100px", marginTop: "16px", marginBottom: "16px", marginRight: "360px", marginLeft: "0px" }}>
-              <MutliSelectChip2 />
+              <MutliSelectChip2 style={{width: "200px"}}/>
             </ListItem>
             <Divider />
             <ListItem style={{width: "100px", marginTop: "16px", marginBottom: "16px", marginRight: "360px", marginLeft: "0px" }}>
                 <FormControl sx={{ m: 1, minWidth: 390 }}>
-                    <InputLabel id="demo-simple-select-helper-label">Veg or Non-veg?</InputLabel>
+                    <InputLabel id="demo-simple-select-helper-label" style={{width: "200px"}}>Veg or Non-veg?</InputLabel>
                     <Select
                         labelId="demo-simple-select-helper-label"
                         id="demo-simple-select-helper"
@@ -480,7 +473,7 @@ const BuyerFoodMenu = (props) => {
             </ListItem>
             <Divider />
             <ListItem style={{width: "100px", marginTop: "16px", marginBottom: "16px", marginRight: "360px", marginLeft: "0px" }}>
-                <MultiSelectShops />
+                <MultiSelectShops style={{width: "200px"}}/>
             </ListItem>
             <Divider/>
           </List>
@@ -514,9 +507,6 @@ const BuyerFoodMenu = (props) => {
                     </TableHead>
                     <TableBody>
                         {(filteredMenu).map((user, ind) => {
-                            console.log('FilterTagSet: ', filterTagSet, "user.Tags", user.Tags, ' ', (user.Tags & filterTagSet));
-                            console.log('MINIMUM: ', ((lower === '' || lower === undefined) || (Number(user.Price) >= Number(lower))));
-                            console.log('MAXIMUM: ', ((upper === '' || upper === undefined) || (Number(user.Price) <= Number(upper))) );
                         if (((lower === '' || lower === undefined) || (Number(user.Price) >= Number(lower))) && 
                             ((upper === '' || upper === undefined) || (Number(user.Price) <= Number(upper))) && 
                             ((user.Tags & filterTagSet) === filterTagSet) &&
@@ -536,7 +526,6 @@ const BuyerFoodMenu = (props) => {
                             <TableCell style={{ fontSize: '15px' }}  align="center">{user.Rating}</TableCell>
                             <TableCell style={{ fontSize: '15px' }}  align="center">
                                 <Button variant="contained"  onClick={() => {
-                                    console.log(user.Rating);
                                     setChips((user.AddOns).map((addOn) => `${ADD_ONS[addOn.Name]}: ₹${addOn.Price}`));
                                     setCurrOrder({food: user, quantity: 0});
                                     setOpen(true);

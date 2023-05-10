@@ -37,7 +37,6 @@ const VendorProfile = (props) => {
     useEffect( () => {
         (async function() {
             const token = getCookie('jwt')
-            console.log("trying refresh")
             await axios.get('http://localhost:4000/user/protected',{headers: {'Authorization': `Bearer ${token}`}})
         })()
     }, [])
@@ -77,12 +76,9 @@ const VendorProfile = (props) => {
                 setExpand(false);
             }
         } else {
-            console.log("User: ", curr);
-            console.log("thisUser: ", thisUser);
             axios
                 .post('http://localhost:4000/user/edit', {user: thisUser, changePassword: false})
                 .then((res)=>{
-                    console.log("Edited: ", res.data);
                     axios
                         .post('http://localhost:4000/food/edit-item', {
                             vendorEdited: true,
@@ -92,7 +88,6 @@ const VendorProfile = (props) => {
                             VendorName: thisUser.Name, 
                             ShopName: thisUser.ShopName  
                         }).then(() => {
-                            console.log("Edited food items sold by vendor.");
                             swal('Edited successfully', 'Your details have been updated.', 'success');
                         });
                 })
@@ -114,7 +109,6 @@ const VendorProfile = (props) => {
                     newPassword: newPass, 
                     changePassword: true
                 }).then((response)=>{
-                    console.log("Password changed!")
                     swal('Password changed successfully', 'Your password has been changed.', 'success');
                 })
                 .catch((err) => {

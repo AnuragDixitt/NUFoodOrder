@@ -26,10 +26,8 @@ const VendorOrders = (props) => {
 
     const [orders, setOrders] = useState([]);
 
-    console.log("Order Received : ", orders)
 
     useEffect(() => {
-        console.log(userID);
         const post = {VendorID: userID};
         axios
             .get(`http://localhost:4000/order?vendorid=${userID}`)
@@ -74,22 +72,18 @@ const VendorOrders = (props) => {
             }
         }
 
-        // console.log(sum); return;
         if (sum >= 10 && 
             status === 'ACCEPTED') {
             swal('Order overload', 'Please tend to the pending orders first. You can come to this order later.', 'warning');
             return;
         }
         if (status === 'REJECTED') {
-            console.log({_id: refund._id, updateWallet: true, increment: refund.amount});
-            axios
-                .post(`http://localhost:4000/user`, {_id: refund._id, updateWallet: true, increment: refund.amount})
-                .then((response) => console.log(response, ` Refunded buyer ${refund.amount}`));
+                console.log("rejected")
         }
         axios
             .post(`http://localhost:4000/order/status`, {_id: orderId, Status: status})
             .then((resp) => {
-                console.log('Changed Status. ', resp);
+
                 if (status === 'ACCEPTED' || status === 'REJECTED') {
                     emailjs.send("service_mncnz8p","template_jxsko0t",{
                         from: user.Email,
@@ -99,7 +93,6 @@ const VendorOrders = (props) => {
                         `Your order has been accepted. Please wait for the chef to prepare it.`
                         : `Sorry for the inconvenience. Your order has been rejected. Please collect your money from reception and try again later.`)
                     }, "Fcvyj7SnnAUKrasQO").then((resp) => {
-                        console.log('Email sent. ', resp.status, ' ', resp.text);
                         window.location='/vendor/orders';
                     }, (err) => console.log(err))
                 } else {

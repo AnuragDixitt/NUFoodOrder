@@ -12,7 +12,6 @@ function AuthController() {
         data = data[0]
         const response = {}
         if (data == undefined){
-            console.log("Invalid OTP")
             response.message = 'Invalid OTP!!';
             response.status = 3;
             res.json(response)
@@ -27,10 +26,8 @@ function AuthController() {
                     response.message = 'OTP Expired';
                     response.status = 0;
                     res.status(200).json(response)
-                    console.log("OTP expired")
                 }else{
                     email = data.email
-                    console.log(email)
                     User.findOne({Email:email}).then(async (users) => {
                         const salt = await bcrypt.genSalt();
                         const pass = await bcrypt.hash(req.body.Password, salt);
@@ -40,7 +37,6 @@ function AuthController() {
                         response.status = 1;
                         res.status(200).json(response)
                     }).catch((err)=>{
-                        console.log("Something went wrong",err)
                         response.message = 'Something went wrong!!';
                         response.status = 2;
                         res.json(response)
@@ -55,15 +51,12 @@ function AuthController() {
     this.emailSend = async (req,res) => {
     const response = {};
     email = req.body.Email
-    console.log(email)
    
     
         await User.findOne({Email:email}).then(async (users) => {
-            console.log(users)
             if (users === null){
                 response.status = 0
                 response.message = "Email Not Found"
-                console.log("Email not found")
                 res.json(response)
             }
             else{
@@ -80,16 +73,11 @@ function AuthController() {
         response.status = 1
         res.status(200).json(response)
     }
-        // console.log("Success otp mail sent",otpResponse)
-        // console.log("Check Email");
     
     }).catch( (err) => {
-        // console.log("gola",err)
         response.message = 'Somthing went wrong';
         response.status = 2;
         res.json(response)
-        console.log("Error!!");
-        console.log("Email not found")
     });
         
     
@@ -120,7 +108,7 @@ function AuthController() {
 
             }
             else{
-                console.log('Email sent'+ info.response);
+                console.log('Email sent');
             };
         });
     };

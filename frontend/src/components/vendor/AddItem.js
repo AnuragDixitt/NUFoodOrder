@@ -116,11 +116,9 @@ const AddFoodItem = (props) => {
       CanteenClosingTime: user.ClosingTime,
       BuyersRated: 0,
     };
-    console.log(newItem);
     axios
       .post("http://localhost:4000/food/insert-item", newItem)
       .then((response) => {
-        console.log(response.data);
         alert(
           "Added food item, " + response.data.Name + " to your menu."
         );

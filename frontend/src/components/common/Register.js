@@ -182,7 +182,6 @@ const Register = (props) => {
 
 	const onSubmit = (event) => {
 		event.preventDefault();
-        console.log(OpeningTime);
         if (Password === confirmPass) {
             const bad = Boolean(ContactNo === null || ContactNo === 0 || Number(ContactNo) === NaN);
             if (Name === '' || Email === '' || Password === '' || bad || Status === '') {
@@ -207,11 +206,9 @@ const Register = (props) => {
                     OpeningTime: OpeningTime,
                     ClosingTime: ClosingTime
                 };
-                console.log(newUser);
                 axios
                     .post('http://localhost:4000/user/register', newUser)
                     .then((response) => {
-                        console.log(response.data);
                         swal('Account registered', response.data.Name + ', please enter your credentials to login.', 'success');
                         navigate('/login');
                     })
@@ -233,11 +230,9 @@ const Register = (props) => {
                     Age: Age,
                     BatchName: BatchName,
                 };
-                console.log(newUser);
                 axios
                     .post('http://localhost:4000/user/register', newUser)
                     .then((response) => {
-                        console.log(response.data);
                         swal('Account registered', response.data.Name + ', please enter your credentials to login.', 'success');
                         navigate('/login');
                     })
@@ -442,7 +437,6 @@ const Register = (props) => {
                                 value={ClosingTime}
                                 onChange={(newTime) => {
                                     setClosingTime(newTime);
-                                    console.log(OpeningTime);
                                   }}
                                 renderInput={(params) => <TextField {...params} />}
                             />

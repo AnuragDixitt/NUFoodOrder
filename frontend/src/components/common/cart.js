@@ -46,7 +46,7 @@ export default function Cart(props) {
 
             })
             .catch(err => {
-                console.log('Err.Message: ', err)
+                console.log('Err')
             });
     }, []);
 
@@ -91,7 +91,6 @@ export default function Cart(props) {
     const proceedToPay = async () => {
 
         const { data: { key } } = await axios.get("http://localhost:4000/api/getkey")
-        console.log("Key : ", key)
 
         const { data: { order } } = await axios.post("http://localhost:4000/api/checkout", {
             totalprice: totalprice*100,
@@ -106,19 +105,18 @@ export default function Cart(props) {
             name: "NuOrder",
             description: "Restaurent Payment",
             handler : function (response){
-                console.log("Resposnse Receivedd : ", response);
                 axios.post("http://localhost:4000/api/saveinfo",{
                     orderid : response.razorpay_payment_id,
                     paymentid : response.razorpay_order_id,
                     signature : response.razorpay_signature,
                     amt : totalprice,
-                    orderid : order.id
+                    orderId : order.id
                 })
                 .then( () => {
-                    console.log("hogaya")
+                    console.log("Saved")
                 })
                 .catch( (err) => {
-                    console.log("in saving",err)
+                    console.log("Error in mongodb",)
                 })
                 for(const d of data){
                     axios
@@ -139,7 +137,6 @@ export default function Cart(props) {
                             date: d.date,
                             Status: 'PLACED'
                         }).then((response) => {
-                            console.log("one : ",response);
                             swal({
                                 title: `Order placed!`, 
                                 text: `Your order of ₹${totalprice} has been placed. Please wait till the chef prepares it.`, 

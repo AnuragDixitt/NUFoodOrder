@@ -1,12 +1,10 @@
 var express = require("express");
 var Router = express.Router();
-// Load User model
-// const TAGS = new Map(foodImport.TAGS.map((tag, index) => [tag, index]));
-// const ADD_ONS = new Map(foodImport.ADD_ONS.map((addOn, index) => [addOn, (index >>> 0)]));
+
 const order = require('../models/order');
 
 Router.get("/", async function(req, res) {
-    // console.log("Vendor ID: ", req.body);
+
     const VendorID = req.query.vendorid;
     const BuyerID = req.query.buyerid;
     if (VendorID !== null && VendorID !== undefined) {
@@ -32,7 +30,6 @@ Router.get("/", async function(req, res) {
 // Add or insert food item 
 Router.post("/place", async (req, res) => {
     const Order = req.body;
-    console.log("abe",Order);
     const newOrder = new order({
         foodItem: Order.foodItem,
         VendorID: Order.VendorID,
@@ -62,7 +59,6 @@ Router.post("/place", async (req, res) => {
 Router.post('/status', async (req, res) => {
     const Order = req.body;
     if (Order.RateOrder) {
-        console.log("Rating: ", Order.Rating);
         order.findOneAndUpdate({ _id: Order._id },
             {Rating: Order.Rating}, 
             {new: true},
@@ -71,13 +67,11 @@ Router.post('/status', async (req, res) => {
                     console.log(err);
                     res.status(500).json(err);
                 } else {
-                    console.log("Rating, FOOD ITEM: ", doc.foodItem); 
                     res.json(doc.Rating);
                 }
             }
         );
     } else {
-        console.log("Status: ", Order.Status);
         order.findOneAndUpdate({ _id: Order._id },
             {Status: Order.Status}, 
             {new: true},
@@ -86,7 +80,6 @@ Router.post('/status', async (req, res) => {
                     console.log(err);
                     res.status(500).json(err);
                 } else {
-                    console.log("FOOD ITEM: ", doc.foodItem); 
                     res.json(doc.foodItem);
                 }
             }

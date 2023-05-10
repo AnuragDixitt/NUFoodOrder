@@ -91,40 +91,33 @@ const Login = (props) => {
       };
 
     const googleSuccess = (credentialResponse) => {
-        // console.log("Google login successful. User details:", credentialResponse);
         const decode = credentialResponse.credential
         var profile = jwt_decode(decode);
         const {iat,exp,...restofparams} = profile
-        // console.log(profile.email);
 
 
         axios.post('http://localhost:4000/user/googlelogin', restofparams)
             .then((res) => {
                 if (res.data.user === undefined) {
-                    console.log("User not found! Please register first.");
                     swal('Error', 'User not found! Please register first.', 'error');
                 }
                 else{
-                // console.log(res.data.user)
                 const {token,refreshToken} = res.data
-                console.log('Successfully logged in!!');
-                    // console.log(res.data.user.userStatus);
                     localStorage.setItem('isLoggedIn', true);
                     localStorage.setItem('user', JSON.stringify(res.data.user));
-                    // console.log(res.type);
                 
                     if (res.data.user.userStatus === 'Vendor') {
                         localStorage.setItem('page', '/vendor');
                         setCookie('jwt', token, 1);
                         setCookie('refresh', refreshToken, 1);
 
-                        window.location='/vendor';
+                        window.location='/vendor/orders';
                     } else {
                         localStorage.setItem('page', '/buyer');
                         setCookie('jwt', token, 1);
                         setCookie('refresh', refreshToken, 1);
 
-                        window.location='/buyer';
+                        window.location='/buyer/menu';
                     }
                 }
             })
@@ -136,8 +129,8 @@ const Login = (props) => {
       };
     
       const googleFailure = (response) => {
-        console.log("response");
-        console.log(response);
+        swal("Something went Wrong","Please Try Again!")
+        navigate('/login')
         // navigate('/')
       };
 
@@ -184,20 +177,15 @@ const Login = (props) => {
             Email: Email,
             Password: Password
         };
-        console.log(thisUser);
 
         axios                               
             .post('http://localhost:4000/user/login', thisUser)
             .then((response) => {
-                console.log(response.data)
                 const {token,refreshToken} = response.data
-                console.log(token)
                 
                 const res = response.data;
-                // console.log(res)
                 if (res.code === -1) {
                     console.log('Router error');
-                    console.log(res);
                 } else if (res.code === 0) {
                     swal('User does not exist', 'There is no user registered by this email. Please check the entered email.', 'warning'); 
                     resetInputs();
@@ -205,24 +193,19 @@ const Login = (props) => {
                     swal('Incorrect password', 'Please enter the correct password', 'error');
                     setPassword('');
                 } else {
-                    console.log('Successfully logged in!!');
-                    console.log(res.user);
                     localStorage.setItem('isLoggedIn', true);
                     localStorage.setItem('user', JSON.stringify(res.user));
-                    // console.log(res.type);
                     resetInputs();
                     if (res.user.userStatus === 'Vendor') {
                         localStorage.setItem('page', '/vendor');
                         setCookie('jwt', token, 1);
                         setCookie('refresh', refreshToken, 1);
-
-                        window.location='/vendor';
+                        window.location='/vendor/orders';
                     } else {
                         localStorage.setItem('page', '/buyer');
                         setCookie('jwt', token, 1);
                         setCookie('refresh', refreshToken, 1);
-
-                        window.location='/buyer';
+                        window.location='/buyer/menu';
                     }
                 }
             })

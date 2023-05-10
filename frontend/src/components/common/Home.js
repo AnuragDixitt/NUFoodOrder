@@ -41,12 +41,33 @@ const Home = (props) => {
       justifyContent: "center",
       alignItems: "center",
       color: "white",
-      fontSize: "8vw",
+      fontSize: "7vw",
       margin:"0 auto",
       fontFamily: "cursive",// Add this property to set the background color to semi-transparent black
-   }}>NuOrder
-   </div>
+   }}>NuOrder 
    
+   </div>
+
+   <div 
+   style={{ 
+    paddingTop:125,
+    position: "absolute",
+    top: 0,
+    left: 0,
+    height:"100%",
+    width:"100%",
+    // backgroundColor: "rgba(0, 0, 0, 0.5)" ,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    color: "white",
+    fontSize: "2vw",
+    margin:"0 auto",
+    fontFamily: "cursive",// Add this property to set the background color to semi-transparent black
+ }}>
+   <br /><h4>NIIT's own food ordering app</h4>
+   </div>
+
     </div>
     <div style={{ 
       position: "absolute",

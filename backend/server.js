@@ -14,12 +14,9 @@ var UserRouter = require("./routes/Users");
 var foodItemRouter = require("./routes/food");
 var orderRouter = require("./routes/order");
 const cookieParser = require('cookie-parser');
+const paymentRoute = require("./routes/paymentRoutes");
 
 
-var instance = new Razorpay({
-    key_id: 'rzp_test_HZj6s0sFOK3SAE',
-    key_secret: 'PbgO5c5PZGpBZ4CUQx4hHvLH',
-});
 
 
 app.use(cookieParser());
@@ -39,11 +36,12 @@ app.use("/testAPI", testAPIRouter);
 app.use("/user", UserRouter);
 app.use("/food", foodItemRouter);
 app.use("/order", orderRouter);
+app.use("/api", paymentRoute);
 
 
 
 app.get("/api/getkey", (req, res) =>
-  res.status(200).json({ key: instance.key_id })
+  res.status(200).json({ key: 'rzp_test_HZj6s0sFOK3SAE' })
 );
 
 

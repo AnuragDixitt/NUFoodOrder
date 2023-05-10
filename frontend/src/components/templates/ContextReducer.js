@@ -4,7 +4,6 @@ const CartStateContext = createContext();
 const CartDispatchContext = createContext();
 
 const reducer = (state, action) =>{
-    console.log("Action : ", action)
     switch(action.type) {
         case "Add":
             return [...state, {id: action.VendorID,
@@ -20,8 +19,7 @@ const reducer = (state, action) =>{
                 age: action.buyerAge,
                 rating: action.Rating,
                 batch: action.buyerBatch
-                }]; // {} passes data that needed to send to backend
-            // similarly add all the required data
+                }]; 
         case "REMOVE":
             let newArr = [...state];
             newArr.splice(action.index, 1);
@@ -29,8 +27,7 @@ const reducer = (state, action) =>{
         case "UPDATE":
             let arr = [...state]
             arr.find((food, index) => {
-                if (food.name === action.foodItem){ //comapring name from request and action
-                    console.log(food.qty, parseInt(action.qty, action.price+food.price))
+                if (food.name === action.foodItem){ 
                     arr[index] = {...food, qty: parseInt(action.qty) + food.qty, price: action.price + food.price}
                 }
                 return arr

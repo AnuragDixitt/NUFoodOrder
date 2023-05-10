@@ -36,16 +36,14 @@ const VendorOrders = (props) => {
     const [foodName, setFoodName] = useState('');
 
     useEffect(() => {
-        console.log(userID);
         const post = {VendorID: userID};
         axios
             .get(`http://localhost:4000/order?buyerid=${userID}`)
             .then((response) => {
                 setOrders(response.data);
-                console.log(orders);
             })
             .catch(err => {
-                console.log('Err.Message: ', err)
+                console.log('Err ')
             });
     }, []);
 
@@ -55,11 +53,9 @@ const VendorOrders = (props) => {
     }
 
     const changeStatus = (orderId, status) => {
-        console.log("In changeStatus, params: ", orderId, " ", status);
         axios
             .post(`http://localhost:4000/order/status`, {_id: orderId, Status: status})
             .then((resp) => {
-                console.log('Changed Status. ', resp);
                 window.location='/buyer/orders'
             })
             .catch((err) => console.log(err));
@@ -71,7 +67,6 @@ const VendorOrders = (props) => {
     const styles = {
         container: {
           height: '93.9vh',
-        //   backgroundImage: `url(${backgroundImage})`,
           backgroundColor:"#F5FEFD",
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center center',

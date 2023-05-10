@@ -34,9 +34,6 @@ function LoginController() {
                 if (err) {
                     console.log(err);
                 } else {
-                    console.log("OK");
-                    console.log(users);
-                    console.log({OpeningTime: users.OpeningTime, ClosingTime: users.ClosingTime});
                     res.json({OpeningTime: new Date(users.OpeningTime), ClosingTime: new Date(users.ClosingTime)});
                 }
             });
@@ -61,7 +58,6 @@ function LoginController() {
                 date: registerData.date,
                 Password: Password,
                 ContactNo: registerData.ContactNo,
-                Wallet: registerData.Wallet,
                 userStatus: registerData.userStatus,
                 ShopName: registerData.ShopName,
                 OpeningTime: registerData.OpeningTime,
@@ -82,7 +78,6 @@ function LoginController() {
                 date: registerData.date,
                 Password: Password,
                 ContactNo: registerData.ContactNo,
-                Wallet: registerData.Wallet,
                 userStatus: registerData.userStatus,
                 Age: registerData.Age,
                 BatchName: registerData.BatchName
@@ -137,8 +132,10 @@ function LoginController() {
         User.findOne({ Email })
         .then(async (users) => {
             if (!users) {
-    
-                res.json({msg:respo + "Something went wrong!"});
+                respo.code = 0
+                respo.user= null
+                respo.type = null
+                res.json(respo);
             } else {
                 const passwordMatch = await bcrypt.compare(Password, users.Password);
                 if (passwordMatch) {
@@ -186,32 +183,12 @@ function LoginController() {
                         console.log(err);
                         res.status(500).json({errMsg: err.message});
                     } else {
-                        console.log(doc); 
                         res.status(200).send("OK");
                     }
                 });
         } else {
-            if (req.body.updateWallet) {
-                console.log(req.body);
-                User.findOneAndUpdate({_id: req.body._id}, 
-                    {
-                        $inc: {Wallet: req.body.increment}
-                    }
-                , {new: true}, 
-                    (err, doc) => {
-                        if (err) {
-                            console.log(err);
-                            res.status(500).json({errMsg: err.message});
-                        } else {
-                            console.log(doc); 
-                            res.status(200).send("OK");
-                        }
-                    });
-                return;
-            }
+            
             const user = req.body.user;
-            console.log('UserType: ', user.userStatus);
-            console.log(user);
             if (user.userStatus === 'Buyer') {
                 User.findOneAndUpdate({_id: user._id}, 
                 {
@@ -225,7 +202,6 @@ function LoginController() {
                             console.log(err);
                             res.status(500).json({errMsg: err.message});
                         } else {
-                            console.log("BUYER: ", doc); 
                             res.status(200).send("OK");
                         }
                     }
@@ -244,7 +220,6 @@ function LoginController() {
                             console.log(err);
                             res.status(500).json({errMsg: err.message});
                         } else {
-                            console.log("VENDOR: ", doc); 
                             res.status(200).send("OK");
                         }
                     }

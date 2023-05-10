@@ -1,6 +1,6 @@
 // const instance = require('../server.js');
 const crypto = require('crypto');
-const Payment = require('../models/paymentModel.js');
+// const Payment = require('../models/paymentModel.js');
 const Razorpay = require('razorpay');
 const Pay = require("../models/paymentModel.js")
 
@@ -11,14 +11,12 @@ var instance = new Razorpay({
 
 
 const checkout = async (req, res) => {
-  // console.log("Request recived : ", req.body);
   try {
     const options = {
       amount: Number(req.body.totalprice),
       currency: "INR",
     };
     const order = await instance.orders.create(options);
-    // console.log("Order : ", order);
 
     res.status(200).json({
       success: true,
@@ -47,7 +45,6 @@ const paymentVerification = async (req, res) => {
   const isAuthentic = expectedSignature === razorpay_signature;
 
   if (isAuthentic) {
-    // Database comes here
 
     await Payment.create({
       razorpay_order_id,
@@ -55,9 +52,6 @@ const paymentVerification = async (req, res) => {
       razorpay_signature,
     });
 
-    // res.redirect(
-    //   `http://localhost:3000/paymentsuccess?reference=${razorpay_payment_id}`
-    // );
   } else {
     res.status(400).json({
       success: false,
@@ -71,14 +65,14 @@ const saveDB = async (req, res) => {
       razorpay_payment_id: req.body.paymentid,
       razorpay_signature : req.body.signature,
       amount: req.body.amt,
-      order_id : req.body.orderid
+      vendor : req.body.orderId
     });
     paymentDetails.save()
     .then(
       console.log("payment saved in db")
     )
     .catch(err => {
-      console.log("error saving in database")
+      console.log("error saving in database",err)
     })
 
 }

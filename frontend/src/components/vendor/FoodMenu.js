@@ -89,7 +89,6 @@ const FoodMenu = (props) => {
     }
 
     useEffect(() => {
-        // console.log(userID);
         axios
             .get(`http://localhost:4000/food?vendorid=${userID}`)
             .then((response) => {
@@ -100,8 +99,6 @@ const FoodMenu = (props) => {
             })
             .catch(err => {
                 console.log('Error!!!  ', err); 
-                console.log('Err.Message: ', err.message)
-                console.log("GET FOOD MENU ERROR MSG: ", err.response.errMsg);
             })
     }, []);
 
@@ -117,7 +114,6 @@ const FoodMenu = (props) => {
     const styles = {
         container: {
           height: '93.9vh',
-        //   backgroundImage: `url(${backgroundImage})`,
           backgroundColor:"lightblue",
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center center',
@@ -174,7 +170,6 @@ const FoodMenu = (props) => {
                 AddOns: addOnlist, 
                 Tags: tagBool.reduce((prev, b, i) => prev | ((1 << i) * b), 0),
             }).then((response) => {
-                // console.log(response.data);
                 swal('Edited successfully', `${editItem.Name} has been edited successfully.` ,'success')
                 .then((resp) => {if (resp) window.location='/vendor/shop-menu';});
             }).catch((err) => console.log(err));
@@ -246,7 +241,6 @@ const FoodMenu = (props) => {
                                         if (willDelete) {
                                             axios.post('http://localhost:4000/food/delete', {_id: user._id})
                                             .then((resp) => {
-                                                // console.log(resp);
                                                 swal({
                                                     title: `Deleted ${itemName}`,
                                                     text: "Poof! Your food item has been deleted!", 
@@ -278,7 +272,6 @@ const FoodMenu = (props) => {
                                         addOnPrice[addOn.Name] = addOn.Price;
                                         addOnBool[addOn.Name] = true;
                                     });
-                                    // console.log(getTags(user.Tags));
                                     indices.forEach((idx) =>   tagBool[idx] = Boolean((user.Tags >> idx) & 1) );
                                     setOpen(true);
                                 }}>

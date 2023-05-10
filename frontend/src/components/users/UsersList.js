@@ -53,10 +53,6 @@ const UsersList = (props) => {
     setSortName(!sortName);
   };
 
-  const customFunction = (event) => {
-    console.log(event.target.value);
-    setSearchText(event.target.value);
-  };
 
   return (
     <div>

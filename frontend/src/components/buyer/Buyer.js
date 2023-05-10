@@ -34,18 +34,9 @@ const VendorProfile = (props) => {
     const [newPass, setNewPass] = useState('');
     const [confirmNewPass, setConfirmNewPass] = useState('');
 
-    // function preventManualUrlChange() {
-    //     console.log("reached here", window.location.href)
-    //     if (window.location.href !== "http://localhost:3000/buyer") {
-    //     //   window.location.replace("/buyer")
-    //     console.log("hii")
-    //     }
-    //   }
-
     useEffect( () => {
         (async function() {
             const token = getCookie('jwt')
-            console.log("trying refresh")
             await axios.get('http://localhost:4000/user/protected',{headers: {'Authorization': `Bearer ${token}`}})
         })()
     }, [])
@@ -85,12 +76,9 @@ const VendorProfile = (props) => {
                 setExpand(false);
             }
         } else {
-            console.log("User: ", curr);
-            console.log("thisUser: ", thisUser);
             axios
                 .post('http://localhost:4000/user/edit', {user: thisUser, changePassword: false})
                 .then((res)=>{
-                    console.log("Edited: ", res.data);
                     swal('Edited successfully', 'Your details have been updated.', 'success');
                 })
                 .catch((err)=>console.log(err.response.data));
@@ -111,11 +99,9 @@ const VendorProfile = (props) => {
                     newPassword: newPass, 
                     changePassword: true
                 }).then((response)=>{
-                    console.log("Password changed!")
                     swal('Password changed successfully', 'Your password has been changed.', 'success');
                 })
                 .catch((err) => {
-                    console.log(err.response.data);
                     swal({icon: 'error', text: err.response.data})
                 });
         } else {
