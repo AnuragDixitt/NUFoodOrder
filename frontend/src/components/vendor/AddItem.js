@@ -1,250 +1,285 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
+import React from 'react';
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
-import TableCell from "@mui/material/TableCell";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Container from '@mui/material/Container';
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import Divider from "@mui/material/Divider";
-import Autocomplete from "@mui/material/Autocomplete";
-import IconButton from "@mui/material/IconButton";
-import InputAdornment from "@mui/material/InputAdornment";
-import swal from 'sweetalert';
-import SearchIcon from "@mui/icons-material/Search";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-import FormGroup from '@mui/material/FormGroup';
-import FormHelperText from '@mui/material/FormHelperText';
-import Checkbox from '@mui/material/Checkbox';
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import Checkbox from "@mui/material/Checkbox";
+import FormControl from "@mui/material/FormControl";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormGroup from "@mui/material/FormGroup";
+import FormHelperText from "@mui/material/FormHelperText";
+import FormLabel from "@mui/material/FormLabel";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import Button from "@mui/material/Button";
+import { lightBlue } from "@mui/material/colors";
 
-const TAGS = ["Beverage", "Hot", "Cold", "Meal", "Snacks", "Spicy", "Very spicy", "Sweet", "Dessert", "Vegan"]
-const ADD_ONS = ["Cheese", "Butter", "Ketchup", "Schezwan", "Mayonnaise", "Mustard", "Peri peri", "Chocolate", "Milkmaid", "Garlic dip"]
+const TAGS = [
+  "Beverage",
+  "Hot",
+  "Cold",
+  "Meal",
+  "Snacks",
+  "Spicy",
+  "Very spicy",
+  "Sweet",
+  "Dessert",
+  "Vegan",
+];
+
+const ADD_ONS = [
+  "Cheese",
+  "Butter",
+  "Ketchup",
+  "Schezwan",
+  "Mayonnaise",
+  "Mustard",
+  "Peri peri",
+  "Chocolate",
+  "Milkmaid",
+  "Garlic dip",
+];
 
 const indices = new Array(10).fill().map((_, idx) => idx);
 
 const AddFoodItem = (props) => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const userID = user._id;
+  const ShopName = user.ShopName;
 
-    const user = JSON.parse(localStorage.getItem('user'))
-    const userID = user._id;
-    const ShopName = user.ShopName;
+  const [Name, setName] = useState("");
+  const [Price, setPrice] = useState(0);
+  const [Rating, setRating] = useState(0);
+  const [Veg, setVeg] = useState(true);
 
-    const [Name, setName] = useState('');
-    const [Price, setPrice] = useState(0);
-    const [Rating, setRating] = useState(0);
-    const [Veg, setVeg] = useState(true);
+  const [addOnBool, setAddOnBool] = useState(new Array(10).fill(false));
+  const [addOnPrice, setAddOnPrice] = useState(new Array(10).fill(0));
 
-    const [addOnBool, setAddOnBool] = useState(new Array(10).fill(false));
-    const [addOnPrice, setAddOnPrice] = useState(new Array(10).fill(0));
+  const [tagBool, setTagBool] = useState(new Array(10).fill(false));
 
-    const [tagBool, setTagBool] = useState(new Array(10).fill(false));
+  const handleChangeTagBool = (idx) => (event) => {
+    const tmp = [...tagBool];
+    tmp[idx] = event.target.checked;
+    setTagBool(tmp);
+  };
 
-    const handleChangeTagBool = (idx) => event => {
-        const tmp = [...tagBool]; tmp[idx] = event.target.checked;
-        setTagBool(tmp);
-    }
+  const onChangeVeg = (e) => {
+    setVeg(!e.target.value);
+  };
 
-    const onChangeVeg = (e) => {
-        setVeg(!e.target.value);
-    }
+  const handleChangeBool = (idx) => (event) => {
+    const tmp = [...addOnBool];
+    tmp[idx] = event.target.checked;
+    setAddOnBool(tmp);
+  };
 
-    const handleChangeBool = (idx) => event => {
-        const tmp = [...addOnBool]; tmp[idx] = event.target.checked; 
-        setAddOnBool(tmp);
-    }
+  const handleChangePrice = (idx) => (event) => {
+    const tmp = [...addOnPrice];
+    tmp[idx] = event.target.value;
+    setAddOnPrice(tmp);
+  };
 
-    const handleChangePrice = (idx) => event => {
-        const tmp = [...addOnPrice]; tmp[idx] = event.target.value;
-        setAddOnPrice(tmp);
-    }
-    const styles = {
-        container: {
-          height: 'full',
-        //   backgroundImage: `url(${backgroundImage})`,
-          backgroundColor:"lightblue",
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'center center',
-          backgroundSize: 'cover',
-          backgroundAttachment: 'fixed',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'Top',
-          padding: '0px',
-          margin: '0px'
-        },
-        
-      }; 
+  const onChangeName = (e) => {
+    setName(e.target.value);
+  };
+  const onChangePrice = (e) => {
+    setPrice(e.target.value);
+  };
 
-    const onChangeName = (e) => {
-        setName(e.target.value);
-    }
-    const onChangePrice = (e) => {
-        setPrice(e.target.value);
-    }
+  const onAddFoodItem = (event) => {
+    event.preventDefault();
 
-    const onAddFoodItem = (event) => {
-        event.preventDefault();
+    let tagSet = 0 >>> 0;
 
-        let tagSet = 0 >>> 0;
+    let addOnList = [];
+    indices.forEach((i) => {
+      if (tagBool[i]) tagSet = tagSet | (1 << i);
+      if (addOnBool[i])
+        addOnList.push({ Name: i, Price: addOnPrice[i] });
+    });
 
-        let addOnList = [];
-        indices.forEach((i) => {
-            if (tagBool[i]) 
-                tagSet = tagSet | (1 << i);
-            if (addOnBool[i])
-                addOnList.push({Name: i, Price: addOnPrice[i]});
-        });
-
-        const newItem = {
-            Name: Name,
-            Price: Price,
-            Rating: 0,
-            Veg: Veg,
-            AddOns: addOnList, 
-            Tags: tagSet,
-            VendorID: userID,
-            ShopName: ShopName,
-            VendorName: user.Name,
-            CanteenOpeningTime: user.OpeningTime,
-            CanteenClosingTime: user.ClosingTime,
-            BuyersRated: 0
-        };
-        console.log(newItem);
-        axios
-            .post('http://localhost:4000/food/insert-item', newItem)
-            .then((response) => {
-                console.log(response.data);
-                alert('Added food item, ' + response.data.Name + ' to your menu.');
-            }).catch(err => console.log(err.response.data.errMsg));
-    }   
+    const newItem = {
+      Name: Name,
+      Price: Price,
+      Rating: 0,
+      Veg: Veg,
+      AddOns: addOnList,
+      Tags: tagSet,
+      VendorID: userID,
+      ShopName: ShopName,
+      VendorName: user.Name,
+      CanteenOpeningTime: user.OpeningTime,
+      CanteenClosingTime: user.ClosingTime,
+      BuyersRated: 0,
+    };
+    console.log(newItem);
+    axios
+      .post("http://localhost:4000/food/insert-item", newItem)
+      .then((response) => {
+        console.log(response.data);
+        alert(
+          "Added food item, " + response.data.Name + " to your menu."
+        );
+      })
+      .catch((err) => console.log(err.response.data.errMsg));
+  };
 
   return (
-    <div align={'center'} style={styles.container}>
-    <div align={'center'} style={{width:"50%"}}>
+    <div style={{backgroundColor: "lightBlue" , height: "100vh", paddingTop: 150}} >
+      <React.Fragment>
+        <Paper sx={{ overflow: "hidden", maxWidth: 900, margin: "auto", borderRadius: "15px 15px" , }}>
+          <Box sx={{ flexGrow: 1 }}>
+            <Toolbar>
+              <Typography variant="h6" component="div">
+                Add food item
+              </Typography>
+            </Toolbar>
+            <Grid container spacing={2} sx={{ p: 5 }}>
+              <Grid item xs={4}>
+                <TextField
+                  required
+                  fullWidth
+                  id="Name"
+                  name="Name"
+                  label="Name"
+                  value={Name}
+                  onChange={onChangeName}
+                  size="small"
+                />
+              </Grid>
+              <Grid item xs={3}>
+                <TextField
+                  required
+                  fullWidth
+                  id="Price"
+                  name="Price"
+                  label="Price"
+                  type="number"
+                  value={Price}
+                  onChange={onChangePrice}
+                  size="small"
+                />
+              </Grid>
 
-                    <Grid container spacing={2} padding="10px 10px 10px 10px">
-                    <Grid container align={'center'} spacing={2}>
-                        <Grid item xs={12}>
-                            <TextField
-                                label='Food item name'
-                                variant='outlined'
-                                value={Name}
-                                onChange={onChangeName}
+              <Grid item xs={12}>
+                <FormControl component="fieldset">
+                  <FormLabel component="legend">Type</FormLabel>
+                  <RadioGroup
+                    row
+                    aria-label="type"
+                    defaultValue="veg"
+                    onChange={onChangeVeg}
+                  >
+                    <FormControlLabel
+                      value="veg"
+                      control={<Radio />}
+                      label="Veg"
+                    />
+                    <FormControlLabel
+                      value="nonveg"
+                      control={<Radio />}
+                      label="Non-veg"
+                    />
+                  </RadioGroup>
+                </FormControl>
+              </Grid>
+
+              <Grid item xs={12}>
+                <FormControl component="fieldset">
+                  <FormLabel component="legend">Add-ons</FormLabel>
+                  <FormGroup>
+              <Grid container spacing={2}>
+                {[ADD_ONS.slice(0, 5), ADD_ONS.slice(5, 10)].map((addOnGroup, groupIdx) => (
+                  <Grid
+                    item
+                    key={groupIdx}
+                    xs={6}
+                    sx={{
+                      marginBottom: "32px",
+                      "& > *:not(:last-child)": {
+                        marginBottom: "16px",
+                      },
+                    }}
+                  >
+                    {addOnGroup.map((addOn, idx) => (
+                      <React.Fragment key={idx}>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={addOnBool[idx + groupIdx * 5]}
+                              onChange={handleChangeBool(idx + groupIdx * 5)}
+                              name={addOn}
+                              color="primary"
                             />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                label='Price'
-                                variant='outlined'
-                                value={Price}
-                                onChange={onChangePrice}
-                            />
-                        </Grid>
-                        <Divider/>
-                        <Grid item xs={12}>
-                            <FormControl>
-                                <FormLabel id="demo-radio-buttons-group-label" sx={{ fontSize: '25px' }}>Veg or Non-veg?</FormLabel>
-                                <RadioGroup
-                                    aria-labelledby="demo-radio-buttons-group-label"
-                                    value={Veg}
-                                    onChange={onChangeVeg}
-                                    // defaultValue="female"
-                                    name="radio-buttons-group"
-                                >
-                                    <FormControlLabel value={true} control={<Radio />} label="Veg" />
-                                    <FormControlLabel value={false} control={<Radio />} label="Non-veg" />
-                                </RadioGroup>
-                            </FormControl>
-                        </Grid>
+                          }
+                          label={addOn}
+                          sx={{ mr: 2 }}
+                        />
+                        <TextField
+                          id="outlined-number"
+                          label="Price"
+                          type="number"
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                          value={addOnPrice[idx + groupIdx * 5]}
+                          onChange={handleChangePrice(idx + groupIdx * 5)}
+                          disabled={!addOnBool[idx + groupIdx * 5]}
+                          size="small"
+                          sx={{ ml: 2 }}
+                        />
+                      </React.Fragment>
+                    ))}
+                  </Grid>
+                ))}
+              </Grid>
+                  </FormGroup>
+                </FormControl>
+              </Grid>
 
-                        {/* <Grid container spacing={2} padding="10px 10px 10px 10px"> */}
-                        <Grid item xs={12} md={6}>
-                        <Grid item xs={12} >
-                        {/* <Box sx={{ p: 3, bgcolor: '#F5F5F5',borderRadius: '50px' }}> */}   
-
-                        <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
-                            <FormLabel component="legend" align={'center'} sx={{fontSize: '1.5rem'}}>Add ons: </FormLabel>
-                            <FormGroup>
-                            <Grid container spacing={1}>
-                            {indices.map((i) => (
-                            <Grid item xs={12}>
-                                <Grid item xs={10} >
-                                    <FormControlLabel
-                                        control={
-                                            <Checkbox checked={addOnBool[i]} onChange={handleChangeBool(i)} />
-                                        }
-                                        label={<div style={{fontSize: '1.5rem'}}>{ADD_ONS[i]}</div>}
-                                        sx={{mb: 1}}
-                                    />
-                                </Grid>
-                                <Grid item  xs={9}  >
-                                    <TextField
-                                        size='medium'
-                                        label={ADD_ONS[i] + ' price'}
-                                        variant='outlined'
-                                        value={addOnPrice[i]}
-                                        onChange={handleChangePrice(i)}
-                                    />
-                                </Grid>
-                            </Grid>
-                            ))}
-                            </Grid>
-                            </FormGroup>
-                        </FormControl>
-                        {/* </Box> */}
+              <Grid item xs={12}>
+                <FormControl component="fieldset">
+                  <FormLabel component="legend">Tags</FormLabel>
+                  <FormGroup>
+                    <Grid container spacing={2} justifyContent="flex-start">
+                      {TAGS.map((tag, idx) => (
+                        <Grid item key={idx}>
+                          <FormControlLabel
+                            control={
+                              <Checkbox
+                                checked={tagBool[idx]}
+                                onChange={handleChangeTagBool(idx)}
+                                name={tag}
+                                color="primary"
+                              />
+                            }
+                            label={tag}
+                          />
                         </Grid>
-
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                        <Grid item xs={12} >
-                        {/* <Box sx={{ p: 3, bgcolor: '#F5F5F5',borderRadius: '50px' }}> */}
-                        <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
-                            <FormLabel component="legend" align={'center'} sx={{fontSize: '1.5rem'}}>Tags: </FormLabel>
-                            <FormGroup>
-                            <Grid container spacing={5} >
-                            {indices.map((i) => (
-                            <Grid item xs={12}>
-                                <Grid item xs={10} >
-                                <FormControlLabel align={'center'}
-                                    control={
-                                        <Checkbox checked={tagBool[i]} onChange={handleChangeTagBool(i)} />
-                                    }
-                                    label={<div style={{fontSize: '1.5rem'}}>{TAGS[i]}</div>}
-                                    sx={{mb: 1}}
-                                />
-                                </Grid>
-                            </Grid>
-                            ))}
-                            </Grid>
-                            </FormGroup>
-                        </FormControl>
-                        {/* </Box> */}
-                        </Grid>
-                        </Grid>
-                        </Grid>
-                    </Grid>    
-                    
-               
-        <Grid item xs={12} align={'center'}>
-            <Button variant='contained' onClick={onAddFoodItem} sx={{ fontSize: '1.2rem' }}>
-                Add Food Item
-            </Button>
-        </Grid>
-
-    </div>
+                      ))}
+                    </Grid>
+                  </FormGroup>
+                </FormControl>
+              </Grid>
+              <Grid container justifyContent = "center">
+              {/* <Grid item xs={12} sm={6} justifyContent = "center"> */}
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={onAddFoodItem}
+                >
+                  Add item
+                </Button>
+              {/* </Grid> */}
+            </Grid>
+            </Grid>
+          </Box>
+        </Paper>
+      </React.Fragment>
     </div>
   );
 };
