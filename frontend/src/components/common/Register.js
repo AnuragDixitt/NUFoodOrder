@@ -209,10 +209,33 @@ const Register = (props) => {
                 axios
                     .post('http://localhost:4000/user/register', newUser)
                     .then((response) => {
-                        swal('Account registered', response.data.Name + ', please enter your credentials to login.', 'success');
-                        navigate('/login');
+                        if (response.data === 1) {
+                            swal({
+                                title: `Could not Register!`, 
+                                text: `Account already registered.`, 
+                                icon: `error`}).then(() => {
+                                    navigate('/login');
+                                });
+
+                        }
+                        else{
+                            swal({
+                                title: `Account registered!`, 
+                                text: `${response.data.Name} please enter your credentials to login `, 
+                                icon: `success`}).then(() => {
+                                    navigate('/login');
+                                });
+                        }
+                        
                     })
-                    .catch((err) => console.log(err));
+                    .catch((err) => {
+                        if (err){
+                            console.log(err) 
+                            navigate('/register');
+                        }
+                                                
+                        console.log(err)
+                    });
             
             } else {
 

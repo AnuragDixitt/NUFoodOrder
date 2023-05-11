@@ -46,7 +46,7 @@ function LoginController() {
     
         const existingUser = await User.findOne({ Email: registerData.Email});
         if (existingUser)
-            return res.status(400).json({errMsg: "Account with this email already exists"});
+            return res.json(1);
         
         const salt = await bcrypt.genSalt();
         const Password = await bcrypt.hash(registerData.Password, salt);
