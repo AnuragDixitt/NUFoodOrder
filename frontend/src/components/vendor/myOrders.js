@@ -85,14 +85,14 @@ const VendorOrders = (props) => {
             .then((resp) => {
 
                 if (status === 'ACCEPTED' || status === 'REJECTED') {
-                    emailjs.send("service_mncnz8p","template_jxsko0t",{
+                    emailjs.send(process.env.SERVICE_ID,process.env.TEMPLATE_ID,{
                         from: user.Email,
                         to: email,
                         from_name: user.Name,
                         message: (status === 'ACCEPTED' ? 
                         `Your order has been accepted. Please wait for the chef to prepare it.`
                         : `Sorry for the inconvenience. Your order has been rejected. Please collect your money from reception and try again later.`)
-                    }, "Fcvyj7SnnAUKrasQO").then((resp) => {
+                    }, process.env.USER_ID).then((resp) => {
                         window.location='/vendor/orders';
                     }, (err) => console.log(err))
                 } else {
@@ -195,7 +195,7 @@ return (
                             <TableCell style={{ fontSize: '20px' }}  align="center">{order.AddOns}</TableCell>
                             <TableCell style={{ fontSize: '20px' }}  align="center">{order.Quantity}</TableCell>
                             <TableCell style={{ fontSize: '20px' }}  align="center">{'₹ ' + order.Total}</TableCell>
-                            <TableCell>
+                            <TableCell style={{ fontSize: '20px' }}  align="center">
                                 <Print 
                                     status={order.Status} 
                                     _id={order._id} 

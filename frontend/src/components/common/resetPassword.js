@@ -83,6 +83,9 @@ const ResetPassword = (props) => {
 
     const navigate = useNavigate();
 
+    
+    
+
     const onSubmit = (event) => {
         event.preventDefault();
 
@@ -101,11 +104,14 @@ const ResetPassword = (props) => {
         else{
             setEmailError('');
         }
-
+        
+    
         const thisUserForget = {
             Email: Email,
             
         };
+
+        
 
         axios                               
             .post('http://localhost:4000/user/email-send', thisUserForget)
@@ -239,7 +245,7 @@ const ResetPassword = (props) => {
                 component="main"
                 sx={{
                     
-                    backgroundColor:'lightGrey',     
+                    backgroundColor:'lightblue',     
                     flexGrow: 1,
                     height: '93.9vh',
                     overflow: 'auto',
@@ -256,7 +262,7 @@ const ResetPassword = (props) => {
                             height: 350,
                             width:400,
                             borderRadius:"20px 20px 20px 20px",
-                            boxShadow: '10px 10px 10px 10px rgba(0, 0, 0, 0.2)',
+                            boxShadow: 'rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px',
                         }}
                     >
             

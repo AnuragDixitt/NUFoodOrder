@@ -324,15 +324,20 @@ const Register = (props) => {
                             >
                             {showPassword ? <VisibilityOff /> : <Visibility />}
                             </IconButton>
-                        </InputAdornment>
-                        }
-                        label="Password"
-                    />
-                    {passwordError && (
+                            {passwordError && (
+                                <Box ml={3}>
                         <Tooltip title="Password must contain atleast 1 uppercase, 1 lowercase, 1 number, 1 special character and length should be minimum 8" style={{color:"red"}}>
                         <span>i</span>
                       </Tooltip>
-                    )}
+                      </Box>
+                        )}
+                        </InputAdornment>
+                        
+                        }
+                        label="Password"
+                    />
+                    
+                    
                     {passwordError && (
                     <FormHelperText style={{color : "red"}}>
                         {passwordError}

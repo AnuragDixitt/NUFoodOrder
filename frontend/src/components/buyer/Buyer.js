@@ -72,7 +72,7 @@ const VendorProfile = (props) => {
             for (var i = 0; i < elements.length; i++) {elements[i].readOnly=false;}
             setButtonText('Submit');
             if (expand === true){
-                setHeight(height+300);
+                setHeight(height+350);
                 setExpand(false);
             }
         } else {
@@ -85,7 +85,7 @@ const VendorProfile = (props) => {
             for (var i = 0; i < elements.length; i++) { elements[i].readOnly=true; }
             localStorage.setItem('user', JSON.stringify(thisUser));
             setButtonText('Edit');
-            setHeight(height-300);
+            setHeight(height-350);
             setExpand(true);
         }
     };

@@ -3,10 +3,11 @@ const crypto = require('crypto');
 // const Payment = require('../models/paymentModel.js');
 const Razorpay = require('razorpay');
 const Pay = require("../models/paymentModel.js")
+require("dotenv").config();
 
 var instance = new Razorpay({
-  key_id: 'rzp_test_HZj6s0sFOK3SAE',
-  key_secret: 'PbgO5c5PZGpBZ4CUQx4hHvLH',
+  key_id: process.env.KEY_ID,
+  key_secret: process.env.KEY_SECRET,
 });
 
 

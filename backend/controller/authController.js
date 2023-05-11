@@ -90,13 +90,13 @@ function AuthController() {
             port: 587,
             secure: false,
             auth: {
-                user: 'nuorder2023@gmail.com',
-                pass: 'yqhzpfphhtqanvjt'
+                user: process.env.MAIL,
+                pass: process.env.MAIL_PASSWORD
             }
         });
         
         var mailOptions = {
-            from: 'nuorder2023@gmail.com',
+            from: process.env.MAIL,
             to: `${email}`,
             subject: 'Reset password LINK',
             text: 'Reset your password using this OTP: ' + `${otp}`

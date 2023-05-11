@@ -113,7 +113,7 @@ const FoodMenu = (props) => {
     };
     const styles = {
         container: {
-          height: '93.9vh',
+          height: '100%',
           backgroundColor:"lightblue",
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center center',
@@ -180,6 +180,7 @@ const FoodMenu = (props) => {
     }
 
   return (
+    
     <div align={'center'} style={styles.container}>
     <div align={'center'} style={{width:"80%"}}>
      
@@ -392,6 +393,7 @@ const FoodMenu = (props) => {
         </Grid>
     </div>
     </div>
+    
   );
 };
 

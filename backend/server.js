@@ -1,12 +1,12 @@
 // require = import
 const express = require('express');
+require("dotenv").config();
+
 const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
 const PORT = 4000
-const MONGO_DB_URI = 'mongodb://127.0.0.1/one';
-const Razorpay = require('razorpay');
 
 
 var testAPIRouter = require("./routes/testAPI");
@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Connection to MongoDB
-mongoose.connect(MONGO_DB_URI, 
+mongoose.connect(process.env.MONGO_DB_URI, 
         { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false })
         .then(() => console.log("MongoDB database connection established successfully !"))
         .catch((err) => console.log(err));
@@ -41,11 +41,11 @@ app.use("/api", paymentRoute);
 
 
 app.get("/api/getkey", (req, res) =>
-  res.status(200).json({ key: 'rzp_test_HZj6s0sFOK3SAE' })
+  res.status(200).json({ key: process.env.KEY_ID })
 );
 
 
 // checks if the server is established the specified PORT number
-app.listen(PORT, function() {
-    console.log("Server is running on Port: " + PORT);
+app.listen(process.env.PORT, function() {
+    console.log("Server is running on Port: " + process.env.PORT);
 });
