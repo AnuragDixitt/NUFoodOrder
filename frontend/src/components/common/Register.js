@@ -24,6 +24,7 @@ import Typography from '@mui/material/Typography';
 import view from "../images/view.jpg";
 import  {FormHelperText}  from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
+import Alert from '@mui/material/Alert';
 
 
 const Register = (props) => {
@@ -49,6 +50,8 @@ const Register = (props) => {
     const [error, setError] = useState("");
     const [emailError, setEmailError] = useState('');
     const [passwordError, setPasswordError] = useState('');
+    const [ageError, setAgeError] = useState('');
+    const [contactError, setContactError] = useState('');
 
     const handleClickShowConfPass = () => {
         setShowConfPass(!showConfPass);
@@ -89,7 +92,7 @@ const Register = (props) => {
         setPassword(event.target.value);        
         
         if(!String(event.target.value).match(regularExpression)){
-            setPasswordError('Invalid Password');
+            setPasswordError('Please hover to icon for password requirements');
             return;
         }else{
             setPasswordError("");
@@ -104,12 +107,12 @@ const Register = (props) => {
         const value = event.target.value;
         setContactNo(value);
 
-        if (value.length === 1) {
-            setError('');
+        if (value.length == 0) {
+            setContactError('Oops! This field is empty!');
           } else if (!/^\d+$/.test(value) || value.length > 10 || value.length < 10) {
-            setError('Contact number must be numeric and 10 digit long');
+            setContactError('Contact number must be numeric and 10 digit long');
           } else {
-            setError('');
+            setContactError('');
           }
     };
 
@@ -120,11 +123,19 @@ const Register = (props) => {
         if (expand === true) {
             setHeight(height+250);
             setExpand(false);
+            setError('')
         }
     };
 
     const onChangeAge = (event) => {
-        setAge(event.target.value);
+        if (event.target.value === "") {
+            setAgeError('Please Enter Age');
+            setAge(event.target.value);
+          }
+        else {
+            setAgeError('');
+            setAge(event.target.value);
+        }
     };
 
     const onChangeBatchName = (event) => {
@@ -183,9 +194,11 @@ const Register = (props) => {
 	const onSubmit = (event) => {
 		event.preventDefault();
         if (Password === confirmPass) {
-            const bad = Boolean(ContactNo === null || ContactNo === 0 || Number(ContactNo) === NaN);
-            if (Name === '' || Email === '' || Password === '' || bad || Status === '') {
-                setError("Oops! Please fill all the fields.")
+            if (Name === '' || Email === '' || Password === '' ) {
+                setError("Oops! This fields is empty!")
+            }
+            if (ContactNo === '' || ContactNo === null || ContactNo === 0 || isNaN(Number(ContactNo))) {
+                setContactError("Oops! This field is empty!")
                 return;
             }
                 
@@ -239,8 +252,8 @@ const Register = (props) => {
             
             } else {
 
-                if (Age === null || BatchName === '') {
-                    setError("Oops! vendor details are missing")
+                if (Age === '') {
+                    setAgeError("Age field is empty!")
                     return;
                 }
                 const newUser = {
@@ -298,7 +311,7 @@ const Register = (props) => {
                                 Register   
                             </Typography>
                         </Grid>
-                    </Grid>
+                    </Grid>
 
 
             <Grid container align={'center'} spacing={2}>
@@ -350,7 +363,7 @@ const Register = (props) => {
                             {passwordError && (
                                 <Box ml={3}>
                         <Tooltip title="Password must contain atleast 1 uppercase, 1 lowercase, 1 number, 1 special character and length should be minimum 8" style={{color:"red"}}>
-                        <span>i</span>
+                        <Alert severity="error" sx={{ border: 0, padding:0, margin: -1 }}/>
                       </Tooltip>
                       </Box>
                         )}
@@ -404,12 +417,11 @@ const Register = (props) => {
                         value={ContactNo}
                         onChange={onChangeContactNo}
                         sx={{ width: '80%', height: '60px' }}
-                        helperText={error ? (
+                        helperText={contactError ? (
                             <span style={{ color: 'red' }}>
-                              {error}
+                              {contactError}
                             </span>
-                          ) : (' '
-                          )}
+                          ) : ''}
                     />
                 </Grid>
                 <Grid item xs={12}>
@@ -480,9 +492,9 @@ const Register = (props) => {
                             variant='outlined'
                             value={Age}
                             onChange={onChangeAge}
-                            helperText={error ? (
+                            helperText={ageError ? (
                                 <span style={{ color: 'red' }}>
-                                  {error}
+                                  {ageError}
                                 </span>
                               ) : (' '
                               )}
@@ -498,6 +510,8 @@ const Register = (props) => {
                             >
                             <MenuItem value={'UG1'}>UG1</MenuItem>
                             <MenuItem value={'UG2'}>UG2</MenuItem>
+                            <MenuItem value={'UG3'}>UG3</MenuItem>
+                            <MenuItem value={'UG4'}>UG4</MenuItem>
                             <MenuItem value={'PG1'}>PG1</MenuItem>
                             <MenuItem value={'PG2'}>PG2</MenuItem>
                         </TextField>

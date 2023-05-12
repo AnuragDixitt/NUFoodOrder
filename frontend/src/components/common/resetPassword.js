@@ -17,6 +17,8 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
+import Tooltip from '@mui/material/Tooltip';
+import Alert from '@mui/material/Alert';
 
 
 
@@ -38,6 +40,7 @@ const ResetPassword = (props) => {
     const [confirmPass, setConfirmPass] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [showConfPass, setShowConfPass] = useState(false);
+    
 
     const onChangeConfirmPass = (event) => {
         setConfirmPass(event.target.value);
@@ -61,13 +64,22 @@ const ResetPassword = (props) => {
 	};
 
     const onChangePassword = (event) => {
-		setPassword(event.target.value);
+		let regularExpression = /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{8,}$/
+        
+        setPassword(event.target.value);        
+        
+        if(!String(event.target.value).match(regularExpression)){
+            setPasswordError('Please hover to icon for password requirements');
+            return;
+        }else{
+            setPasswordError("");
+        }
 	};
 
     const resetInputsLater = () => {
 		setOtp('');
         setPassword('');
-        setConfirm('')
+        setConfirmPass('')
     };
 
     
@@ -322,6 +334,13 @@ const ResetPassword = (props) => {
                                 >
                                 {showPassword ? <VisibilityOff /> : <Visibility />}
                                 </IconButton>
+                                {passwordError && (
+                                <Box ml={3}>
+                        <Tooltip title="Password must contain atleast 1 uppercase, 1 lowercase, 1 number, 1 special character and length should be minimum 8" style={{color:"red"}}>
+                        <Alert severity="error" sx={{ border: 0, padding:0, margin: -1 }}/>
+                      </Tooltip>
+                      </Box>
+                        )}
                             </InputAdornment>
                             }
                             label="Password"

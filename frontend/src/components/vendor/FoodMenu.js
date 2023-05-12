@@ -113,7 +113,7 @@ const FoodMenu = (props) => {
     };
     const styles = {
         container: {
-          height: '100%',
+          height: '200vh',
           backgroundColor:"lightblue",
           backgroundRepeat: 'no-repeat',
           backgroundPosition: 'center center',

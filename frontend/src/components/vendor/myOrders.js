@@ -45,7 +45,7 @@ const VendorOrders = (props) => {
     }
     const styles = {
         container: {
-          height: '93.9vh',
+          height: '200vh',
         //   backgroundImage: `url(${backgroundImage})`,
           backgroundColor:"lightblue",
           backgroundRepeat: 'no-repeat',
@@ -85,14 +85,14 @@ const VendorOrders = (props) => {
             .then((resp) => {
 
                 if (status === 'ACCEPTED' || status === 'REJECTED') {
-                    emailjs.send(process.env.SERVICE_ID,process.env.TEMPLATE_ID,{
+                    emailjs.send("service_mncnz8p","template_jxsko0t",{
                         from: user.Email,
                         to: email,
                         from_name: user.Name,
                         message: (status === 'ACCEPTED' ? 
                         `Your order has been accepted. Please wait for the chef to prepare it.`
                         : `Sorry for the inconvenience. Your order has been rejected. Please collect your money from reception and try again later.`)
-                    }, process.env.USER_ID).then((resp) => {
+                    }, "Fcvyj7SnnAUKrasQO").then((resp) => {
                         window.location='/vendor/orders';
                     }, (err) => console.log(err))
                 } else {

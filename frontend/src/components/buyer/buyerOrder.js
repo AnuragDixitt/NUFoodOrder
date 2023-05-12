@@ -121,6 +121,7 @@ const BuyerFoodMenu = (props) => {
     const [addON, setAddON] = useState([]);
 
     const [open, setOpen] = useState(false);
+    const [cartVendor, setCartVendor] = useState('');
 
     const [currOrder, setCurrOrder] = useState({food: {
         Name: '', ShopName: '', Price: 0, AddOns: []
@@ -229,6 +230,7 @@ const BuyerFoodMenu = (props) => {
     function MultiSelectShops(props) {
     
         const handleChange = (event) => {
+            console.log("event", shops);
             const {
             target: { value },
             } = event;
@@ -295,22 +297,29 @@ const BuyerFoodMenu = (props) => {
         }
         const Totall = (currOrder.food.Price + (addON.map((a) => Number((a.split('₹'))[1])).reduce((prev, curr) => (prev + curr), 0))) * currOrder.quantity;
         
-        await dispatch({type: "Add",
-        VendorID: currOrder.food.VendorID,
-        BuyerID: userID,
-        BuyerEmail: user.Email,
-        VendorName: currOrder.food.VendorName,
-        foodItem: currOrder.food.Name,
-        Veg: currOrder.food.Veg,
-        AddOns: (addON.map((a) => (a.split(':'))[0]).join(', ')),
-        Total: Totall,
-        Quantity: currOrder.quantity,
-        Date: DateAndTime(date),
-        buyerAge: user.Age,
-        buyerBatch: user.BatchName,
-        Rating: -1,
-        })
-        setOpen(false);
+        console.log("cart : ", cartVendor);
+        if (cartVendor=== '' || cartVendor === currOrder.food.VendorName) {
+            await dispatch({type: "Add",
+            VendorID: currOrder.food.VendorID,
+            BuyerID: userID,
+            BuyerEmail: user.Email,
+            VendorName: currOrder.food.VendorName,
+            foodItem: currOrder.food.Name,
+            Veg: currOrder.food.Veg,
+            AddOns: (addON.map((a) => (a.split(':'))[0]).join(', ')),
+            Total: Totall,
+            Quantity: currOrder.quantity,
+            Date: DateAndTime(date),
+            buyerAge: user.Age,
+            buyerBatch: user.BatchName,
+            Rating: -1,
+            })
+            console.log("in cart : ", currOrder.food.VendorName);
+            setCartVendor(currOrder.food.VendorName);
+            setOpen(false);}
+        else {
+            swal("Error", "Sorry, you can't order from two different vendors at the same time.", "error"); 
+        }
     }
 
     
@@ -320,18 +329,20 @@ const BuyerFoodMenu = (props) => {
 
     useEffect(() => {
         axios
-            .get('http://localhost:4000/food')
-            .then((response) => {
-                setFoodMenu(response.data);
-                setFilteredMenu(response.data);
-                setShops(Array.from(foodMenu.reduce((acc, item) => acc.add(item.ShopName), new Set())));
-                setFilterTagSet(0);
-                setSearchText('');
-            })
-            .catch(err => {
-                console.log('Err')
-            })
-    }, []);
+          .get('http://localhost:4000/food')
+          .then((response) => {
+            console.log(" data : ", response.data);
+            setFoodMenu(response.data);
+            setFilteredMenu(response.data);
+            const shopNames = response.data.reduce((acc, item) => acc.add(item.ShopName), new Set());
+            setShops(Array.from(shopNames));
+            setFilterTagSet(0);
+            setSearchText('');
+          })
+          .catch(err => {
+            console.log('Err')
+          })
+      }, []);
 
     const searchBar = (event) => {
         setSearchText(event.target.value);
@@ -385,7 +396,7 @@ const BuyerFoodMenu = (props) => {
     }
 
   return (
-    <div style={{ backgroundColor: "#F5FEFD", height: "100vh" }}>
+    <div style={{ backgroundColor: "#F5FEFD", height: "400vh" }}>
     <div align={'center'}>
 
         <Grid container>

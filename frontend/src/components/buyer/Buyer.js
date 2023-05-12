@@ -15,6 +15,10 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import getCookie from "../extra/getCookie";
+import { InputAdornment } from '@mui/material';
+import  {FormHelperText}  from '@mui/material';
+import Tooltip from '@mui/material/Tooltip';
+import Alert from '@mui/material/Alert';
 
 
 const VendorProfile = (props) => {
@@ -33,6 +37,9 @@ const VendorProfile = (props) => {
     const [currPass, setCurrPass] = useState('');
     const [newPass, setNewPass] = useState('');
     const [confirmNewPass, setConfirmNewPass] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+    const [error, setError] = useState("");
+
 
     useEffect( () => {
         (async function() {
@@ -55,7 +62,16 @@ const VendorProfile = (props) => {
     }
 
     const onChangeNewPass = (event) => {
-        setNewPass(event.target.value);
+        let regularExpression = /^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{8,}$/
+        
+        setNewPass(event.target.value);        
+        
+        if(!String(event.target.value).match(regularExpression)){
+            setPasswordError('Please hover to icon for password requirements');
+            return;
+        }else{
+            setPasswordError("");
+        }
     }
 
     const onChangeConfirmNewPass = (event) => {
@@ -92,6 +108,10 @@ const VendorProfile = (props) => {
 
     const onChangePasswordButton = () => {
         if (newPass === confirmNewPass) {
+            if (currPass === '' || newPass === '' || confirmNewPass === ''){
+                alert("Oops! This field is empty! Please fill all the fields to proceed.");
+                // swal({title : 'Oops! ', text : ' This field is empty! Please fill all the field to proceed ', icon:  'warning'});
+            }
             axios
                 .post('http://localhost:4000/user/edit', {
                     _id: thisUser._id, 
@@ -197,6 +217,8 @@ const VendorProfile = (props) => {
                                             >
                                             <MenuItem value={'UG1'}>UG1</MenuItem>
                                             <MenuItem value={'UG2'}>UG2</MenuItem>
+                                            <MenuItem value={'UG3'}>UG3</MenuItem>
+                                            <MenuItem value={'UG4'}>UG4</MenuItem>
                                             <MenuItem value={'PG1'}>PG1</MenuItem>
                                             <MenuItem value={'PG2'}>PG2</MenuItem>
                                         </TextField>
@@ -235,7 +257,23 @@ const VendorProfile = (props) => {
                                             type={'password'}
                                             value={newPass}
                                             onChange={onChangeNewPass}
+                                            endAdornment={
+                                                <InputAdornment>
+                                                     {passwordError && (
+                                                        <Box ml={3}>
+                                                            <Tooltip title="Password must contain atleast 1 uppercase, 1 lowercase, 1 number, 1 special character and length should be minimum 8" style={{color:"red"}}>
+                                                                <Alert severity="error" sx={{ border: 0, padding:0, margin: -1 }}/>
+                                                            </Tooltip>
+                                                        </Box>
+                                                        )}
+                                                </InputAdornment>
+                                            }
                                         />
+                                        {passwordError && (
+                                        <FormHelperText style={{color : "red"}}>
+                                            {passwordError}
+                                        </FormHelperText>
+                                        )}
                                     </FormControl>
                                 </Grid>
                                 <Grid item xs={12}>
